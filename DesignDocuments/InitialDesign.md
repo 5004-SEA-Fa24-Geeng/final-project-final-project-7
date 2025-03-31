@@ -13,97 +13,97 @@ direction TB
 
     %% Model
     class Player {
-        -String NAME
-        -String PITCH_TYPE
-        -int PA
-        -int H
-        -int SINGLES
-        -int DOUBLES
-        -int TRIPLES
-        -int HOME_RUNS
-        -double ZONE_SWING
-        -double ZONE_CONTACT
-        -double CHASE
-        -double CHASE_CONTACT
-        -String ROTATION
-        -String PITCH_NAME
-        -double PITCH_USAGE
-        -int STRIKES
-        -int PITCHES
-        -double STRIKES_RATE
-        -double BALLS_RATE
+        - String name
+        - String pitchType
+        - int plateAppearances
+        - int hits
+        - int singles
+        - int doubles
+        - int triples
+        - int homeRuns
+        - double zoneSwing
+        - double zoneContact
+        - double chase
+        - double chaseContact
+        - String rotation
+        - String pitchName
+        - double pitchUsage
+        - int strikes
+        - int pitches
+        - double strikesRate
+        - double ballsRate
+    }
 
     class Team {
         - String name
-        - players
-        + getTeamStats(): String
-        + getPlayer(name): Player
+        - List<Player> players
+        + String getTeamStats()
+        + Player getPlayer(String name)
     }
 
     class Simulation {
         - Team mariners
         - Team opponent
-        + runSimulation(): SimulationResult
+        + SimulationResult runSimulation()
     }
 
     class SimulationResult {
         - int marinersScore
         - int opponentScore
         - String details
-        + exportResults(): void
+        + void exportResults()
     }
 
     %% Model: Data Loading
     class PlayerLoader {
-        + loadPlayers(filePath): players
+        + List<Player> loadPlayers(String filePath)
     }
 
     class TeamLoader {
-        + loadTeams(filePath): teams
+        + List<Team> loadTeams(String filePath)
     }
 
     %% Model: Sorting and Filtering
     class PlayerSorter {
-        + sort(players, attribute): Stream
+        + Stream<Player> sort(List<Player> players, String attribute)
     }
 
     class PlayerFilter {
-        + filter(players, attribute, value): Stream
+        + Stream<Player> filter(List<Player> players, String attribute, Object value)
     }
 
     %% View
     class TextUI {
-        + displayMenu(): void
-        + displayTeams(teams): void
-        + displaySimulationResult(result): void
-        + displaySortedPlayers(players): void
-        + displayFilteredPlayers(players): void
+        + void displayMenu()
+        + void displayTeams(List<Team> teams)
+        + void displaySimulationResult(SimulationResult result)
+        + void displaySortedPlayers(List<Player> players)
+        + void displayFilteredPlayers(List<Player> players)
     }
 
     %% Controller
     class GameController {
         - TextUI view
         - Team mariners
-        - mlbTeams
+        - List<Team> mlbTeams
         - PlayerSorter sorter
         - PlayerFilter filter
         - PlayerLoader playerLoader
         - TeamLoader teamLoader
-        + start(): void
-        + selectOpponent(teamName): void
-        + buildLineup(players): void
-        + runGame(): void
-        + sortPlayers(players, attribute): Stream
-        + filterPlayers(players, attribute, threshold): Stream
+        + void start()
+        + void selectOpponent(String teamName)
+        + void buildLineup(List<Player> players)
+        + void runGame()
+        + Stream<Player> sortPlayers(List<Player> players, String attribute)
+        + Stream<Player> filterPlayers(List<Player> players, String attribute, Object threshold)
     }
 
     %% Relationships
     MLBSimulator --> GameController : Initializes
     Player --> Team : belongs to
-    Player --> PlayerAttribute : has
     Team --> Simulation : used by
     Simulation --> SimulationResult : produces
-    SimulationResult --> TextUI : displayed by
+    SimulationResult --> TextUI : displayed in
     GameController --> TextUI : controls
     GameController --> Team : manages
     GameController --> Simulation : runs
