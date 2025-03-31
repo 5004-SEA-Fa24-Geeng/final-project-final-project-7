@@ -1,6 +1,6 @@
 # Initial Design
 
-```mermaid
+````mermaid
 ---
 Title Initial Design
 ---
@@ -9,6 +9,77 @@ direction TB
 
     class MLBSimulator {
         + static void main(String[] args)
+    }
+
+    %% Interfaces
+    class PlayerInterface {
+        + String getName()
+        + String getPosition()
+    }
+
+    class TeamInterface {
+        + String getTeamName()
+        + List<PlayerInterface> getPlayers()
+    }
+
+    class Inning {
+        + void playInning()
+    }
+
+    class Filter {
+        + Stream<Player> filter(List<Player> players, String attribute, Object value)
+    }
+
+    class Sorter {
+        + Stream<Player> sort(List<Player> players, String attribute)
+    }
+
+    class Loader {
+        + List<Player> loadPlayers(String filePath)
+    }
+
+    %% Enums
+    class Side {
+        <<enumeration>>
+        PLAYER
+        COMPUTER
+    }
+
+    class Teams {
+        <<enumeration>>
+        ALL
+        MARINERS
+        /* Other MLB Teams */
+    }
+
+    class Outs {
+        <<enumeration>>
+        ONE
+        TWO
+        THREE
+    }
+
+    class Hits {
+        <<enumeration>>
+        SINGLE
+        DOUBLE
+        TRIPLE
+        HR
+    }
+
+    class Strikes {
+        <<enumeration>>
+        ONE
+        TWO
+        THREE
+    }
+
+    class Balls {
+        <<enumeration>>
+        ONE
+        TWO
+        THREE
+        FOUR
     }
 
     %% Model
@@ -34,11 +105,27 @@ direction TB
         - double ballsRate
     }
 
+    class Batter {
+        + void swing()
+    }
+
+    class Pitcher {
+        + void pitch()
+    }
+
     class Team {
         - String name
         - List<Player> players
         + String getTeamStats()
         + Player getPlayer(String name)
+    }
+
+    class PlayerTeam {
+        + void draftPlayer(Player player)
+    }
+
+    class ComTeam {
+        + void generatePitcherRoster()
     }
 
     class Simulation {
@@ -52,6 +139,10 @@ direction TB
         - int opponentScore
         - String details
         + void exportResults()
+    }
+
+    class RegularInning {
+        + void playInning()
     }
 
     %% Model: Data Loading
@@ -100,9 +191,28 @@ direction TB
 
     %% Relationships
     MLBSimulator --> GameController : Initializes
+    PlayerInterface <|.. Player
+    Player <|-- Batter
+    Player <|-- Pitcher
+    TeamInterface <|.. Team
+    Team <|-- PlayerTeam
+    Team <|-- ComTeam
+    Inning <|.. RegularInning
+    Filter <|.. PlayerFilter
+    Sorter <|.. PlayerSorter
+    Loader <|.. PlayerLoader
     Player --> Team : belongs to
     Team --> Simulation : used by
     Simulation --> SimulationResult : produces
+    Simulation --> RegularInning : uses
+    Simulation --> Side : uses
+    Simulation --> Hits : uses
+    Simulation --> Strikes : uses
+    Simulation --> Outs : uses
+    Simulation --> Balls : uses
+    Simulation --> Teams : uses
+    Simulation --> PlayerTeam : has
+    Simulation --> ComTeam : has
     SimulationResult --> TextUI : displayed in
     GameController --> TextUI : controls
     GameController --> Team : manages
@@ -117,3 +227,4 @@ direction TB
     GameController --> PlayerLoader : uses
     GameController --> TeamLoader : uses
 ```
+````
