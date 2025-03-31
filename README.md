@@ -9,7 +9,7 @@ This readme should contain the following information:
 
 - Derek Marion | [GitHub](https://github.com/derekmarion)
 - Vincent Liu | [GitHub]()
-- Max Yu | [GitHub]()
+- Max Yu | [GitHub](https://github.com/ShangRuYu)
 
 ## MLB Simulator
 
