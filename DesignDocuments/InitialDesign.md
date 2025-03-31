@@ -13,53 +13,26 @@ direction TB
 
     %% Model
     class Player {
-        - Map<PlayerAttribute, Object> attributes
-        + setAttribute(PlayerAttribute attribute, Object value)
-        + getAttribute(PlayerAttribute attribute): Object
-    }
+        -String NAME
+        -String PITCH_TYPE
+        -int PA
+        -int H
+        -int SINGLES
+        -int DOUBLES
+        -int TRIPLES
+        -int HOME_RUNS
+        -double ZONE_SWING
+        -double ZONE_CONTACT
+        -double CHASE
+        -double CHASE_CONTACT
+        -String ROTATION
+        -String PITCH_NAME
+        -double PITCH_USAGE
+        -int STRIKES
+        -int PITCHES
+        -double STRIKES_RATE
+        -double BALLS_RATE
 
-    class PlayerAttribute {
-        + String name
-        + getValue(Player player): Object
-    }
-
-    class StringAttribute {
-        + StringAttribute(String name)
-        + getValue(Player player): String
-    }
-
-    class IntAttribute {
-        + IntAttribute(String name)
-        + getValue(Player player): int
-    }
-
-    class DoubleAttribute {
-        + DoubleAttribute(String name)
-        + getValue(Player player): double
-    }
-
-    class PlayerAttributes {
-        + static final StringAttribute NAME
-        + static final StringAttribute PITCH_TYPE
-        + static final IntAttribute PA
-        + static final IntAttribute H
-        + static final IntAttribute SINGLES
-        + static final IntAttribute DOUBLES
-        + static final IntAttribute TRIPLES
-        + static final IntAttribute HOME_RUNS
-        + static final DoubleAttribute ZONE_SWING
-        + static final DoubleAttribute ZONE_CONTACT
-        + static final DoubleAttribute CHASE
-        + static final DoubleAttribute CHASE_CONTACT
-        + static final StringAttribute ROTATION
-        + static final StringAttribute PITCH_NAME
-        + static final DoubleAttribute PITCH_USAGE
-        + static final IntAttribute STRIKES
-        + static final IntAttribute PITCHES
-        + static final DoubleAttribute STRIKES_RATE
-        + static final DoubleAttribute BALLS_RATE
-    }
-    
     class Team {
         - String name
         - players
@@ -97,7 +70,7 @@ direction TB
     class PlayerFilter {
         + filter(players, attribute, value): Stream
     }
- 
+
     %% View
     class TextUI {
         + displayMenu(): void
@@ -125,11 +98,7 @@ direction TB
     }
 
     %% Relationships
-    MLBSimulator --> GameController : Initializes 
-    PlayerAttribute <|-- StringAttribute
-    PlayerAttribute <|-- IntAttribute
-    PlayerAttribute <|-- DoubleAttribute
-    PlayerAttributes <|-- Player : uses
+    MLBSimulator --> GameController : Initializes
     Player --> Team : belongs to
     Player --> PlayerAttribute : has
     Team --> Simulation : used by
