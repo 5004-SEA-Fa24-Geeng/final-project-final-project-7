@@ -31,4 +31,7 @@ bin
 
 # ingore ide files
 .vscode
-idea/
+idea/.classpath
+.project
+.settings
+.classpath
