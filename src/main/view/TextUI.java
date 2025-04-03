@@ -44,7 +44,7 @@ public class TextUI {
    *
    * @param player
    */
-  public void displayPlayerInfo(DisplayablePlayer player) {
+  public void displayPlayerInfo(Player player) {
     System.out.println(player.toString());
   }
 
@@ -54,7 +54,7 @@ public class TextUI {
    *
    * @param players
    */
-  public void displayPlayers(List<DisplayablePlayer> players) {
+  public void displayPlayers(List<Player> players) {
     for (int i = 0; i < players.size(); i++) {
       System.out.println((i + 1) + ". " + players.get(i).getName());
     }
@@ -65,7 +65,7 @@ public class TextUI {
    * 
    * @param teams List of team names to display
    */
-  public void displayAllTeams(List<DisplayableTeam> teams) {
+  public void displayAllTeams(List<Team> teams) {
     System.out.println("\n===== MLB TEAMS =====");
     for (int i = 0; i < teams.size(); i++) {
       System.out.println((i + 1) + ". " + teams.get(i).getName());
@@ -79,9 +79,9 @@ public class TextUI {
    * @param players  List of players on the team
    * @param stats    Team statistics
    */
-  public void displayTeamInfo(DisplayableTeam team) {
+  public void displayTeamInfo(Team team) {
     String teamName = team.getName();
-    List<DisplayablePlayer> players = team.getPlayers();
+    List<Player> players = team.getPlayers();
     String stats = team.getStats();
 
     System.out.println("\n===== TEAM: " + teamName + " =====");
@@ -89,7 +89,7 @@ public class TextUI {
     if (players.isEmpty()) {
       System.out.println("No players on roster.");
     } else {
-      for (DisplayablePlayer player : players) {
+      for (Player player : players) {
         System.out.println("- " + player);
       }
     }
@@ -107,14 +107,22 @@ public class TextUI {
    * @param awayScore Away team score
    * @param details   Game details
    */
-  public void displaySimulationResult(DisplayableSimulationResult simulationResult) {
-    int homeScore = simulationResult.getHomeScore();
-    int awayScore = simulationResult.getAwayScore();
-    String details = simulationResult.getDetails();
+  public void displaySimulationResult(SimulationResult simulationResult) {
+    int homeScore = simulationResult.getMarinersScore();
+    int awayScore = simulationResult.getOpponentScore();
+    String detail = simulationResult.getDetails();
 
     System.out.println("\n===== SIMULATION RESULTS =====");
     System.out.println("Mariners : " + homeScore);
     System.out.println("Away Team : " + awayScore);
+
+    if (homeScore > awayScore) {
+      System.out.println(homeTeam + " wins!");
+    } else if (homeScore < awayScore) {
+      System.out.println(awayTeam + " wins!");
+    } else {
+      System.out.println("It's a tie!");
+    }
 
     System.out.println("\nGame Details:");
     System.out.println(details);
