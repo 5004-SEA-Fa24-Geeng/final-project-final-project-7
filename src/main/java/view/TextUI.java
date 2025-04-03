@@ -110,19 +110,11 @@ public class TextUI {
   public void displaySimulationResult(SimulationResult simulationResult) {
     int homeScore = simulationResult.getMarinersScore();
     int awayScore = simulationResult.getOpponentScore();
-    String detail = simulationResult.getDetails();
+    String details = simulationResult.getDetails();
 
     System.out.println("\n===== SIMULATION RESULTS =====");
     System.out.println("Mariners : " + homeScore);
     System.out.println("Away Team : " + awayScore);
-
-    if (homeScore > awayScore) {
-      System.out.println(homeTeam + " wins!");
-    } else if (homeScore < awayScore) {
-      System.out.println(awayTeam + " wins!");
-    } else {
-      System.out.println("It's a tie!");
-    }
 
     System.out.println("\nGame Details:");
     System.out.println(details);
