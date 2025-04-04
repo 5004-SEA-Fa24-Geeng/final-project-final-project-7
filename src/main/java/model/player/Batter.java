@@ -27,7 +27,7 @@ public class Batter extends Player{
     private int totalHR;
     private double zoneSwing;
     private double zoneContact;
-    private double chase;
+    private double chaseSwing;
     private double chaseContact;
     private double AVG;
     private double OBP;
@@ -37,7 +37,7 @@ public class Batter extends Player{
                   int fastballHR, int breakingPA, int breakingH, int breaking1B, int breaking2B, int breaking3B,
                   int breakingHR, int offspeedPA, int offspeedH, int offspeed1B, int offspeed2B, int offspeed3B,
                   int offspeedHR, int totalPA, int totalH, int total1B, int total2B, int total3B, int totalHR,
-                  double zoneSwing, double zoneContact, double chase, double chaseContact, double AVG,
+                  double zoneSwing, double zoneContact, double chaseSwing, double chaseContact, double AVG,
                   double OBP, double OPS) {
         super(name);
 
@@ -67,7 +67,7 @@ public class Batter extends Player{
         this.totalHR = totalHR;
         this.zoneSwing = zoneSwing;
         this.zoneContact = zoneContact;
-        this.chase = chase;
+        this.chaseSwing = chaseSwing;
         this.chaseContact = chaseContact;
         this.AVG = AVG;
         this.OBP = OBP;
@@ -178,8 +178,8 @@ public class Batter extends Player{
         return this.zoneContact;
     }
 
-    public double getChase() {
-        return this.chase;
+    public double getChaseSwing() {
+        return this.chaseSwing;
     }
 
     public double getChaseContact() {

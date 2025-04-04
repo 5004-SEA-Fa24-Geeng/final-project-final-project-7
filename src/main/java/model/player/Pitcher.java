@@ -1,7 +1,7 @@
 package model.player;
 
 public class Pitcher extends Player{
-    private String rotation;
+    private int rotation;
     private int strikes;
     private int pitches;
     private double strikesRate;
@@ -20,7 +20,7 @@ public class Pitcher extends Player{
     private double fork;
     private double screw;
 
-    public Pitcher(String name, String rotation, int strikes, int pitches, double strikesRate, double ballsRate,
+    public Pitcher(String name, int rotation, int strikes, int pitches, double strikesRate, double ballsRate,
                    double fourSeam, double twoSeam, double cutter, double sinker, double slider, double curve,
                    double knuckle, double sweeper, double slurve, double splitFinger, double changeup, double fork,
                    double screw) {
@@ -45,7 +45,7 @@ public class Pitcher extends Player{
         this.fork = fork;
     }
 
-    public String getRotation() {
+    public int getRotation() {
         return this.rotation;
     }
 
