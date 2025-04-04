@@ -2,7 +2,9 @@ package model.filter;
 
 import model.Operations;
 import model.PlayerData;
-import model.player.Player;
+import model.player.Batter;
+import model.player.Pitcher;
+
 
 public class PlayerFilter implements Filter{
 
@@ -20,7 +22,7 @@ public class PlayerFilter implements Filter{
      * @return boolean, true if the batter fits the filter, else false
      */
     @Override
-    public boolean batterFilter(Player batter, PlayerData column, Operations op, String value) {
+    public boolean batterFilter(Batter batter, PlayerData column, Operations op, String value) {
 
         switch (column) {
             case NAME:
@@ -135,7 +137,7 @@ public class PlayerFilter implements Filter{
      * @return boolean, true if the pitcher fits the filter, else false
      */
     @Override
-    public boolean pitcherFilter(Player pitcher, PlayerData column, Operations op, String value) {
+    public boolean pitcherFilter(Pitcher pitcher, PlayerData column, Operations op, String value) {
 
         switch (column) {
             case NAME:
