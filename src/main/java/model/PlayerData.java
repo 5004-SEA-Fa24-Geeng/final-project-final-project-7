@@ -25,9 +25,9 @@ public enum PlayerData {
     OBP("OBP"), OPS("OPS"),
     //Pitchers
     ROTATION("Rotation"), STRIKES("Strikes"),
-    PITCHES("Pitches"), S_RATE("Strikes Rate"),
-    B_RATE("Balls Rate"), FOURSEAM("4-Seam Fastball"),
-    TWOSEAM("2-Seam Fastball"), CUTTER("Cutter"),
+    PITCHES("Pitches"), S_RATE("StrikesRate"),
+    B_RATE("BallsRate"), FOURSEAM("4-SeamFastball"),
+    TWOSEAM("2-SeamFastball"), CUTTER("Cutter"),
     SINKER("Sinker"), SLIDER("Slider"),
     CURVE("Curveball"), KNUCKLE("Knuckle"),
     SWEEPER("Sweeper"), SLURVE("Slurve"),

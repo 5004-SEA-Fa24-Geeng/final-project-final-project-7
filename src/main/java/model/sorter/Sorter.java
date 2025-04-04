@@ -1,10 +1,9 @@
 package model.sorter;
 
-import java.util.List;
-import java.util.stream.Stream;
-
+import java.util.Comparator;
 import model.player.Player;
 
 public interface Sorter {
-    Stream<Player> sort(List<Player> players, String attribute);
+    Comparator<Player> getBatterSortType(String sortOn, boolean asc);
+    Comparator<Player> getPitcherSortType(String sortOn, boolean asc);
 }
