@@ -1,4 +1,4 @@
-name,Rotation,Balls,Strikes,Pitches,Strikes Rate,Balls Rate,4-Seam Fastball,2-Seam Fastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
+name,Rotation,Balls,Strikes,Pitches,StrikesRate,BallsRate,4-SeamFastball,2-SeamFastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
 Aaron Civale,1,439,801,1240,64.6,35.4,9.9,0,32.2,24,1.4,15.6,0,14.9,0,2,0,0,0
 Freddy Peralta,1,1204,1866,3070,60.8,39.2,53.9,0,0,0,21.6,7.1,0,0,0,0,17.5,0,0
 Robert Gasser,1,116,283,399,70.9,29.1,19.8,0,9.3,24.6,0,0,0,32.1,0,0,14.3,0,0

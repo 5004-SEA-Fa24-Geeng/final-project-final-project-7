@@ -1,4 +1,4 @@
-name,Rotation,Balls,Strikes,Pitches,Strikes Rate,Balls Rate,4-Seam Fastball,2-Seam Fastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
+name,Rotation,Balls,Strikes,Pitches,StrikesRate,BallsRate,4-SeamFastball,2-SeamFastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
 Jacob Waguespack,1,91,130,221,58.8,41.2,38.9,0,35.3,0,0,14,0,0,0,0,11.8,0,0
 Jeffrey Springs,1,204,361,565,63.9,36.1,42.3,0,0,0,20.4,0,0,3.2,0,0,31.7,0,0
 Ryan Pepiot,1,774,1376,2150,64,36,50.6,0,6,0,17.3,2.7,0,0,0,0,23.5,0,0

@@ -1,4 +1,4 @@
-name,Rotation,Balls,Strikes,Pitches,Strikes Rate,Balls Rate,4-Seam Fastball,2-Seam Fastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
+name,Rotation,Balls,Strikes,Pitches,StrikesRate,BallsRate,4-SeamFastball,2-SeamFastball,Cutter,Sinker,Slider,Curveball,Knuckle,Sweeper,Slurve,Split-Finger,Changeup,Fork,Screw
 Casey Mize,1,623,1167,1790,65.2,34.8,38.6,0,0,8,27.7,7.5,0,0,0,18.1,0,0,0
 Keider Montero,1,526,1014,1540,65.8,34.2,41.7,0,0,7.7,28.3,11.7,0,0,0,0,10.7,0,0
 Reese Olson,1,690,1165,1855,62.8,37.2,23.6,0,0,20.3,27.8,6,0,0,0,0,22.3,0,0
