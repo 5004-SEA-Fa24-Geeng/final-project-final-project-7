@@ -7,7 +7,7 @@ public enum PlayerData {
      */
     NAME("Name"),
     //Batters
-    F_PA("FastallPA"),
+    F_PA("FastballPA"),
     F_H("FastballH"), F_1B("Fastball1B"),
     F_2B("Fastball2B"), F_3B("Fastball3B"),
     F_HR("FastballHR"), B_PA("BreakingPA"),
