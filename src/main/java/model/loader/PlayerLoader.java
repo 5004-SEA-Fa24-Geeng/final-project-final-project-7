@@ -22,13 +22,10 @@ public class PlayerLoader implements Loader{
     /** Standard csv delim. */
     private static final String DELIMITER = ",";
     /** default location of collection - relative to the resources directory. */
-    private static final String DEFAULT_BATTER_DIR= "./resources/BattersData/";
-    private static final String DEFAULT_PITCHER_DIR= "./resources/PitchersDataTransform/";
+    private static final String DEFAULT_BATTER_DIR= "/BattersData/";
+    private static final String DEFAULT_PITCHER_DIR= "/PitcherDataTransform/";
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
-    private PlayerLoader() { };
+    public PlayerLoader() { };
 
     @Override
     public Set<Player> loadPlayers(String position, Teams teamName) {
@@ -42,7 +39,7 @@ public class PlayerLoader implements Loader{
             String filePath = DEFAULT_BATTER_DIR + "Mariners_batter.csv";
             return filePath;
         }
-        String filePath = DEFAULT_PITCHER_DIR + teamName.name() + "-pitcher-transformed.csv";
+        String filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-transformed.csv";
         return filePath;
     }
     @Override
@@ -195,5 +192,5 @@ public class PlayerLoader implements Loader{
         }
         return columnMap;
     }
-
+    
 }
