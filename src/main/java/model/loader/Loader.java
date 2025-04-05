@@ -3,8 +3,8 @@ package model.loader;
 import java.util.Map;
 import java.util.Set;
 
+import gameEnum.PlayerData;
 import gameEnum.Teams;
-import model.PlayerData;
 import model.player.Batter;
 import model.player.Pitcher;
 import model.player.Player;

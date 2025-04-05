@@ -1,7 +1,7 @@
 package model.filter;
 
+import gameEnum.PlayerData;
 import model.Operations;
-import model.PlayerData;
 import model.player.Batter;
 import model.player.Pitcher;
 

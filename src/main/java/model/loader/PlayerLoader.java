@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import gameEnum.PlayerData;
 import gameEnum.Teams;
-import model.PlayerData;
 import model.player.Batter;
 import model.player.Pitcher;
 import model.player.Player;
@@ -192,5 +192,5 @@ public class PlayerLoader implements Loader{
         }
         return columnMap;
     }
-    
+
 }

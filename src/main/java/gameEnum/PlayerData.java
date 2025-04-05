@@ -1,4 +1,4 @@
-package model;
+package gameEnum;
 
 public enum PlayerData {
 
