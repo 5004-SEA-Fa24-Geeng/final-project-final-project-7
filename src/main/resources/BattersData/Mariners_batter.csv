@@ -1,4 +1,4 @@
-Name,FastballPA,FastballH,Fastball1B,Fastball2B,Fastball3B,FastballHR,BreakingPA,BreakingH,Breaking1B,Breaking2B,Breaking3B,BreakingHR,OffspeedPA,OffspeedH,Offspeed1B,Offspeed2B,Offspeed3B,OffspeedHR,TotalPA,TotalH,Total1B,Total2B,Total3B,TotalHR,Zone Swing,Zone Contact,Chase,Chase Contact,AVG,OBP,OPS
+Name,FastballPA,FastballH,Fastball1B,Fastball2B,Fastball3B,FastballHR,BreakingPA,BreakingH,Breaking1B,Breaking2B,Breaking3B,BreakingHR,OffspeedPA,OffspeedH,Offspeed1B,Offspeed2B,Offspeed3B,OffspeedHR,TotalPA,TotalH,Total1B,Total2B,Total3B,TotalHR,ZoneSwing,ZoneContact,ChaseSwing,ChaseContact,AVG,OBP,OPS
 Austin Shenton,30,7,3,3,0,1,14,1,0,1,0,0,6,1,0,1,0,0,50,9,3,5,0,1,59.6,69.4,20.4,50,0.214,0.34,0.745
 Cade Marlowe,4,2,2,0,0,0,28,5,5,0,0,0,20,2,1,0,1,0,52,9,8,0,1,0,80,83.3,31.6,50,0.25,0.33,0.75
 Dominic Canzone,62,11,6,3,0,2,75,16,9,3,0,4,49,6,3,1,0,2,186,33,18,7,0,8,68.9,75.9,37,48.1,0.196,0.271,0.652
