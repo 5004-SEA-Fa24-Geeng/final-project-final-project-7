@@ -2,7 +2,7 @@ package gameEnum;
 
 
 public enum Teams {
-    ALL("all"),DIAMONDBACKS("diamondbacks"),ATHLETICS("athletics"),
+    DIAMONDBACKS("diamondbacks"),ATHLETICS("athletics"),
     BRAVES("braves"),ORIOLES("orioles"),REDSOX("redsox"),
     CUBS("cubs"),WHITESOX("whitesox"),REDS("reds"),
     GUARDIANS("guardians"),ROCKIES("rockies"),TIGERS("tigers"),
