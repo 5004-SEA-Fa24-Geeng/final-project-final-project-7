@@ -2,6 +2,7 @@ package view;
 
 import java.util.List;
 import java.util.Scanner;
+import view.stubs.*;
 
 /**
  * Text-based user interface for the MLB Simulator application
@@ -32,6 +33,7 @@ public class TextUI {
     System.out.println("  computer show [team]    - Show opponent team information");
     System.out.println("  computer show all       - Show all opponent team information");
     System.out.println("  computer select [team]  - Select a team to run simulation against");
+    System.out.println("  computer clear          - Clear team to run simulation against");
 
     System.out.println("\nOTHER COMMANDS:");
     System.out.println("  help                  - Show this help message");
@@ -44,7 +46,7 @@ public class TextUI {
    *
    * @param player
    */
-  public void displayPlayerInfo(Player player) {
+  public void displayPlayerInfo(PlayerStub player) {
     System.out.println(player.toString());
   }
 
@@ -54,7 +56,7 @@ public class TextUI {
    *
    * @param players
    */
-  public void displayPlayers(List<Player> players) {
+  public void displayPlayers(List<PlayerStub> players) {
     for (int i = 0; i < players.size(); i++) {
       System.out.println((i + 1) + ". " + players.get(i).getName());
     }
@@ -65,7 +67,7 @@ public class TextUI {
    * 
    * @param teams List of team names to display
    */
-  public void displayAllTeams(List<Team> teams) {
+  public void displayAllTeams(List<TeamStub> teams) {
     System.out.println("\n===== MLB TEAMS =====");
     for (int i = 0; i < teams.size(); i++) {
       System.out.println((i + 1) + ". " + teams.get(i).getName());
@@ -79,9 +81,9 @@ public class TextUI {
    * @param players  List of players on the team
    * @param stats    Team statistics
    */
-  public void displayTeamInfo(Team team) {
+  public void displayTeamInfo(TeamStub team) {
     String teamName = team.getName();
-    List<Player> players = team.getPlayers();
+    List<PlayerStub> players = team.getPlayers();
     String stats = team.getStats();
 
     System.out.println("\n===== TEAM: " + teamName + " =====");
@@ -89,7 +91,7 @@ public class TextUI {
     if (players.isEmpty()) {
       System.out.println("No players on roster.");
     } else {
-      for (Player player : players) {
+      for (PlayerStub player : players) {
         System.out.println("- " + player);
       }
     }
@@ -107,7 +109,7 @@ public class TextUI {
    * @param awayScore Away team score
    * @param details   Game details
    */
-  public void displaySimulationResult(SimulationResult simulationResult) {
+  public void displaySimulationResult(SimulationResultStub simulationResult) {
     int homeScore = simulationResult.getMarinersScore();
     int awayScore = simulationResult.getOpponentScore();
     String details = simulationResult.getDetails();
