@@ -1,5 +1,9 @@
 package model.player;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.List;
+
 public class Pitcher extends Player{
     private int rotation;
     private int strikes;
@@ -122,5 +126,21 @@ public class Pitcher extends Player{
     public String getPosition() {
         return "Pitcher";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj,
+                List.of("rotation", "strikes", "pitches", "strikesRate", "ballsRate", "fourSeam", "twoSeam",
+                        "cutter", "sinker", "slider", "curve", "knuckle", "sweeper", "slurve", "splitFinger",
+                        "changeup", "fork", "screw"));
+    }
+
+    public int hashcode() {
+        return HashCodeBuilder.reflectionHashCode(this,
+                List.of("rotation", "strikes", "pitches", "strikesRate", "ballsRate", "fourSeam", "twoSeam",
+                        "cutter", "sinker", "slider", "curve", "knuckle", "sweeper", "slurve", "splitFinger",
+                        "changeup", "fork", "screw"));
+    }
+
 
 }

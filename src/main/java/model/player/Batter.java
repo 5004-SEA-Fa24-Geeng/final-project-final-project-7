@@ -1,5 +1,9 @@
 package model.player;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.List;
+
 public class Batter extends Player{
     private int fastballPA;
     private int fastballH;
@@ -202,4 +206,25 @@ public class Batter extends Player{
     public String getPosition() {
         return "Batter";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj,
+                List.of("fastballPA", "fastballH", "fastball1B", "fastball2B", "fastball13B", "fastballHR",
+                        "breakingPA", "breakingH", "breaking1B","breaking2B", "breaking3B", "breakingHR",
+                        "offspeedPA", "offspeedH", "offspeed1B", "offspeed2B", "offspeed3B", "offspeedHR",
+                        "totalPA", "totalH", "total1B", "total2B", "total3B", "totalHR", "zoneSwing", "zoneContact",
+                        "chaseSwing", "chaseContact", "AVG", "OBP", "OPS"));
+    }
+
+    public int hashcode() {
+        return HashCodeBuilder.reflectionHashCode(this,
+                List.of("fastballPA", "fastballH", "fastball1B", "fastball2B", "fastball13B", "fastballHR",
+                        "breakingPA", "breakingH", "breaking1B","breaking2B", "breaking3B", "breakingHR",
+                        "offspeedPA", "offspeedH", "offspeed1B", "offspeed2B", "offspeed3B", "offspeedHR",
+                        "totalPA", "totalH", "total1B", "total2B", "total3B", "totalHR", "zoneSwing", "zoneContact",
+                        "chaseSwing", "chaseContact", "AVG", "OBP", "OPS"));
+    }
+
+
 }
