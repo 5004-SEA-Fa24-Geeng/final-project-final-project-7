@@ -1,5 +1,9 @@
 package model.inning;
+import model.player.Batter;
+
+import java.util.List;
 
 public interface Inning {
-    void playInning();
+    void resetInning();
+    int runInning(List<Batter> lineup);
 }
