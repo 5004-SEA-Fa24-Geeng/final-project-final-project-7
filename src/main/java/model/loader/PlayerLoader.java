@@ -22,8 +22,8 @@ public class PlayerLoader implements Loader{
     /** Standard csv delim. */
     private static final String DELIMITER = ",";
     /** default location of collection - relative to the resources directory. */
-    private static final String DEFAULT_BATTER_DIR= "/BattersData/";
-    private static final String DEFAULT_PITCHER_DIR= "/PitcherDataTransform/";
+    private static final String DEFAULT_BATTER_DIR= "/BattersDataConvert/";
+    private static final String DEFAULT_PITCHER_DIR= "/PitcherDataConvert/";
 
     public PlayerLoader() { };
 
@@ -39,7 +39,7 @@ public class PlayerLoader implements Loader{
             String filePath = DEFAULT_BATTER_DIR + "Mariners_batter.csv";
             return filePath;
         }
-        String filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-transformed.csv";
+        String filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-convert.csv";
         return filePath;
     }
     @Override
