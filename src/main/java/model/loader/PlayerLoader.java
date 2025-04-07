@@ -36,7 +36,7 @@ public class PlayerLoader implements Loader{
     @Override
     public String getFilePath(Teams teamName) {
         if (teamName.equals(Teams.MARINERS)) {
-            String filePath = DEFAULT_BATTER_DIR + "Mariners_batter.csv";
+            String filePath = DEFAULT_BATTER_DIR + "Mariners-batter-convert.csv";
             return filePath;
         }
         String filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-convert.csv";
