@@ -22,7 +22,7 @@ public class PlayerLoader implements Loader{
     /** Standard csv delim. */
     private static final String DELIMITER = ",";
     /** default location of collection - relative to the resources directory. */
-    private static final String DEFAULT_BATTER_DIR= "/BattersDataConvert/";
+    private static final String DEFAULT_BATTER_DIR= "/BatterDataConvert/";
     private static final String DEFAULT_PITCHER_DIR= "/PitcherDataConvert/";
 
     public PlayerLoader() { };
