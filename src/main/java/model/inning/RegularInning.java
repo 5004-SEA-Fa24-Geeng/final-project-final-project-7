@@ -1,5 +1,9 @@
 package model.inning;
 
+import gameEnum.Balls;
+import gameEnum.Hits;
+import gameEnum.Outs;
+import gameEnum.Strikes;
 import model.player.Pitcher;
 import model.player.Batter;
 
@@ -12,7 +16,7 @@ public class RegularInning implements Inning{
     private int outs;
     private int strikes;
     private int balls;
-    private int[] bases = new int[4];
+    private int[] bases;
     private Random random = new Random();
 
     private Pitcher currentPitcher;
@@ -26,20 +30,33 @@ public class RegularInning implements Inning{
             "Offspeed", Arrays.asList("splitFinger", "changeup", "fork", "screw")
     );
 
+    /**
+     * Start a clean inning with certain pitcher.
+     * @param pitcher The pitcher face batters in the innings
+     */
     public RegularInning(Pitcher pitcher) {
         this.currentPitcher = pitcher;
         this.bases = new int[]{0, 0, 0, 0};
         this.battersFaced = 0;
     }
 
+    /**
+     * Reset the inning data for next inning.
+     */
     @Override
     public void resetInning() {
         this.outs = 0;
         this.strikes = 0;
         this.balls = 0;
         this.bases = new int[]{0, 0, 0, 0};
+        this.battersFaced = 0;
     }
 
+    /**
+     * Runs a full inning with batter lineup, ends the inning when 3 outs.
+     * @param lineup List of batters
+     * @return The score of this inning
+     */
     @Override
     public int runInning(List<Batter> lineup) {
         resetInning();
@@ -47,7 +64,7 @@ public class RegularInning implements Inning{
         this.currentBatterIndex = 0;
         int score = 0;
 
-        while (outs < 3) {
+        while (outs < Outs.THREE.ordinal() + 1) {
             if (currentBatterIndex >= lineup.size()) {
                 currentBatterIndex = 0;
             }
@@ -59,6 +76,11 @@ public class RegularInning implements Inning{
         return score;
     }
 
+    /**
+     * Simulate a single at-bat between pitcher and batter
+     * @param batter The current batter at plate
+     * @return The number of scores during this bat
+     */
     private int inningAtBat(Batter batter) {
         this.strikes = 0;
         this.balls = 0;
@@ -97,17 +119,20 @@ public class RegularInning implements Inning{
             }
 
             // Check for strikeout or walk
-            if (strikes >= 3) {
+            if (strikes >= Strikes.THREE.ordinal() + 1) {
                 outs++;
                 return 0;
-            } else if (balls >= 4) {
+            } else if (balls >= Balls.FOUR.ordinal() + 1) {
                 // Walk
-                return advanceRunners("BB");
+                return advanceRunnersOnWalk();
             }
         }
     }
 
-
+    /**
+     * Determine the pitch type of the ball thrown by pitcher.
+     * @return The name of the pitch type
+     */
     private String determinePitchType() {
         double rand = random.nextDouble();
         double cumProb = 0.0;
@@ -173,6 +198,11 @@ public class RegularInning implements Inning{
         return "fourSeam";
     }
 
+    /**
+     * Identify the thrown ball's pitch category based on pitch type name.
+     * @param pitchName The specific type of name of the pitch
+     * @return The category of the pitch belongs
+     */
     private String getPitchCategory(String pitchName) {
         for (Map.Entry<String, List<String>> entry : pitchTypeMap.entrySet()) {
             if (entry.getValue().contains(pitchName)) {
@@ -182,6 +212,12 @@ public class RegularInning implements Inning{
         return "Fastball";
     }
 
+    /**
+     * Determine the outcome of the hit by batter. Use batter's statistics to see the hit result.
+     * @param batter The current batter
+     * @param pitchCategory The category of the pitch
+     * @return The number of scores from this bat
+     */
     private int determineHitOutcome(Batter batter, String pitchCategory) {
         int plateAppearances;
         int hits;
@@ -245,67 +281,81 @@ public class RegularInning implements Inning{
         double tripleProb = (double) triples / hits;
 
         if (rand < singleProb) {
-            return advanceRunners("1B");
+            return advanceRunners(Hits.SINGLE);
         } else if (rand < singleProb + doubleProb) {
-            return advanceRunners("2B");
+            return advanceRunners(Hits.DOUBLE);
         } else if (rand < singleProb + doubleProb + tripleProb) {
-            return advanceRunners("3B");
+            return advanceRunners(Hits.TRIPLE);
         } else {
-            return advanceRunners("HR");
+            return advanceRunners(Hits.HR);
         }
     }
 
-    private int advanceRunners(String hitType) {
+    /**
+     * Calculate and update the bases result based on the hit type.
+     * @param hitType The type of hit
+     * @return The number of scores made by the hit
+     */
+    private int advanceRunners(Hits hitType) {
         int runs = 0;
 
         switch (hitType) {
-            case "HR":
+            case HR:
                 runs = bases[1] + bases[2] + bases[3] + 1;
                 bases[1] = bases[2] = bases[3] = 0;
                 break;
-            case "3B":
+            case TRIPLE:
                 runs = bases[1] + bases[2] + bases[3];
                 bases[3] = 1; // Batter on third
                 bases[1] = bases[2] = 0;
                 break;
-            case "2B":
+            case DOUBLE:
                 runs = bases[2] + bases[3]; // 2nd, 3rd score
                 bases[3] = bases[1]; // 1st go 3rd
                 bases[2] = 1;
                 bases[1] = 0;
                 break;
-            case "1B":
+            case SINGLE:
                 runs = bases[3]; // batter on 3rd base score
                 bases[3] = bases[2]; // 2nd go 3rd
                 bases[2] = bases[1]; // 1st go 2nd
                 bases[1] = 1;
                 break;
-            case "BB":
-                if (bases[1] == 1 && bases[2] == 1 && bases[3] == 1) {
-                    runs = 1;
-                } else {
-                    if (bases[1] == 1) {
-                        if (bases[2] == 1) {
-                            if (bases[3] == 1) {
-                                runs = 1; // Force run in
-                            } else {
-                                bases[3] = 1;
-                            }
-                        } else {
-                            bases[2] = 1;
-                        }
-                    }
-                }
-                bases[1] = 1; // Batter to first on walk
-                break;
-                }
+        }
         return runs;
     }
 
+    /**
+     * Simulate the batter gets the walk. Update and calculate the bases.
+     * @return The number of scores made by the walk
+     */
+    private int advanceRunnersOnWalk() {
+        int runs = 0;
+
+        if (bases[1] == 1 && bases[2] == 1 && bases[3] == 1) {
+            runs = 1;
+        } else if (bases[2] == 1 && bases [1] == 1) {
+            bases[3] = 1;
+        } else if (bases[1] == 1){
+            bases[2] = 1;
+        }
+
+        bases[1] = 1;
+        return runs;
+    }
+
+    /**
+     * Get the number of batters that the pitcher faced in this inning.
+     * @return The number of batters
+     */
     public int getBattersFaced() {
         return battersFaced;
     }
 
+    /**
+     * Get the current batter index of the lineup.
+     * @return The current batter index
+     */
     public int getCurrentBatterIndex() {
         return currentBatterIndex;
     }
