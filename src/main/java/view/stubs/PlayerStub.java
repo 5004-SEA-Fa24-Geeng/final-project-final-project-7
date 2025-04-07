@@ -1,7 +1,5 @@
 package view.stubs;
 
-import java.util.List;
-
 /**
  * Stub Interface for objects that can be displayed as players in the UI
  */
