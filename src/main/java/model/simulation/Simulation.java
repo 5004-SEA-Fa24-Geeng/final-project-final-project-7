@@ -1,6 +1,6 @@
 package model.simulation;
 
-import gameEnum.Teams;
+
 import model.inning.RegularInning;
 import model.player.Batter;
 import model.player.Pitcher;
@@ -11,23 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private PlayerTeam mariners;
+    private PlayerTeam playerTeam;
     private ComTeam opponent;
-    private Teams opponentTeam;
     private int[] inningScores;
     private int currentInning;
     private int currentBatterIndex;
     private List<Pitcher> selectedPitchers;
+    private List<Batter> lineup;
 
     /**
      * Constructor of simulation class.
-     * @param mariners The player team
+     * @param playerTeam The player team
      * @param opponent The computer team
      */
-    public Simulation(PlayerTeam mariners, ComTeam opponent) {
-        this.mariners = mariners;
+    public Simulation(PlayerTeam playerTeam, ComTeam opponent) {
+        this.playerTeam = playerTeam;
         this.opponent = opponent;
-        this.opponentTeam = opponentTeam;
         this.inningScores = new int[9];
         this.currentInning = 1;
         this.currentBatterIndex = 0;
@@ -55,6 +54,23 @@ public class Simulation {
         selectedPitchers.add(reliever2);
     }
 
+
+    /**
+     * Set the batter lineup for the game.
+     * @param lineup The list contain batters
+     */
+    public void setLineup(List<Batter> lineup) {
+        this.lineup = lineup;
+    }
+
+    /**
+     * Get the player team name.
+     * @return The player team name
+     */
+    public String getPlayerTeamName() {
+        return playerTeam.getTeamName();
+    }
+
     /**
      * Run the simulation and return result.
      * @return SimulationResult contains result
@@ -64,15 +80,12 @@ public class Simulation {
             throw new IllegalArgumentException("Must select 3 pitcher!");
         }
 
-        List<Batter> lineup = getMarinersLineup();
         if (lineup.size() != 9) {
             throw new IllegalStateException("Lineup must contain exactly 9 batters");
         }
 
         SimulationResult result = new SimulationResult();
         StringBuilder details = new StringBuilder();
-
-        details.append(Teams.MARINERS.name()).append(" vs ").append(opponentTeam.name()).append("\n\n");
 
         // simulate 9 innings
         for (currentInning = 1; currentInning <= 9; currentInning++) {
@@ -98,11 +111,29 @@ public class Simulation {
             details.append("Batters faced: ").append(inning.getBattersFaced()).append("\n");
             details.append("Score: ").append(inningScore).append("\n");
 
+            details.append("Pitches: ").append(inning.getPitchesThrown()).append("\n");
+            details.append("Hits: ").append(inning.getHits()).append("\n");
+            details.append("Strikeouts: ").append(inning.getStrikeouts()).append("\n");
+            details.append("Walks: ").append(inning.getWalks()).append("\n\n");
+
+            result.addPitchesThrown(inning.getPitchesThrown());
+            result.addPitchTypeCounts(inning.getAllPitchTypeCounts());
+            result.addPitchCategoryCounts(inning.getPitchCategoryCounts());
+            result.addHits(inning.getHits());
+            result.addSingles(inning.getSingles());
+            result.addDoubles(inning.getDoubles());
+            result.addTriples(inning.getTriples());
+            result.addHR(inning.getHomeRuns());
+            result.addStrikeouts(inning.getStrikeouts());
+            result.addWalks(inning.getWalks());
+
         }
         // set result
-        result.setMarinersScore(calculateTotalScore());
+        result.setPlayerTeamName(getPlayerTeamName());
+        result.setPlayerTeamScore(calculateTotalScore());
         result.setDetails(details.toString());
         result.setInningScores(inningScores);
+
 
         return result;
     }
@@ -122,21 +153,6 @@ public class Simulation {
     }
 
     /**
-     * Get the Mariners lineup.
-     * @return List of batters
-     */
-    private List<Batter> getMarinersLineup() {
-        List<Batter> lineup = new ArrayList<>();
-        for (var player : mariners.getPlayers()) {
-            if (player instanceof Batter) {
-                lineup.add((Batter) player);
-                if (lineup.size() == 9) break;
-            }
-        }
-        return lineup;
-    }
-
-    /**
      * Calculate all innings score.
      * @return The Mariners' total score
      */
@@ -146,9 +162,5 @@ public class Simulation {
             total += score;
         }
         return total;
-    }
-
-    public Teams getOpponentTeam() {
-        return opponentTeam;
     }
 }
