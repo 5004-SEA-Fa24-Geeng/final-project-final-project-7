@@ -1,5 +1,7 @@
 package gameEnum;
 
+import java.util.Random;
+
 
 public enum Teams {
     DIAMONDBACKS("diamondbacks"),ATHLETICS("athletics"),
@@ -67,4 +69,12 @@ public enum Teams {
         }
         throw new IllegalArgumentException("No team with name " + name);
     }
+
+    public static Teams randomTeam() {
+        Random random = new Random();
+        int index = random.nextInt(Teams.values().length);
+        Teams rTeam = Teams.values()[index];
+        return rTeam;
+    }
+
 }
