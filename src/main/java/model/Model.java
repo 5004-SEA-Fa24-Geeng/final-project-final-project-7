@@ -41,6 +41,18 @@ public class Model implements ModelInterface {
     public Team getComTeam() {
         return this.comTeam;
     }
+    public List<Batter> getPlayerTeamBatterLineup() {
+        return this.playerTeam.getBatterLineup();
+    }
+    public List<Pitcher> getPlayerTeamPitcherLineup() {
+        return this.playerTeam.getPitcherLineup();
+    }
+    public List<Batter> getComTeamBatterLineup() {
+        return this.comTeam.getBatterLineup();
+    }
+    public List<Pitcher> getComTeamPitcherLineup() {
+        return this.comTeam.getPitcherLineup();
+    }
     public Set<Batter> getPlayerTeamBatterLoaderLineup() {
         return this.playerTeam.getBatterLoaderLineup();
     }
@@ -344,15 +356,27 @@ public class Model implements ModelInterface {
         this.gameResult = game.runSimulation();
         return this.gameResult;
     }
-    public void saveLineupAsCSVFile(Side side, String filename, List<String> lines) {
-        if (!filename.contains(".csv")) {
+    public List<String> convertLineupToString(List<? extends Player> lineup) {
+        List<String> lineupList =  new ArrayList<>();
+        for (Player player : lineup) {
+            if (player == null) {
+                String nullText = "=====  (null) =====\n";
+                lineupList.add(nullText);
+            }
+            lineupList.add(player.toString());
+        }
+        return lineupList;
+    }
+    public void saveLineupAsTXTFile(Side side, String filename, List<? extends Player> lineup) {
+        if (!filename.contains(".txt")) {
             throw new IllegalArgumentException("Save as txt file only.");
         }
         try {
-            if (lines == null) {
+            List<String> lineupStringList = convertLineupToString(lineup);
+            if (lineupStringList == null) {
                 throw new IllegalArgumentException("Lineup cannot be null.");
             }
-            Files.write(Path.of(filename), lines);
+            Files.write(Path.of(filename), lineupStringList);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
@@ -374,10 +398,5 @@ public class Model implements ModelInterface {
         }
     }
 
-    public static void main(String[] args) {
-        Team playerTeam = new PlayerTeam(Teams.MARINERS);
-        Team comTeam = new ComTeam(Teams.DODGERS);
-        
-    }
 
 }
