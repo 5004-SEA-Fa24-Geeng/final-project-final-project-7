@@ -15,7 +15,6 @@ import gameEnum.PlayerData;
 import gameEnum.Teams;
 import model.player.Batter;
 import model.player.Pitcher;
-import model.player.Player;
 
 
 public class PlayerLoader implements Loader{
@@ -24,27 +23,43 @@ public class PlayerLoader implements Loader{
     /** default location of collection - relative to the resources directory. */
     private static final String DEFAULT_BATTER_DIR= "/BatterDataConvert/";
     private static final String DEFAULT_PITCHER_DIR= "/PitcherDataConvert/";
+    private static final String DEFAULT_BATTER_POS= "batter";
+    private static final String DEFAULT_PITCHER_POS= "pitcher";
 
     public PlayerLoader() { };
 
     @Override
-    public Set<Player> loadPlayers(String position, Teams teamName) {
-        String filePath = getFilePath(teamName);
-        Set<Player> players = load(position, filePath);
-        return players;
+    public Set<Batter> loadBatters(Teams teamName) {
+        Set<Batter> batters = null;
+        if (teamName.equals(Teams.MARINERS)) {
+            String filePath = getFilePath(DEFAULT_BATTER_POS, teamName);
+            batters = loadBatterFromFile(filePath);
+        }
+        return batters;
     }
     @Override
-    public String getFilePath(Teams teamName) {
-        if (teamName.equals(Teams.MARINERS)) {
-            String filePath = DEFAULT_BATTER_DIR + "Mariners-batter-convert.csv";
-            return filePath;
+    public Set<Pitcher> loadPitchers(Teams teamName) {
+        Set<Pitcher> pitchers = null;
+        if (!teamName.equals(Teams.MARINERS)) {
+            String filePath = getFilePath(DEFAULT_PITCHER_POS, teamName);
+            pitchers = loadPitcherFromFile(filePath);
         }
-        String filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-convert.csv";
+        return pitchers;
+    }
+    private String getFilePath(String position, Teams teamName) {
+        String filePath = null;
+        if (position.equals("batter")) {
+            if (!teamName.equals(Teams.MARINERS)) {
+                throw new IllegalArgumentException("Only Mariners' batter lineup available for now.");
+            }
+            filePath = DEFAULT_BATTER_DIR + "Mariners-batter-convert.csv";
+        } else if (position.equals("pitcher")) {
+            filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-convert.csv";
+        }
         return filePath;
     }
-    @Override
-    public Set<Player> load(String position, String filePath) {
-        Set<Player> players = new HashSet<>();
+    private Set<Batter> loadBatterFromFile(String filePath) {
+        Set<Batter> batters = new HashSet<>();
 
         List<String> lines;
         try {
@@ -55,22 +70,40 @@ public class PlayerLoader implements Loader{
             lines = reader.lines().collect(Collectors.toList());
         } catch (Exception e) {
             System.err.println("Error reading file: " + e.getMessage());
-            return players;
+            return batters;
         }
         if (lines == null || lines.isEmpty()) {
-            return players;
+            return batters;
         }
 
         Map<PlayerData, Integer> columnMap = processHeader(lines.remove(0));
+        batters = lines.stream().map(line -> toBatter(line, columnMap))
+                        .filter(batter -> batter != null).collect(Collectors.toSet());
+        return batters;
+    }
 
-        if (position.toLowerCase().equals("pitcher")) {
-            players = lines.stream().map(line -> toPitcher(line, columnMap))
-            .filter(pitcher -> pitcher != null).collect(Collectors.toSet());
-        } else if (position.toLowerCase().equals("batter")) {
-            players = lines.stream().map(line -> toBatter(line, columnMap))
-            .filter(batter -> batter != null).collect(Collectors.toSet());
-        } 
-        return players;
+    private Set<Pitcher> loadPitcherFromFile(String filePath) {
+        Set<Pitcher> pitchers = new HashSet<>();
+
+        List<String> lines;
+        try {
+            // this is so we can store the files in the resources folder
+            InputStream is = PlayerLoader.class.getResourceAsStream(filePath);
+            InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return pitchers;
+        }
+        if (lines == null || lines.isEmpty()) {
+            return pitchers;
+        }
+
+        Map<PlayerData, Integer> columnMap = processHeader(lines.remove(0));
+        pitchers = lines.stream().map(line -> toPitcher(line, columnMap))
+                        .filter(pitcher -> pitcher != null).collect(Collectors.toSet());
+        return pitchers;
     }
 
     /**
@@ -178,8 +211,7 @@ public class PlayerLoader implements Loader{
      * @param header the header line
      * @return a map of column to index
      */
-    @Override
-    public Map<PlayerData, Integer> processHeader(String header) {
+    private Map<PlayerData, Integer> processHeader(String header) {
         Map<PlayerData, Integer> columnMap = new HashMap<>();
         String[] columns = header.split(DELIMITER);
         for (int i = 0; i < columns.length; i++) {
