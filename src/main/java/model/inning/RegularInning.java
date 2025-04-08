@@ -7,10 +7,8 @@ import gameEnum.Strikes;
 import model.player.Pitcher;
 import model.player.Batter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+
 
 public class RegularInning implements Inning{
     private int outs;
@@ -23,6 +21,18 @@ public class RegularInning implements Inning{
     private List<Batter> lineup;
     private int currentBatterIndex;
     private int battersFaced;
+
+    private int pitchesThrown = 0;
+    private int hits = 0;
+    private int singles = 0;
+    private int doubles = 0;
+    private int triples = 0;
+    private int homeRuns = 0;
+    private int strikeouts = 0;
+    private int walks = 0;
+    private Map<String, Integer> pitchTypeCounts = new HashMap<>();
+    private Map<String, Integer> pitchCategoryCounts = new HashMap<>();
+
 
     private final Map<String, List<String>> pitchTypeMap = Map.of(
             "Fastball", Arrays.asList("fourSeam", "twoSeam", "cutter", "sinker"),
@@ -50,6 +60,16 @@ public class RegularInning implements Inning{
         this.balls = 0;
         this.bases = new int[]{0, 0, 0, 0};
         this.battersFaced = 0;
+        this.pitchesThrown = 0;
+        this.pitchTypeCounts.clear();
+        this.pitchCategoryCounts.clear();
+        this.hits = 0;
+        this.singles = 0;
+        this.doubles = 0;
+        this.triples = 0;
+        this.homeRuns = 0;
+        this.strikeouts = 0;
+        this.walks = 0;
     }
 
     /**
@@ -121,9 +141,11 @@ public class RegularInning implements Inning{
             // Check for strikeout or walk
             if (strikes >= Strikes.THREE.ordinal() + 1) {
                 outs++;
+                strikeouts++;
                 return 0;
             } else if (balls >= Balls.FOUR.ordinal() + 1) {
                 // Walk
+                walks++;
                 return advanceRunnersOnWalk();
             }
         }
@@ -134,68 +156,76 @@ public class RegularInning implements Inning{
      * @return The name of the pitch type
      */
     private String determinePitchType() {
-        double rand = random.nextDouble();
-        double cumProb = 0.0;
+        List<Map.Entry<String, Double>> pitches = new ArrayList<>();
 
-        // Check fastball pitches
         if (currentPitcher.getFourSeam() > 0) {
-            cumProb += currentPitcher.getFourSeam();
-            if (rand <= cumProb) return "fourSeam";
+            pitches.add(Map.entry("fourSeam", currentPitcher.getFourSeam()));
         }
+
         if (currentPitcher.getTwoSeam() > 0) {
-            cumProb += currentPitcher.getTwoSeam();
-            if (rand <= cumProb) return "twoSeam";
+            pitches.add(Map.entry("twoSeam", currentPitcher.getTwoSeam()));
         }
+
         if (currentPitcher.getCutter() > 0) {
-            cumProb += currentPitcher.getCutter();
-            if (rand <= cumProb) return "cutter";
+            pitches.add(Map.entry("cutter", currentPitcher.getCutter()));
         }
+
         if (currentPitcher.getSinker() > 0) {
-            cumProb += currentPitcher.getSinker();
-            if (rand <= cumProb) return "sinker";
+            pitches.add(Map.entry("sinker", currentPitcher.getSinker()));
         }
 
-        // Check breaking pitches
         if (currentPitcher.getSlider() > 0) {
-            cumProb += currentPitcher.getSlider();
-            if (rand <= cumProb) return "slider";
+            pitches.add(Map.entry("slider", currentPitcher.getSlider()));
         }
+
         if (currentPitcher.getCurve() > 0) {
-            cumProb += currentPitcher.getCurve();
-            if (rand <= cumProb) return "curve";
+            pitches.add(Map.entry("curve", currentPitcher.getCurve()));
         }
+
         if (currentPitcher.getKnuckle() > 0) {
-            cumProb += currentPitcher.getKnuckle();
-            if (rand <= cumProb) return "knuckle";
+            pitches.add(Map.entry("knuckle", currentPitcher.getKnuckle()));
         }
+
         if (currentPitcher.getSweeper() > 0) {
-            cumProb += currentPitcher.getSweeper();
-            if (rand <= cumProb) return "sweeper";
+            pitches.add(Map.entry("sweeper", currentPitcher.getSweeper()));
         }
+
         if (currentPitcher.getSlurve() > 0) {
-            cumProb += currentPitcher.getSlurve();
-            if (rand <= cumProb) return "slurve";
+            pitches.add(Map.entry("slurve", currentPitcher.getSlurve()));
         }
 
-        // Check offspeed pitches
         if (currentPitcher.getSplitFinger() > 0) {
-            cumProb += currentPitcher.getSplitFinger();
-            if (rand <= cumProb) return "splitFinger";
-        }
-        if (currentPitcher.getChangeup() > 0) {
-            cumProb += currentPitcher.getChangeup();
-            if (rand <= cumProb) return "changeup";
-        }
-        if (currentPitcher.getFork() > 0) {
-            cumProb += currentPitcher.getFork();
-            if (rand <= cumProb) return "fork";
-        }
-        if (currentPitcher.getScrew() > 0) {
-            cumProb += currentPitcher.getScrew();
-            if (rand <= cumProb) return "screw";
+            pitches.add(Map.entry("splitFinger", currentPitcher.getSplitFinger()));
         }
 
-        return "fourSeam";
+        if (currentPitcher.getChangeup() > 0) {
+            pitches.add(Map.entry("changeup", currentPitcher.getChangeup()));
+        }
+
+        if (currentPitcher.getFork() > 0) {
+            pitches.add(Map.entry("fork", currentPitcher.getFork()));
+        }
+
+        if (currentPitcher.getScrew() > 0) {
+            pitches.add(Map.entry("screw", currentPitcher.getScrew()));
+        }
+
+        double totalProb = pitches.stream().mapToDouble(Map.Entry::getValue).sum();
+        double rand = random.nextDouble() * totalProb;
+
+        String pitchType = pitches.get(0).getKey();
+
+        double sumProb = 0.0;
+        for (Map.Entry<String, Double> pitch : pitches) {
+            sumProb += pitch.getValue();
+            if (rand < sumProb) {
+                pitchType = pitch.getKey();
+                break;
+            }
+        }
+        pitchesThrown++;
+        pitchTypeCounts.put(pitchType, pitchTypeCounts.getOrDefault(pitchType, 0) + 1);
+        return pitchType;
     }
 
     /**
@@ -204,12 +234,16 @@ public class RegularInning implements Inning{
      * @return The category of the pitch belongs
      */
     private String getPitchCategory(String pitchName) {
+        String category = "Fastball";
+
         for (Map.Entry<String, List<String>> entry : pitchTypeMap.entrySet()) {
             if (entry.getValue().contains(pitchName)) {
-                return entry.getKey();
+                category = entry.getKey();
+                break;
             }
         }
-        return "Fastball";
+        pitchCategoryCounts.put(category, pitchCategoryCounts.getOrDefault(category, 0) + 1);
+        return category;
     }
 
     /**
@@ -275,18 +309,24 @@ public class RegularInning implements Inning{
             return 0;
         }
 
+        this.hits++;
+
         double rand = random.nextDouble();
         double singleProb = (double) singles / hits;
         double doubleProb = (double) doubles / hits;
         double tripleProb = (double) triples / hits;
 
         if (rand < singleProb) {
+            this.singles++;
             return advanceRunners(Hits.SINGLE);
         } else if (rand < singleProb + doubleProb) {
+            this.doubles++;
             return advanceRunners(Hits.DOUBLE);
         } else if (rand < singleProb + doubleProb + tripleProb) {
+            this.triples++;
             return advanceRunners(Hits.TRIPLE);
         } else {
+            this.homeRuns++;
             return advanceRunners(Hits.HR);
         }
     }
@@ -360,4 +400,92 @@ public class RegularInning implements Inning{
         return currentBatterIndex;
     }
 
+    /**
+     * Get the pitches thrown in the inning.
+     * @return The number of pitches
+     */
+    public int getPitchesThrown() {
+        return pitchesThrown;
+    }
+
+    /**
+     * Get the count of pitch type thrown in the inning.
+     * @param pitchType The type of pitches to count
+     * @return The number of times the specified pitch type was thrown
+     */
+    public int getPitchTypeCount(String pitchType) {
+        return pitchTypeCounts.getOrDefault(pitchType, 0);
+    }
+
+    /**
+     * Get the counts of pitch type thrown in the inning.
+     * @return A map of pitch types to their counts
+     */
+    public Map<String, Integer> getAllPitchTypeCounts() {
+        return new HashMap<>(pitchTypeCounts);
+    }
+
+    /**
+     * Get the counts of pitch categories thrown in the inning.
+     * @return A map of pitch categories to their counts
+     */
+    public Map<String, Integer> getPitchCategoryCounts() {
+        return new HashMap<>(pitchCategoryCounts);
+    }
+
+    /**
+     * Get the number of hits.
+     * @return The number of hits
+     */
+    public int getHits() {
+        return hits;
+    }
+
+    /**
+     * Get the number of singles.
+     * @return The number of singles
+     */
+    public int getSingles() {
+        return singles;
+    }
+
+    /**
+     * Get the number of doubles.
+     * @return The number of doubles
+     */
+    public int getDoubles() {
+        return doubles;
+    }
+
+    /**
+     * Get the number of triples.
+     * @return The number of triples
+     */
+    public int getTriples() {
+        return triples;
+    }
+
+    /**
+     * Get the number of home runs.
+     * @return The number of home runs
+     */
+    public int getHomeRuns() {
+        return homeRuns;
+    }
+
+    /**
+     * Get the number of strikeouts.
+     * @return The number of strikeouts
+     */
+    public int getStrikeouts() {
+        return strikeouts;
+    }
+
+    /**
+     * Get the batter walk on base count.
+     * @return The counts of walks
+     */
+    public int getWalks() {
+        return walks;
+    }
 }
