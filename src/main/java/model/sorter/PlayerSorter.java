@@ -5,10 +5,8 @@ import model.player.Batter;
 import model.player.Pitcher;
 
 public class PlayerSorter implements Sorter{
-    /**
-     * Private constructor to prevent instantiation.
-     */    
-    private PlayerSorter() { };
+ 
+    public PlayerSorter() { };
 
     /**
      * Use sortOn to decide which sort class to use, and asc to decide which order.

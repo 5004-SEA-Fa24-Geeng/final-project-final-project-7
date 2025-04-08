@@ -8,10 +8,7 @@ import model.player.Pitcher;
 
 public class PlayerFilter implements Filter{
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
-    private PlayerFilter() { };
+    public PlayerFilter() { };
 
     /**
      * filter batters using batter data, operations, and the value user send in.
