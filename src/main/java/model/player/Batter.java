@@ -226,5 +226,49 @@ public class Batter extends Player{
                         "chaseSwing", "chaseContact", "AVG", "OBP", "OPS"));
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("===== ").append(getName()).append(" (").append(getPosition()).append(") =====\n");
+
+        sb.append("Fastball Stats: PA=").append(fastballPA)
+                .append(", H=").append(fastballH)
+                .append(", 1B=").append(fastball1B)
+                .append(", 2B=").append(fastball2B)
+                .append(", 3B=").append(fastball3B)
+                .append(", HR=").append(fastballHR).append("\n");
+
+        sb.append("Breaking Stats: PA=").append(breakingPA)
+                .append(", H=").append(breakingH)
+                .append(", 1B=").append(breaking1B)
+                .append(", 2B=").append(breaking2B)
+                .append(", 3B=").append(breaking3B)
+                .append(", HR=").append(breakingHR).append("\n");
+
+        sb.append("Offspeed Stats: PA=").append(offspeedPA)
+                .append(", H=").append(offspeedH)
+                .append(", 1B=").append(offspeed1B)
+                .append(", 2B=").append(offspeed2B)
+                .append(", 3B=").append(offspeed3B)
+                .append(", HR=").append(offspeedHR).append("\n");
+
+        sb.append("Total Stats: PA=").append(totalPA)
+                .append(", H=").append(totalH)
+                .append(", 1B=").append(total1B)
+                .append(", 2B=").append(total2B)
+                .append(", 3B=").append(total3B)
+                .append(", HR=").append(totalHR).append("\n");
+
+        sb.append("Swing Stats: ZoneSwing=").append(zoneSwing)
+                .append(", ZoneContact=").append(zoneContact)
+                .append(", ChaseSwing=").append(chaseSwing)
+                .append(", ChaseContact=").append(chaseContact).append("\n");
+
+        sb.append("Overall: AVG=").append(AVG)
+                .append(", OBP=").append(OBP)
+                .append(", OPS=").append(OPS);
+
+        return sb.toString();
+    }
 
 }

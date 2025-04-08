@@ -47,6 +47,7 @@ public class Pitcher extends Player{
         this.splitFinger = splitFinger;
         this.changeup = changeup;
         this.fork = fork;
+        this.screw = screw;
     }
 
     public int getRotation() {
@@ -76,7 +77,6 @@ public class Pitcher extends Player{
     public double getTwoSeam() {
         return this.twoSeam;
     }
-
 
     public double getCutter() {
         return this.cutter;
@@ -142,5 +142,34 @@ public class Pitcher extends Player{
                         "changeup", "fork", "screw"));
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("===== ").append(getName()).append(" (").append(getPosition()).append(") =====\n");
 
+        sb.append("Role: Rotation=").append(rotation).append("\n");
+
+        sb.append("Performance: Strikes=").append(strikes)
+                .append(", Pitches=").append(pitches)
+                .append(", StrikesRate=").append(strikesRate)
+                .append(", BallsRate=").append(ballsRate).append("\n");
+
+        sb.append("Fastball Types: FourSeam=").append(fourSeam)
+                .append(", TwoSeam=").append(twoSeam)
+                .append(", Cutter=").append(cutter)
+                .append(", Sinker=").append(sinker).append("\n");
+
+        sb.append("Breaking Types: Slider=").append(slider)
+                .append(", Curve=").append(curve)
+                .append(", Knuckle=").append(knuckle)
+                .append(", Sweeper=").append(sweeper)
+                .append(", Slurve=").append(slurve).append("\n");
+
+        sb.append("Offspeed Types: SplitFinger=").append(splitFinger)
+                .append(", Changeup=").append(changeup)
+                .append(", Fork=").append(fork)
+                .append(", Screw=").append(screw);
+
+        return sb.toString();
+    }
 }
