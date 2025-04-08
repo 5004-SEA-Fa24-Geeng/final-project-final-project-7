@@ -1,7 +1,9 @@
 package model.team;
 
-import model.player.Player;
+import gameEnum.Teams;
 
 public class PlayerTeam extends Team{
-    public void draftPlayer(Player player) {}
+    public PlayerTeam(Teams teamName) {
+        super(teamName);
+    }
 }
