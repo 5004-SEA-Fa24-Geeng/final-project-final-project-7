@@ -75,31 +75,31 @@ public abstract class Team implements TeamInterface{
         this.pitcherLineup.clear();
         this.pitcherLineup = Collections.nCopies(3, null);
     }
-    private boolean checkBatterInLineup(Player batter) {
+    public boolean checkBatterInLineup(Player batter) {
         if (this.batterLineup.contains(batter)) {
             return true;
         }
         return false;
     }
-    private boolean checkPitcherInLineup(Pitcher pitcher) {
+    public boolean checkPitcherInLineup(Pitcher pitcher) {
         if (this.pitcherLineup.contains(pitcher)) {
             return true;
         }
         return false;
     }
-    private boolean checkBatterLineupPosTaken(int lineupNum) {
+    public boolean checkBatterLineupPosTaken(int lineupNum) {
         if (this.batterLineup.get(lineupNum) != null) {
             return true;
         }
         return false;
     }
-    private boolean checkPitcherLineupPosTaken(int lineupNum) {
+    public boolean checkPitcherLineupPosTaken(int lineupNum) {
         if (this.pitcherLineup.get(lineupNum) != null) {
             return true;
         }
         return false;
     }
-    private int checkBatterLineupSpace() {
+    public int checkBatterLineupSpace() {
         int cnt = 0;
         for (Player batter: this.batterLineup) {
             if (batter == null) {
@@ -108,7 +108,7 @@ public abstract class Team implements TeamInterface{
         }
         return cnt;
     }
-    private boolean checkPitcherInTheRightPlace(int lineupPos, Pitcher pitcher) {
+    public boolean checkPitcherInTheRightPlace(int lineupPos, Pitcher pitcher) {
         int rotation = pitcher.getRotation();
         // lineupPos is an index number, so we need to add 1 to match rotation number
         lineupPos = lineupPos + 1;
@@ -121,7 +121,7 @@ public abstract class Team implements TeamInterface{
         }
         return true;
     }
-    private int checkPitcherLineupSpace() {
+    public int checkPitcherLineupSpace() {
         int cnt = 0;
         for (Player pitcher: this.pitcherLineup) {
             if (pitcher == null) {
@@ -217,8 +217,7 @@ public abstract class Team implements TeamInterface{
         if (!checkPitcherInTheRightPlace(lineupPos, newPitcher)) {
             System.out.println("Pitcher is in the wrong position.\n");
             System.out.println(String.format("Cannot add %s to %d.\n", newPitcher.getName(), lineupPos));
-            System.out.println(String.format("Cause his rotation num is %d.\n", 
-                                                    newPitcher.getName(), newPitcher.getRotation()));
+            System.out.println(String.format("Cause his rotation num is %d.\n", newPitcher.getRotation()));
             return;
         }
         if (checkPitcherLineupPosTaken(lineupPos)) {

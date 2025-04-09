@@ -352,6 +352,12 @@ public class Model implements ModelInterface {
         }
     }
     public SimulationResult startSimAndGetResult() {
+        if (this.playerTeam.checkBatterLineupSpace() > 0 ||
+            this.comTeam.checkPitcherLineupSpace() > 0) {
+            System.out.println("Simulation failed.\n");
+            System.out.println("Lineup is not completed.\n");
+            return null;
+        }
         Simulation game = new Simulation(this.playerTeam, this.comTeam);
         this.gameResult = game.runSimulation();
         return this.gameResult;
@@ -397,6 +403,7 @@ public class Model implements ModelInterface {
             }
         }
     }
+
 
 
 }
