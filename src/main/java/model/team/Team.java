@@ -68,11 +68,11 @@ public abstract class Team implements TeamInterface{
     }
     public void clearBatterLineup() {
         this.batterLineup.clear();
-        this.batterLineup = Collections.nCopies(9, null);
+        this.batterLineup = new ArrayList<>(Collections.nCopies(9, null));
     }
     public void clearPitcherLineup() {
         this.pitcherLineup.clear();
-        this.pitcherLineup = Collections.nCopies(3, null);
+        this.pitcherLineup = new ArrayList<>(Collections.nCopies(3, null));
     }
     public boolean checkBatterInLineup(Player batter) {
         if (this.batterLineup.contains(batter)) {

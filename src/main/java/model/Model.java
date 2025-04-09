@@ -24,23 +24,43 @@ import model.team.Team;
 
 public class Model implements ModelInterface {
     
+    /** Default team for Player. */
     private static final Teams DEFAULT_PLAYER_TEAM = Teams.MARINERS;
+    /** Default random team for Computer. */
     private static final Teams DEFAULT_RANDOM_COM_TEAM = Teams.randomTeam();
+    /** Use Name as the default sort on column. */
     private static final String DEFAULT_SORT_ON_NAME = "Name";
+    /** Run SetComTeam() before using this field. */
     private ComTeam comTeam = null;
+    /** Run SetPlayerTeam() before using this field. */
     private PlayerTeam playerTeam = null;
+    /** Run startSimAndGetResult() before using this field. */
     private SimulationResult gameResult = null;
+    /** Filter for filtering batterLoaderLineup and pitcherLoaderLineup. */   
+    private PlayerFilter filter = new PlayerFilter(); 
+    /** Sorter for sorting batterLoaderLineup and pitcherLoaderLineup. */  
     private PlayerSorter sorter = new PlayerSorter();
-    private PlayerFilter filter = new PlayerFilter();
 
-
+    /** Public Model constructor. */  
     public Model() { }
+    /**
+     * playerTeam getter.
+     * @return Team
+     */
     public Team getPlayerTeam() {
         return this.playerTeam;
     }
+    /**
+     * comTeam getter.
+     * @return Team
+     */
     public Team getComTeam() {
         return this.comTeam;
     }
+    /**
+     * Turns Teams enums into String List and get that list.
+     * @return List<String>
+     */    
     public List<String> getAllTeamName() {
         List<String> enumStringList = new ArrayList<>();
         for (Teams team: Teams.values()) {
@@ -48,44 +68,93 @@ public class Model implements ModelInterface {
         }
         return enumStringList;
     }
+    /**
+     * player's BatterLineup getter.
+     * @return List<Batter>
+     */     
     public List<Batter> getPlayerTeamBatterLineup() {
         return this.playerTeam.getBatterLineup();
     }
+    /**
+     * player's PitcherLineup getter.
+     * @return List<Pitcher>
+     */ 
     public List<Pitcher> getPlayerTeamPitcherLineup() {
         return this.playerTeam.getPitcherLineup();
     }
+    /**
+     * com's BatterLineup getter.
+     * @return List<Batter>
+     */   
     public List<Batter> getComTeamBatterLineup() {
         return this.comTeam.getBatterLineup();
     }
+    /**
+     * com's PitcherLineup getter.
+     * @return List<Pitcher>
+     */ 
     public List<Pitcher> getComTeamPitcherLineup() {
         return this.comTeam.getPitcherLineup();
     }
+    /**
+     * player's BatterLoaderLineup getter.
+     * @return Set<Batter>
+     */ 
     public Set<Batter> getPlayerTeamBatterLoaderLineup() {
         return this.playerTeam.getBatterLoaderLineup();
     }
+    /**
+     * player's PitcherLoaderLineup getter.
+     * @return Set<Pitcher>
+     */ 
     public Set<Pitcher> getPlayerTeamPitcherLoaderLineup() {
         return this.playerTeam.getPitcherLoaderLineup();
     }
+    /**
+     * com's BatterLoaderLineup getter.
+     * @return Set<Batter>
+     */ 
     public Set<Batter> getComTeamBatterLoaderLineup() {
         return this.comTeam.getBatterLoaderLineup();
     }
+    /**
+     * com's PitcherLoaderLineup getter.
+     * @return Set<Pitcher>
+     */ 
     public Set<Pitcher> getComTeamPitcherLoaderLineup() {
         return this.comTeam.getPitcherLoaderLineup();
     }
+    /** Set playerTeam with Teams.MARINERS. */ 
     public void setPlayerTeam() {
         this.setPlayerTeam(DEFAULT_PLAYER_TEAM);
     }
+    /**
+     * Set playerTeam with any enum in Teams.
+     * @param teamName enum in Teams
+     */
     public void setPlayerTeam(Teams teamName) {
         this.playerTeam = new PlayerTeam(teamName);
     }
+    /** Set comTeam with random enum except Teams.MARINERS in Teams. */ 
     public void setComTeam() {
         this.setComTeam(DEFAULT_RANDOM_COM_TEAM);
     }
+    /**
+     * Set comTeam with any enum in Teams.
+     * @param teamName enum in Teams
+     */
     public void setComTeam(Teams teamName) {
         this.comTeam = new ComTeam(teamName);
     }
-    public Player getBatter(Side side, String batterName) {
-        Player returnBatter = null;
+    /**
+     * Use side to indicate which side's loader should the method look in to.
+     * And use the batterName to get the batter user asked for.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param batterName batter's name
+     * @return Batter from loader
+     */
+    public Batter getBatter(Side side, String batterName) {
+        Batter returnBatter = null;
         if (side.equals(Side.PLAYER)) {
             return this.playerTeam.getBatterFromLoader(batterName);
         } else if (side.equals(Side.COMPUTER)) {
@@ -93,8 +162,15 @@ public class Model implements ModelInterface {
         }
         return returnBatter;
     }
-    public Player getPitcher(Side side, String pitcherName) {
-        Player returnPitcher = null;
+    /**
+     * Use side to indicate which side's loader should the method look in to.
+     * And use the pitcherName to get the pitcher user asked for.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param batterName pitcher's name
+     * @return Pitcher from loader
+     */
+    public Pitcher getPitcher(Side side, String pitcherName) {
+        Pitcher returnPitcher = null;
         if (side.equals(Side.PLAYER)) {
             return this.playerTeam.getPitcherFromLoader(pitcherName);
         } else if (side.equals(Side.COMPUTER)) {
@@ -118,6 +194,12 @@ public class Model implements ModelInterface {
         return false;           
 
     }
+    /**
+     * Use the filter string and loader linup to get the filtered results.
+     * @param filter ex: "TotalPA >= 100"
+     * @param batterLoaderLineup batterLoaderLineup that we get from Team class.
+     * @return Stream<Batter> filterd batters
+     */
     public Stream<Batter> batterFilter(String filter, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
@@ -127,6 +209,13 @@ public class Model implements ModelInterface {
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
         return filteredStream;
     }
+    /**
+     * Use the filter string, column from PlayerData and loader linup to get the filtered results.
+     * @param filter ex: "TotalPA >= 100"
+     * @param sortOn ex: PlayerData.OPS
+     * @param batterLoaderLineup batterLoaderLineup that we get from Team class.
+     * @return Stream<Batter> filterd batters
+     */
     public Stream<Batter> batterFilter(String filter, PlayerData sortOn, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
@@ -136,6 +225,14 @@ public class Model implements ModelInterface {
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
         return filteredStream;
     }
+    /**
+     * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
+     * @param filter ex: "TotalPA >= 100"
+     * @param sortOn ex: PlayerData.OPS
+     * @param ascending true if ascending, false if descending
+     * @param batterLoaderLineup batterLoaderLineup that we get from Team class.
+     * @return Stream<Batter> filterd batters
+     */
     public Stream<Batter> batterFilter(String filter, PlayerData sortOn, 
                                         boolean ascending , Set<Batter> batterLoaderLineup) {
         // true: single filter
@@ -146,6 +243,12 @@ public class Model implements ModelInterface {
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
         return filteredStream;
     }
+    /**
+     * Use the filter string and loader linup to get the filtered results.
+     * @param filter ex: "Pitches >= 1000"
+     * @param pitcherLoaderLineup pitcherLoaderLineup that we get from Team class.
+     * @return Stream<Pitcher> filterd pitchers
+     */
     public Stream<Pitcher> pitcherFilter(String filter, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
@@ -155,6 +258,13 @@ public class Model implements ModelInterface {
         filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
         return filteredStream;
     }
+    /**
+     * Use the filter string, column from PlayerData and loader linup to get the filtered results.
+     * @param filter ex: "Pitches >= 1000"
+     * @param sortOn ex: PlayerData.FOURSEAM
+     * @param pitcherLoaderLineup pitcherLoaderLineup that we get from Team class.
+     * @return Stream<Pitcher> filterd pitchers
+     */
     public Stream<Pitcher> pitcherFilter(String filter, PlayerData sortOn, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
@@ -164,6 +274,14 @@ public class Model implements ModelInterface {
         filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
         return filteredStream;
     }
+    /**
+     * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
+     * @param filter ex: "Pitches >= 1000"
+     * @param sortOn ex: PlayerData.FOURSEAM
+     * @param ascending true if ascending, false if descending
+     * @param pitcherLoaderLineup pitcherLoaderLineup that we get from Team class.
+     * @return Stream<Pitcher> filterd pitchers
+     */
     public Stream<Pitcher> pitcherFilter(String filter, PlayerData sortOn, 
                                             boolean ascending, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
@@ -322,6 +440,12 @@ public class Model implements ModelInterface {
         }
         return filteredPitchers;
     }
+    /**
+     * Add batter filtered from loader lineup to batter lineup.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param filterString ex: "Austin Shenton to 3", "1 to 9"
+     * @param filteredBatters filteredBatters from batterFilter()
+     */
     public void addBatterToLineup(Side side, String filterString, Stream<Batter> filteredBatters) {
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addBatterToTeam(filterString, filteredBatters);
@@ -329,6 +453,12 @@ public class Model implements ModelInterface {
             this.comTeam.addBatterToTeam(filterString, filteredBatters);
         }
     }
+    /**
+     * Add pitcher filtered from loader lineup to pitcher lineup.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param filterString ex: "Carlos Rodón to 1", "12 to 1"
+     * @param filteredPitchers filteredPitchers from pitcherFilter()
+     */
     public void addPitcherToLineup(Side side, String filterString, Stream<Pitcher> filteredPitchers) {
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addPitcherToTeam(filterString, filteredPitchers);
@@ -336,6 +466,12 @@ public class Model implements ModelInterface {
             this.comTeam.addPitcherToTeam(filterString, filteredPitchers);
         }
     }
+    /**
+     * Remove pitcher or batter from pitcher or batter lineup.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param position ex: "batter", "pitcher"
+     * @param filerString ex: "1-3", "all", "Carlos Rodón", "1"
+     */
     public void removeFromLineup(Side side, String position, String filerString) {
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.removeFromTeam(filerString, position);
@@ -343,6 +479,11 @@ public class Model implements ModelInterface {
             this.comTeam.removeFromTeam(filerString, position);
         }
     }
+    /**
+     * Clear pitcher or batter lineup.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param position ex: "batter", "pitcher"
+     */
     public void clearLineup(Side side, String position) {
         if (side.equals(Side.PLAYER)) {
             if (position.equals("batter")) {
@@ -358,7 +499,15 @@ public class Model implements ModelInterface {
             }
         }
     }
+    /**
+     * Start simulation.
+     * @return SimulationResult
+     */
     public SimulationResult startSimAndGetResult() {
+        // if there are null space in pitcher or batter lineup
+        // the simulation will not be started
+        // return null so that user don't have to start all over again
+        // they can finish where they left and procceed to start simulator
         if (this.playerTeam.checkBatterLineupSpace() > 0 ||
             this.comTeam.checkPitcherLineupSpace() > 0) {
             System.out.println("Simulation failed.");
@@ -369,6 +518,11 @@ public class Model implements ModelInterface {
         this.gameResult = game.runSimulation();
         return this.gameResult;
     }
+    /**
+     * Convert lineup to a String list.
+     * @param lineup pitcher or batter lineup
+     * @return List<String>
+     */
     public List<String> convertLineupToString(List<? extends Player> lineup) {
         List<String> lineupList =  new ArrayList<>();
         for (Player player : lineup) {
@@ -381,6 +535,12 @@ public class Model implements ModelInterface {
         }
         return lineupList;
     }
+    /**
+     * Convert lineup to a String list.
+     * @param side Side enum: PLAYER, COMPUTER
+     * @param filename a txt file path
+     * @param lineup pitcher or batter lineup
+     */
     public void saveLineupAsTXTFile(Side side, String filename, List<? extends Player> lineup) {
         if (!filename.contains(".txt")) {
             throw new IllegalArgumentException("Save as txt file only.");
@@ -395,6 +555,10 @@ public class Model implements ModelInterface {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
+    /**
+     * Save game details to a txt file.
+     * @param filename a txt file path
+     */
     public void saveGameDetailsAsTXTFile(String filename) {
         if (!filename.contains(".txt")) {
             throw new IllegalArgumentException("Save as txt file only.");

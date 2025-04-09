@@ -74,6 +74,9 @@ public enum Teams {
         Random random = new Random();
         int index = random.nextInt(Teams.values().length);
         Teams rTeam = Teams.values()[index];
+        if (rTeam == Teams.MARINERS) {
+            rTeam = randomTeam();
+        }
         return rTeam;
     }
 
