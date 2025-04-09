@@ -366,10 +366,11 @@ public class Model implements ModelInterface {
         List<String> lineupList =  new ArrayList<>();
         for (Player player : lineup) {
             if (player == null) {
-                String nullText = "=====  (null) =====\n";
+                String nullText = "===== (null) =====\n";
                 lineupList.add(nullText);
+            } else {
+                lineupList.add(player.toString());
             }
-            lineupList.add(player.toString());
         }
         return lineupList;
     }
@@ -402,34 +403,6 @@ public class Model implements ModelInterface {
                 System.err.println("Error writing to file: " + e.getMessage());
             }
         }
-    }
-
-    public static void main(String[] args) {
-
-        Model model = new Model();
-        model.setPlayerTeam();
-        model.setComTeam(Teams.DODGERS);
-        model.getComTeamBatterLineup();
-        model.getComTeamBatterLoaderLineup();
-        // List<Pitcher> pitchers = model.getComTeamPitcherLineup();
-        Set<Pitcher> pitchers = model.getComTeamPitcherLoaderLineup();
-        Stream<Pitcher> pStream = model.filterSingleForPitcher("Pitches >= 1000", pitchers.stream());
-        // List<Pitcher> pitcherList = pStream.toList();
-        model.addPitcherToLineup(Side.COMPUTER, "Tyler Glasnow to 2", pStream);
-        List<Pitcher> pitcherlp = model.getComTeamPitcherLineup();
-        List<String> pList = model.convertLineupToString(pitcherlp);
-
-
-
-
-        model.getComTeamPitcherLoaderLineup();
-        model.getPlayerTeamBatterLineup();
-        model.getPlayerTeamBatterLoaderLineup();
-        model.getPlayerTeamPitcherLineup();
-        model.getPlayerTeamPitcherLoaderLineup();
-
-        // List<String> pList = model.convertLineupToString(pitchers);
-        
     }
 
 }
