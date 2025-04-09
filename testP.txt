@@ -1,0 +1,18 @@
+===== Tyler Glasnow (Pitcher) =====
+Role: Rotation=1
+Performance: Strikes=1309, Pitches=2012, StrikesRate=0.651, BallsRate=0.349
+Fastball Types: FourSeam=0.45, TwoSeam=0.0, Cutter=0.0, Sinker=0.087
+Breaking Types: Slider=0.277, Curve=0.186, Knuckle=0.0, Sweeper=0.0, Slurve=0.0
+Offspeed Types: SplitFinger=0.0, Changeup=0.0, Fork=0.0, Screw=0.0
+===== Alex Vesia (Pitcher) =====
+Role: Rotation=2
+Performance: Strikes=696, Pitches=1112, StrikesRate=0.626, BallsRate=0.374
+Fastball Types: FourSeam=0.632, TwoSeam=0.0, Cutter=0.0, Sinker=0.0
+Breaking Types: Slider=0.317, Curve=0.0, Knuckle=0.0, Sweeper=0.0, Slurve=0.0
+Offspeed Types: SplitFinger=0.0, Changeup=0.051, Fork=0.0, Screw=0.0
+===== Bobby Miller (Pitcher) =====
+Role: Rotation=2
+Performance: Strikes=637, Pitches=1054, StrikesRate=0.604, BallsRate=0.396
+Fastball Types: FourSeam=0.379, TwoSeam=0.0, Cutter=0.0, Sinker=0.136
+Breaking Types: Slider=0.096, Curve=0.19, Knuckle=0.0, Sweeper=0.0, Slurve=0.0
+Offspeed Types: SplitFinger=0.0, Changeup=0.199, Fork=0.0, Screw=0.0
