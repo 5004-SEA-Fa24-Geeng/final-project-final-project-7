@@ -41,6 +41,13 @@ public class Model implements ModelInterface {
     public Team getComTeam() {
         return this.comTeam;
     }
+    public List<String> getAllTeamName() {
+        List<String> enumStringList = new ArrayList<>();
+        for (Teams team: Teams.values()) {
+            enumStringList.add(team.getCmdName());
+        }
+        return enumStringList;
+    }
     public List<Batter> getPlayerTeamBatterLineup() {
         return this.playerTeam.getBatterLineup();
     }
