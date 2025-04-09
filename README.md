@@ -8,8 +8,8 @@ This readme should contain the following information:
 ## Group members
 
 - Derek Marion | [GitHub](https://github.com/derekmarion)
-- Vincent Liu | [GitHub]()
-- Max Yu | [GitHub]()
+- Huang Shou Liu (Vincent Liu) | [GitHub](https://github.com/VincentLiuGit)
+- Shang Ru Yu (Max Yu) | [GitHub](https://github.com/ShangRuYu)
 
 ## MLB Simulator
 
