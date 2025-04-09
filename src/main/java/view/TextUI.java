@@ -21,7 +21,9 @@ public class TextUI {
   public void displayHelp() {
     System.out.println("\n===== MLB SIMULATOR COMMANDS =====");
     System.out.println("PLAYER COMMANDS:");
-    System.out.println("  player show batter [name] - Show batter information");
+    System.out.println("  player show batter [name] - Show batter information"); // TODO: change this to player
+                                                                                 // show/add/remove
+                                                                                 // [name]
     System.out.println("  player show lineup        - Show current lineup");
     System.out.println("  player show all           - Show all available batters");
     System.out.println("  player add batter         - Add a batter to your team");
@@ -30,10 +32,11 @@ public class TextUI {
     System.out.println("  player filter [attribute] [value] [sort] [attribute] - Filter and sort player roster");
 
     System.out.println("\nCOMPUTER COMMANDS:");
-    System.out.println("  computer show [team]    - Show opponent team information");
+    System.out.println("  computer show [team]    - Show opponent team information"); // TODO: remove this, or implement
+                                                                                      // Team stats
     System.out.println("  computer show all       - Show all opponent team information");
     System.out.println("  computer select [team]  - Select a team to run simulation against");
-    System.out.println("  computer clear          - Clear team to run simulation against");
+    System.out.println("  computer clear          - Clear team to run simulation against"); // TODO: remove
 
     System.out.println("\nOTHER COMMANDS:");
     System.out.println("  help                  - Show this help message");
