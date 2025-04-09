@@ -14,7 +14,6 @@ import model.player.Player;
 public abstract class Team implements TeamInterface{
     private static final String DEFAULT_BATTER = "batter";
     private static final String DEFAULT_PITCHER = "pitcher";
-    private static final String DEFAULT_SORT_ON_NAME = "Name";
     private static final String ALL = "all";
     private String name;
     private Set<Batter> batterLoaderLineup;
@@ -29,7 +28,6 @@ public abstract class Team implements TeamInterface{
         this.pitcherLoaderLineup = this.loader.loadPitchers(teamName);
         this.batterLineup = Collections.nCopies(9, null);
         this.pitcherLineup = Collections.nCopies(3, null);
-        System.out.println(DEFAULT_SORT_ON_NAME);
     }
 
     public String getTeamName() {
@@ -165,8 +163,8 @@ public abstract class Team implements TeamInterface{
                                             .orElse(null);;
         }
         if (checkBatterInLineup(newBatter)) {
-            System.out.println(String.format("Cannot add %s.\n", newBatter.getName()));
-            System.out.println("Batter is already in the lineup.\n");
+            System.out.println(String.format("Cannot add %s.", newBatter.getName()));
+            System.out.println("Batter is already in the lineup.");
             return;
         }
         if (checkBatterLineupPosTaken(lineupPos)) {
@@ -210,14 +208,15 @@ public abstract class Team implements TeamInterface{
                                             .orElse(null);;
         }
         if (checkPitcherInLineup(newPitcher)) {
-            System.out.println(String.format("Cannot add %s.\n", newPitcher.getName()));
-            System.out.println("Pitcher is already in the lineup.\n");
+            System.out.println(String.format("Cannot add %s.", newPitcher.getName()));
+            System.out.println("Pitcher is already in the lineup.");
             return;
         }
         if (!checkPitcherInTheRightPlace(lineupPos, newPitcher)) {
-            System.out.println("Pitcher is in the wrong position.\n");
-            System.out.println(String.format("Cannot add %s to %d.\n", newPitcher.getName(), lineupPos));
-            System.out.println(String.format("Cause his rotation num is %d.\n", newPitcher.getRotation()));
+            System.out.println("Pitcher is in the wrong position.");
+            System.out.println(String.format("Cannot add %s to %d.", newPitcher.getName()
+                                                                            , Integer.parseInt(parts[1])));
+            System.out.println(String.format("Cause his rotation num is %d.", newPitcher.getRotation()));
             return;
         }
         if (checkPitcherLineupPosTaken(lineupPos)) {

@@ -354,8 +354,8 @@ public class Model implements ModelInterface {
     public SimulationResult startSimAndGetResult() {
         if (this.playerTeam.checkBatterLineupSpace() > 0 ||
             this.comTeam.checkPitcherLineupSpace() > 0) {
-            System.out.println("Simulation failed.\n");
-            System.out.println("Lineup is not completed.\n");
+            System.out.println("Simulation failed.");
+            System.out.println("Lineup is not completed.");
             return null;
         }
         Simulation game = new Simulation(this.playerTeam, this.comTeam);
@@ -404,6 +404,32 @@ public class Model implements ModelInterface {
         }
     }
 
+    public static void main(String[] args) {
 
+        Model model = new Model();
+        model.setPlayerTeam();
+        model.setComTeam(Teams.DODGERS);
+        model.getComTeamBatterLineup();
+        model.getComTeamBatterLoaderLineup();
+        // List<Pitcher> pitchers = model.getComTeamPitcherLineup();
+        Set<Pitcher> pitchers = model.getComTeamPitcherLoaderLineup();
+        Stream<Pitcher> pStream = model.filterSingleForPitcher("Pitches >= 1000", pitchers.stream());
+        // List<Pitcher> pitcherList = pStream.toList();
+        model.addPitcherToLineup(Side.COMPUTER, "Tyler Glasnow to 2", pStream);
+        List<Pitcher> pitcherlp = model.getComTeamPitcherLineup();
+        List<String> pList = model.convertLineupToString(pitcherlp);
+
+
+
+
+        model.getComTeamPitcherLoaderLineup();
+        model.getPlayerTeamBatterLineup();
+        model.getPlayerTeamBatterLoaderLineup();
+        model.getPlayerTeamPitcherLineup();
+        model.getPlayerTeamPitcherLoaderLineup();
+
+        // List<String> pList = model.convertLineupToString(pitchers);
+        
+    }
 
 }
