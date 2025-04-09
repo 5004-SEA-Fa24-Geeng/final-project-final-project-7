@@ -13,16 +13,29 @@ import model.player.Pitcher;
 import model.player.Player;
 
 public abstract class Team implements TeamInterface{
+    /** Default batter position. */
     private static final String DEFAULT_BATTER = "batter";
+    /** Default pitcher position. */
     private static final String DEFAULT_PITCHER = "pitcher";
+    /** Default all string for remomve method. */
     private static final String ALL = "all";
+    /** Team name. */
     private String name;
+    /** Batter loader lineup. */
     private Set<Batter> batterLoaderLineup;
+    /** Pitcher loader lineup. */
     private Set<Pitcher> pitcherLoaderLineup;
+    /** Batter lineup. */
     private List<Batter> batterLineup;
+    /** Pitcher lineup. */
     private List<Pitcher> pitcherLineup;
+    /** Loader to load team roster from csv. */
     private PlayerLoader loader = new PlayerLoader();
 
+    /**
+     * Team constructor which sets up team name, batter and pitcher lineup, batter and pitcher loader lineup.
+     * @param teamName ex: Teams.MARINERS
+     */
     public Team(Teams teamName) {
         this.name = teamName.getCmdName();
         this.batterLoaderLineup = this.loader.loadBatters(teamName);
@@ -30,22 +43,45 @@ public abstract class Team implements TeamInterface{
         this.batterLineup = new ArrayList<>(Collections.nCopies(9, null));
         this.pitcherLineup = new ArrayList<>(Collections.nCopies(3, null));
     }
-
+    /**
+     * Get team name.
+     * @return String
+     */
     public String getTeamName() {
         return this.name;
     }
+    /**
+     * Get batter lineup.
+     * @return List<Batter>
+     */
     public List<Batter> getBatterLineup() {
         return this.batterLineup;
     }
+    /**
+     * Get pitcher lineup.
+     * @return List<Pitcher>
+     */
     public List<Pitcher> getPitcherLineup() {
         return this.pitcherLineup;
     }
+    /**
+     * Get batter loader lineup.
+     * @return Set<Batter>
+     */
     public Set<Batter> getBatterLoaderLineup() {
         return this.batterLoaderLineup;
     }
+    /**
+     * Get pitcher loader lineup.
+     * @return Set<Pitcher>
+     */
     public Set<Pitcher> getPitcherLoaderLineup() {
         return this.pitcherLoaderLineup;
     }
+    /**
+     * Get batter from batter loader lineup.
+     * @return Batter
+     */
     public Batter getBatterFromLoader(String batterName) {
         Batter returnBatter = null;
         for (Batter batter : this.batterLoaderLineup) {
@@ -56,6 +92,10 @@ public abstract class Team implements TeamInterface{
         }
         return returnBatter;
     }
+    /**
+     * Get pitcher from pitcher loader lineup.
+     * @return Pitcher
+     */
     public Pitcher getPitcherFromLoader(String pitcherName) {
         Pitcher returnPitcher = null;
         for (Pitcher pitcher : this.pitcherLoaderLineup) {
@@ -66,26 +106,42 @@ public abstract class Team implements TeamInterface{
         }
         return returnPitcher;
     }
+    /** Clear batter lineup. */
     public void clearBatterLineup() {
         this.batterLineup.clear();
         this.batterLineup = new ArrayList<>(Collections.nCopies(9, null));
     }
+    /** Clear pitcher lineup. */
     public void clearPitcherLineup() {
         this.pitcherLineup.clear();
         this.pitcherLineup = new ArrayList<>(Collections.nCopies(3, null));
     }
-    public boolean checkBatterInLineup(Player batter) {
+    /**
+     * Check if the batter is in the batter lineup.
+     * @param batter
+     * @return boolean true if the batter is in the lineup, false if not
+     */
+    public boolean checkBatterInLineup(Batter batter) {
         if (this.batterLineup.contains(batter)) {
             return true;
         }
         return false;
     }
+    /**
+     * Check if the pitcher is in the pitcher lineup.
+     * @param pitcher
+     * @return boolean true if the pitcher is in the lineup, false if not
+     */
     public boolean checkPitcherInLineup(Pitcher pitcher) {
         if (this.pitcherLineup.contains(pitcher)) {
             return true;
         }
         return false;
     }
+    /**
+     * Check null space in the batter lineup.
+     * @return int null space count
+     */
     public int checkBatterLineupSpace() {
         int cnt = 0;
         for (Player batter: this.batterLineup) {
@@ -95,6 +151,27 @@ public abstract class Team implements TeamInterface{
         }
         return cnt;
     }
+    /**
+     * Check null space in the pitcher lineup.
+     * @return int null space count
+     */
+    public int checkPitcherLineupSpace() {
+        int cnt = 0;
+        for (Player pitcher: this.pitcherLineup) {
+            if (pitcher == null) {
+                cnt+=1;
+            }
+        }
+        return cnt;
+    }
+    /**
+     * Check if the added pitcher is in the right spot of the pitcher lineup.
+     * Pitchers' with rotation 1 cannot be added to any spot of the lineup other than the first spot.
+     * Pitchers' with rotation 2 cannot be added to any spot of the lineup other than the second and third spot.
+     * @param lineupPos index for the pitcher lineup
+     * @param pitcher the pitcher added to the pitcher lineup
+     * @return boolean
+     */
     public boolean checkPitcherInTheRightPlace(int lineupPos, Pitcher pitcher) {
         int rotation = pitcher.getRotation();
         // lineupPos is an index number, so we need to add 1 to match rotation number
@@ -108,15 +185,11 @@ public abstract class Team implements TeamInterface{
         }
         return true;
     }
-    public int checkPitcherLineupSpace() {
-        int cnt = 0;
-        for (Player pitcher: this.pitcherLineup) {
-            if (pitcher == null) {
-                cnt+=1;
-            }
-        }
-        return cnt;
-    }
+    /**
+     * Add batter to the batter lineup.
+     * @param str ex: "Austin Shenton to 3", "1 to 9"
+     * @param filteredBatters filteredBatters from Model.batterFilter()
+     */
     public void addBatterToTeam(String str, Stream<Batter> filteredBatters) {
 
         if (checkBatterLineupSpace() == 0) {
@@ -158,6 +231,11 @@ public abstract class Team implements TeamInterface{
         }
         this.batterLineup.set(lineupPos, newBatter);
     }
+    /**
+     * Add pitcher to the pitcher lineup.
+     * @param str ex: "Carlos Rodón to 1", "12 to 1"
+     * @param filteredPitchers filteredPitchers from Model.pitcherFilter()
+     */
     public void addPitcherToTeam(String str, Stream<Pitcher> filteredPitchers) {
 
         if (checkPitcherLineupSpace() == 0) {
@@ -206,6 +284,11 @@ public abstract class Team implements TeamInterface{
         }
         this.pitcherLineup.set(lineupPos, newPitcher);
     }
+    /**
+     * remove batter or pitcher from the lineup.
+     * @param str "1-3", "all", "Carlos Rodón", "1"
+     * @param position ex: "batter", "pitcher"
+     */
     public void removeFromTeam(String str, String position) {
         
         // List is empty then do nothing
