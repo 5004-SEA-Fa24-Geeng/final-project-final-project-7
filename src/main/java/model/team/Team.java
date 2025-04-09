@@ -1,5 +1,6 @@
 package model.team;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -26,8 +27,8 @@ public abstract class Team implements TeamInterface{
         this.name = teamName.getCmdName();
         this.batterLoaderLineup = this.loader.loadBatters(teamName);
         this.pitcherLoaderLineup = this.loader.loadPitchers(teamName);
-        this.batterLineup = Collections.nCopies(9, null);
-        this.pitcherLineup = Collections.nCopies(3, null);
+        this.batterLineup = new ArrayList<>(Collections.nCopies(9, null));
+        this.pitcherLineup = new ArrayList<>(Collections.nCopies(3, null));
     }
 
     public String getTeamName() {
@@ -81,18 +82,6 @@ public abstract class Team implements TeamInterface{
     }
     public boolean checkPitcherInLineup(Pitcher pitcher) {
         if (this.pitcherLineup.contains(pitcher)) {
-            return true;
-        }
-        return false;
-    }
-    public boolean checkBatterLineupPosTaken(int lineupNum) {
-        if (this.batterLineup.get(lineupNum) != null) {
-            return true;
-        }
-        return false;
-    }
-    public boolean checkPitcherLineupPosTaken(int lineupNum) {
-        if (this.pitcherLineup.get(lineupNum) != null) {
             return true;
         }
         return false;
@@ -160,18 +149,14 @@ public abstract class Team implements TeamInterface{
             newBatter = filteredBatters.filter(batter -> batter.getName()
                                             .toLowerCase().contains(name))
                                             .findFirst()
-                                            .orElse(null);;
+                                            .orElse(null);
         }
         if (checkBatterInLineup(newBatter)) {
             System.out.println(String.format("Cannot add %s.", newBatter.getName()));
             System.out.println("Batter is already in the lineup.");
             return;
         }
-        if (checkBatterLineupPosTaken(lineupPos)) {
-            this.batterLineup.set(lineupPos, newBatter);
-        } else {
-            this.batterLineup.add(lineupPos, newBatter);
-        }
+        this.batterLineup.set(lineupPos, newBatter);
     }
     public void addPitcherToTeam(String str, Stream<Pitcher> filteredPitchers) {
 
@@ -205,7 +190,7 @@ public abstract class Team implements TeamInterface{
             newPitcher = filteredPitchers.filter(pitcher -> pitcher.getName()
                                             .toLowerCase().contains(name))
                                             .findFirst()
-                                            .orElse(null);;
+                                            .orElse(null);
         }
         if (checkPitcherInLineup(newPitcher)) {
             System.out.println(String.format("Cannot add %s.", newPitcher.getName()));
@@ -219,11 +204,7 @@ public abstract class Team implements TeamInterface{
             System.out.println(String.format("Cause his rotation num is %d.", newPitcher.getRotation()));
             return;
         }
-        if (checkPitcherLineupPosTaken(lineupPos)) {
-            this.pitcherLineup.set(lineupPos, newPitcher);
-        } else {
-            this.pitcherLineup.add(lineupPos, newPitcher);
-        }
+        this.pitcherLineup.set(lineupPos, newPitcher);
     }
     public void removeFromTeam(String str, String position) {
         
@@ -253,8 +234,7 @@ public abstract class Team implements TeamInterface{
             int secondNum = Integer.parseInt(rangeNum[1]) - 1;  
             // if secondNum > the size of this.gameList, then we remove all the way to the last element
             secondNum = Math.min(secondNum, listCount);
-            if (firstNum < 0 || secondNum < 0 || firstNum > secondNum 
-                || firstNum > listCount || secondNum > listCount) {
+            if (firstNum < 0 || secondNum < 0 || firstNum > secondNum || firstNum > listCount) {
                 throw new IllegalArgumentException("Invalid range number!");
             } else {
                 // +1 cuz the second parameter of sublist is exclusive
@@ -297,13 +277,15 @@ public abstract class Team implements TeamInterface{
                 if (position.equals(DEFAULT_BATTER)) {
                     for (Batter batter : this.batterLineup) {
                         if (batter.getName().toLowerCase().contains(name)) {
-                            batter = null;
+                            int index = this.batterLineup.indexOf(batter);
+                            this.batterLineup.set(index, null);
                         }
                     }
                 } else if (position.equals(DEFAULT_PITCHER)) {
                     for (Pitcher pitcher : this.pitcherLineup) {
                         if (pitcher.getName().toLowerCase().contains(name)) {
-                            pitcher = null;
+                            int index = this.pitcherLineup.indexOf(pitcher);
+                            this.pitcherLineup.set(index, null);
                         }
                     }
                 }
