@@ -1,16 +1,14 @@
 package model.simulation;
 
-import gameEnum.Teams;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class SimulationResult {
     private int playerTeamScore;
     private String playerTeamName;
+    private String comTeamName;
     private String details;
     private int[] inningScores;
-    private Teams opponentTeam;
 
 
     private int totalPitchesThrown = 0;
@@ -25,26 +23,33 @@ public class SimulationResult {
     private int totalWalks = 0;
 
     /**
-     * Default constructor for SimulationResult.
+     * Constructor with computer team
+     * @param comTeamName The opponent team enum
      */
-    public SimulationResult() {
+    public SimulationResult(String playerTeamName, String comTeamName) {
+        this.playerTeamName = playerTeamName;
+        this.comTeamName = comTeamName;
         this.playerTeamScore = 0;
         this.details = "";
         this.inningScores = new int[9];
-        this.opponentTeam = null;
     }
 
     /**
-     * Constructor with opponent team
-     * @param opponentTeam The opponent team enum
+     * Get the player team.
+     * @return The player team enum
      */
-    public SimulationResult(Teams opponentTeam) {
-        this.opponentTeam = opponentTeam;
+    public String getPlayerTeamName() {
+        return playerTeamName;
     }
 
-    public void setPlayerTeamName(String name) {
-        this.playerTeamName = name;
+    /**
+     * Get the computer team.
+     * @return The computer team enum
+     */
+    public String getComTeamName() {
+        return comTeamName;
     }
+
 
     /**
      * Set the Mariners total score.
@@ -92,22 +97,6 @@ public class SimulationResult {
      */
     public int[] getInningScores() {
         return inningScores;
-    }
-
-    /**
-     * Set the opponent team.
-     * @param team The opponent team enum
-     */
-    public void setOpponentTeam(Teams team) {
-        this.opponentTeam = team;
-    }
-
-    /**
-     * Get the opponent team.
-     * @return The opponent team enum
-     */
-    public Teams getOpponentTeam() {
-        return opponentTeam;
     }
 
     /**

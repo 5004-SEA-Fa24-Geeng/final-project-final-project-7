@@ -6,6 +6,7 @@ import gameEnum.Outs;
 import gameEnum.Strikes;
 import model.player.Pitcher;
 import model.player.Batter;
+import model.team.Team;
 
 import java.util.*;
 
@@ -18,7 +19,6 @@ public class RegularInning implements Inning{
     private Random random = new Random();
 
     private Pitcher currentPitcher;
-    private List<Batter> lineup;
     private int currentBatterIndex;
     private int battersFaced;
 
@@ -74,15 +74,19 @@ public class RegularInning implements Inning{
 
     /**
      * Runs a full inning with batter lineup, ends the inning when 3 outs.
-     * @param lineup List of batters
-     * @return The score of this inning
+     * @param playerTeam The team contains batter lineup
+     * @param currentBatterIndex The current batter index in lineup
+     * @return The run score in the inning
      */
-    @Override
-    public int runInning(List<Batter> lineup) {
+    public int runInning(Team playerTeam, int currentBatterIndex) {
         resetInning();
-        this.lineup = lineup;
-        this.currentBatterIndex = 0;
+        List<Batter> lineup = playerTeam.getBatterLineup();
+        this.currentBatterIndex = currentBatterIndex;
         int score = 0;
+
+        if (lineup.size() != 9) {
+            throw new IllegalStateException("Batting lineup should be 9 batters!");
+        }
 
         while (outs < Outs.THREE.ordinal() + 1) {
             if (currentBatterIndex >= lineup.size()) {
@@ -336,7 +340,7 @@ public class RegularInning implements Inning{
      * @param hitType The type of hit
      * @return The number of scores made by the hit
      */
-    private int advanceRunners(Hits hitType) {
+    protected int advanceRunners(Hits hitType) {
         int runs = 0;
 
         switch (hitType) {
@@ -369,7 +373,7 @@ public class RegularInning implements Inning{
      * Simulate the batter gets the walk. Update and calculate the bases.
      * @return The number of scores made by the walk
      */
-    private int advanceRunnersOnWalk() {
+    protected int advanceRunnersOnWalk() {
         int runs = 0;
 
         if (bases[1] == 1 && bases[2] == 1 && bases[3] == 1) {
