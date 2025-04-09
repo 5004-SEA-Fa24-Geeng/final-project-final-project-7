@@ -29,6 +29,10 @@ replay_pid*
 build
 bin
 
-# ingore ide files
 .vscode
-idea/
+# ingore ide files
+idea/.classpath
+.project
+.settings
+.classpath
+.idea/
