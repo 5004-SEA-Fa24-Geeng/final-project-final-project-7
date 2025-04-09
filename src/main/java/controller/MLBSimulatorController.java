@@ -1,11 +1,13 @@
 package controller;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 // Imports will need to be replaced in production
-import controller.stubs.*;
-import view.stubs.*;
+import controller.stubs.Model;
+import controller.stubs.Side;
 import view.TextUI;
+import view.stubs.PlayerStub;
 
 /**
  * Controller for the MLB Simulator application
@@ -15,7 +17,9 @@ public class MLBSimulatorController {
   private TextUI view;
   private boolean running;
   private Model model;
-  // TODO: Do we want filters to be progressive? If so we'll need to store here
+  // TODO: Implement progressive filtering via these
+  private Stream<Player> filteredBatters;
+  private Stream<Player> filteredPitchers;
 
   public MLBSimulatorController() {
     this.view = new TextUI();
@@ -103,6 +107,7 @@ public class MLBSimulatorController {
 
         String batterName = extractBatterName(parts);
         // FIX: Why does addBatterToLineup take a Stream? Is this for progressive filtering?
+      // NOTE: pass in current filtered stream
         model.addBatterToLineup(Side.PLAYER, );
         break;
 
@@ -190,7 +195,7 @@ public class MLBSimulatorController {
 
     switch (parts[2].toLowerCase()) {
       case "lineup":
-        // TODO: implement this method or call playerTeam direclty
+        // TODO: implement this method or call playerTeam direclty: solved
         view.displayPlayers(model.getPlayerTeamBatterLineup());
         break;
 
@@ -255,7 +260,7 @@ public class MLBSimulatorController {
 
         if (parts[2].equalsIgnoreCase("all")) {
           // TODO: We need a model or enum
-          // method to show all the teams
+          // method to show all the teams: solved
           view.displayAllTeams(model.getAllTeams());
         } else {
           String teamName = parts[2];
@@ -270,7 +275,7 @@ public class MLBSimulatorController {
           return;
         }
 
-        try { // NOTE: how are pitchers selected?
+        try { // NOTE: how are pitchers selected? needs to be manual
           String teamName = Teams.fromString(parts[2]);
           model.setComTeam(teamName);
         } catch (IllegalArgumentException e) {
@@ -284,4 +289,7 @@ public class MLBSimulatorController {
         break;
     }
   }
+
+  // TODO: Add controller options to run multiple simulations
+  // TODO: Add controller options for selecting pitcher lineup
 }
