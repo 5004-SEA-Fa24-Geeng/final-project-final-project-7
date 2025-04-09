@@ -59,6 +59,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Turns Teams enums into String List and get that list.
+     * CMD: computer show all
      * @return List<String>
      */    
     public List<String> getAllTeamName() {
@@ -70,6 +71,7 @@ public class Model implements ModelInterface {
     }
     /**
      * player's BatterLineup getter.
+     * CMD: player show lineup
      * @return List<Batter>
      */     
     public List<Batter> getPlayerTeamBatterLineup() {
@@ -77,6 +79,7 @@ public class Model implements ModelInterface {
     }
     /**
      * player's PitcherLineup getter.
+     * CMD: player show lineup
      * @return List<Pitcher>
      */ 
     public List<Pitcher> getPlayerTeamPitcherLineup() {
@@ -84,6 +87,7 @@ public class Model implements ModelInterface {
     }
     /**
      * com's BatterLineup getter.
+     * CMD: computer show lineup
      * @return List<Batter>
      */   
     public List<Batter> getComTeamBatterLineup() {
@@ -91,6 +95,7 @@ public class Model implements ModelInterface {
     }
     /**
      * com's PitcherLineup getter.
+     * CMD: computer show lineup
      * @return List<Pitcher>
      */ 
     public List<Pitcher> getComTeamPitcherLineup() {
@@ -98,6 +103,7 @@ public class Model implements ModelInterface {
     }
     /**
      * player's BatterLoaderLineup getter.
+     * CMD: player show batter [name]
      * @return Set<Batter>
      */ 
     public Set<Batter> getPlayerTeamBatterLoaderLineup() {
@@ -112,6 +118,7 @@ public class Model implements ModelInterface {
     }
     /**
      * com's BatterLoaderLineup getter.
+     * CMD: computer show batter [name]
      * @return Set<Batter>
      */ 
     public Set<Batter> getComTeamBatterLoaderLineup() {
@@ -141,6 +148,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Set comTeam with any enum in Teams.
+     * CMD: computer select [team]
      * @param teamName enum in Teams
      */
     public void setComTeam(Teams teamName) {
@@ -149,6 +157,7 @@ public class Model implements ModelInterface {
     /**
      * Use side to indicate which side's loader should the method look in to.
      * And use the batterName to get the batter user asked for.
+     * CMD: player show batter [name]
      * @param side Side enum: PLAYER, COMPUTER
      * @param batterName batter's name
      * @return Batter from loader
@@ -165,6 +174,7 @@ public class Model implements ModelInterface {
     /**
      * Use side to indicate which side's loader should the method look in to.
      * And use the pitcherName to get the pitcher user asked for.
+     * CMD: computer show pitcher [name]
      * @param side Side enum: PLAYER, COMPUTER
      * @param batterName pitcher's name
      * @return Pitcher from loader
@@ -196,6 +206,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string and loader linup to get the filtered results.
+     * CMD: player filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "TotalPA >= 100"
      * @param batterLoaderLineup batterLoaderLineup that we get from Team class.
      * @return Stream<Batter> filterd batters
@@ -211,6 +222,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
+     * CMD: player filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "TotalPA >= 100"
      * @param sortOn ex: PlayerData.OPS
      * @param batterLoaderLineup batterLoaderLineup that we get from Team class.
@@ -227,6 +239,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
+     * CMD: player filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "TotalPA >= 100"
      * @param sortOn ex: PlayerData.OPS
      * @param ascending true if ascending, false if descending
@@ -245,6 +258,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string and loader linup to get the filtered results.
+     * CMD: computer filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "Pitches >= 1000"
      * @param pitcherLoaderLineup pitcherLoaderLineup that we get from Team class.
      * @return Stream<Pitcher> filterd pitchers
@@ -260,6 +274,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
+     * CMD: computer filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "Pitches >= 1000"
      * @param sortOn ex: PlayerData.FOURSEAM
      * @param pitcherLoaderLineup pitcherLoaderLineup that we get from Team class.
@@ -276,6 +291,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
+     * CMD: computer filter [attribute] [value] [sort] [attribute]
      * @param filter ex: "Pitches >= 1000"
      * @param sortOn ex: PlayerData.FOURSEAM
      * @param ascending true if ascending, false if descending
@@ -442,6 +458,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Add batter filtered from loader lineup to batter lineup.
+     * CMD: player add batter
      * @param side Side enum: PLAYER, COMPUTER
      * @param filterString ex: "Austin Shenton to 3", "1 to 9"
      * @param filteredBatters filteredBatters from batterFilter()
@@ -455,6 +472,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Add pitcher filtered from loader lineup to pitcher lineup.
+     * CMD: computer add pitcher
      * @param side Side enum: PLAYER, COMPUTER
      * @param filterString ex: "Carlos Rodón to 1", "12 to 1"
      * @param filteredPitchers filteredPitchers from pitcherFilter()
@@ -468,6 +486,8 @@ public class Model implements ModelInterface {
     }
     /**
      * Remove pitcher or batter from pitcher or batter lineup.
+     * CMD: player remove batter
+     * CMD: computer remove pitcher
      * @param side Side enum: PLAYER, COMPUTER
      * @param position ex: "batter", "pitcher"
      * @param filerString ex: "1-3", "all", "Carlos Rodón", "1"
@@ -481,6 +501,8 @@ public class Model implements ModelInterface {
     }
     /**
      * Clear pitcher or batter lineup.
+     * CMD: player clear
+     * CMD: computer clear
      * @param side Side enum: PLAYER, COMPUTER
      * @param position ex: "batter", "pitcher"
      */
@@ -501,6 +523,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Start simulation.
+     * CMD: simulate
      * @return SimulationResult
      */
     public SimulationResult startSimAndGetResult() {
@@ -537,6 +560,8 @@ public class Model implements ModelInterface {
     }
     /**
      * Convert lineup to a String list.
+     * CMD: player save batter lineup
+     * CMD: computer save pitcher lineup
      * @param side Side enum: PLAYER, COMPUTER
      * @param filename a txt file path
      * @param lineup pitcher or batter lineup
@@ -557,6 +582,7 @@ public class Model implements ModelInterface {
     }
     /**
      * Save game details to a txt file.
+     * CMD: save gameDetails
      * @param filename a txt file path
      */
     public void saveGameDetailsAsTXTFile(String filename) {
