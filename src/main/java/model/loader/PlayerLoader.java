@@ -20,14 +20,21 @@ import model.player.Pitcher;
 public class PlayerLoader implements Loader{
     /** Standard csv delim. */
     private static final String DELIMITER = ",";
-    /** default location of collection - relative to the resources directory. */
+    /** Default location of collection - relative to the resources directory. */
     private static final String DEFAULT_BATTER_DIR= "/BatterDataConvert/";
     private static final String DEFAULT_PITCHER_DIR= "/PitcherDataConvert/";
+    /** Default batter position. */
     private static final String DEFAULT_BATTER_POS= "batter";
+    /** Default pitcher position. */
     private static final String DEFAULT_PITCHER_POS= "pitcher";
 
+    /** Constructor for PlayerLoader.*/
     public PlayerLoader() { };
-
+    /**
+     * Load batters from MARINERS csv.
+     * @param teamName enum in Teams
+     * @return Set<Batter>
+     */
     @Override
     public Set<Batter> loadBatters(Teams teamName) {
         Set<Batter> batters = null;
@@ -37,6 +44,11 @@ public class PlayerLoader implements Loader{
         }
         return batters;
     }
+    /**
+     * Load pitchers from any csv other than MARINERS.
+     * @param teamName enum in Teams
+     * @return Set<Pitcher>
+     */
     @Override
     public Set<Pitcher> loadPitchers(Teams teamName) {
         Set<Pitcher> pitchers = null;
@@ -46,18 +58,29 @@ public class PlayerLoader implements Loader{
         }
         return pitchers;
     }
+    /**
+     * Get team csv file path.
+     * @param position ex: "batter", "pitcher"
+     * @param teamName enum in Teams
+     * @return
+     */
     private String getFilePath(String position, Teams teamName) {
         String filePath = null;
-        if (position.equals("batter")) {
+        if (position.equals(DEFAULT_BATTER_POS)) {
             if (!teamName.equals(Teams.MARINERS)) {
                 throw new IllegalArgumentException("Only Mariners' batter lineup available for now.");
             }
             filePath = DEFAULT_BATTER_DIR + "Mariners-batter-convert.csv";
-        } else if (position.equals("pitcher")) {
+        } else if (position.equals(DEFAULT_PITCHER_POS)) {
             filePath = DEFAULT_PITCHER_DIR + teamName.getCmdName() + "-pitcher-convert.csv";
         }
         return filePath;
     }
+    /**
+     * Get batters from csv file.
+     * @param filePath Team csv file path
+     * @return Set<Batter>
+     */
     private Set<Batter> loadBatterFromFile(String filePath) {
         Set<Batter> batters = new HashSet<>();
 
@@ -81,7 +104,11 @@ public class PlayerLoader implements Loader{
                         .filter(batter -> batter != null).collect(Collectors.toSet());
         return batters;
     }
-
+    /**
+     * Get pitchers from csv file.
+     * @param filePath Team csv file path
+     * @return Set<Pitcher>
+     */
     private Set<Pitcher> loadPitcherFromFile(String filePath) {
         Set<Pitcher> pitchers = new HashSet<>();
 
@@ -105,13 +132,11 @@ public class PlayerLoader implements Loader{
                         .filter(pitcher -> pitcher != null).collect(Collectors.toSet());
         return pitchers;
     }
-
     /**
-     * Converts a line from the csv file into a BoardGame object.
-     * 
+     * Converts a line from the csv file into a Pitcher object.
      * @param line      the line to convert
      * @param columnMap the map of columns to index
-     * @return a BoardGame object
+     * @return Pitcher
      */
     @Override
     public Pitcher toPitcher(String line, Map<PlayerData, Integer> columnMap) {
@@ -146,13 +171,11 @@ public class PlayerLoader implements Loader{
             return null;
         }
     }
-
     /**
-     * Converts a line from the csv file into a BoardGame object.
-     * 
+     * Converts a line from the csv file into a Batter object.
      * @param line      the line to convert
      * @param columnMap the map of columns to index
-     * @return a BoardGame object
+     * @return Batter
      */
     @Override
     public Batter toBatter(String line, Map<PlayerData, Integer> columnMap) {
@@ -200,14 +223,8 @@ public class PlayerLoader implements Loader{
             return null;
         }
     }
-
     /**
      * Processes the header line to determine the column mapping.
-     * 
-     * It is common to do this for csv files as the columns can be in any order.
-     * This makes it order independent by taking a moment to link the columns
-     * with their actual index in the file.
-     * 
      * @param header the header line
      * @return a map of column to index
      */
