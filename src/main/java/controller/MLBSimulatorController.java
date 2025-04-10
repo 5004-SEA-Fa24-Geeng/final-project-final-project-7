@@ -154,7 +154,12 @@ public class MLBSimulatorController {
       return;
     }
 
-    // TODO: Add filter reset command
+    // Reset the filtered batters
+    if (parts[2] == "reset") {
+      filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
+      view.displayMessage("Filter reset.");
+      return;
+    }
 
     // Start by reassembling the entire filter string (everything after "player
     // filter")
@@ -290,7 +295,7 @@ public class MLBSimulatorController {
           return;
         }
 
-        if (parts[2].equalsIgnoreCase("all")) {
+        if (parts[2].equalsIgnoreCase("teams")) {
           view.displayAllTeams(model.getAllTeamName());
         } else { // Assume a team name was provided
           String teamName = parts[2];
