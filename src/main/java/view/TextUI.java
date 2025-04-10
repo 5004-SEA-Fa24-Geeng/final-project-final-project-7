@@ -44,7 +44,8 @@ public class TextUI {
 
     System.out.println("\nOTHER COMMANDS:");
     System.out.println("  help                  - Show this help message");
-    System.out.println("  simulate              - Run a game simulation");
+    System.out.println(
+        "  simulate -n [number] -o [outfile] - Run [number] game simulations and write to file [outfile]. If no options are provided, 1 simulation will be run and printed to console.");
     System.out.println("  exit                  - Exit the program");
   }
 
@@ -100,8 +101,12 @@ public class TextUI {
    */
   public void displaySimulationResult(SimulationResult simulationResult) {
     String details = simulationResult.getDetails();
+    String totalStatistics = simulationResult.getTotalStatistics();
+    String toString = simulationResult.toString();
 
+    System.out.println(toString);
     System.out.println(details);
+    System.out.println(totalStatistics);
   }
 
   /**
