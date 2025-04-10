@@ -149,8 +149,8 @@ public class MLBSimulatorController {
   }
 
   private void handlePlayerFilterCommand(String[] parts) {
-    if (parts.length < 3) {
-      view.displayError("Invalid filter command. Requires valid filter at minimum.");
+    if (parts.length < 3) { // if no args, show current filter
+      view.displayBatters(filteredBatters.toList());
       return;
     }
 
