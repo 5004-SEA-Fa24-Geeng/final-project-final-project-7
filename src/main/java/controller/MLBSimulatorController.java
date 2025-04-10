@@ -8,7 +8,7 @@ import gameEnum.Side;
 import gameEnum.Teams;
 import model.Model;
 import model.player.Batter;
-import model.player.Player;
+import model.player.Pitcher;
 import model.simulation.SimulationResult;
 import view.TextUI;
 
@@ -21,7 +21,7 @@ public class MLBSimulatorController {
   private boolean running;
   private Model model;
   private Stream<Batter> filteredBatters;
-  private Stream<Player> filteredPitchers;
+  private Stream<Pitcher> filteredPitchers;
 
   // used for remove commands
   private static final String PITCHER = "pitcher";
@@ -226,6 +226,7 @@ public class MLBSimulatorController {
    * @param parts The command parts
    */
   private void handlePlayerShowCommand(String[] parts) {
+    // TODO: extract the below check to method
     if (parts.length < 3) {
       view.displayError("Invalid player show command. Type 'help' for available commands.");
       return;
@@ -257,8 +258,6 @@ public class MLBSimulatorController {
     }
   }
 
-  // TODO: generalize this to get anything after player show/add/remove and
-  // computer/show/add/remove
   /**
    * Reconstruct the remainder of the command as a single string
    * Starts at index 2, so extracts [command] from player/computer show/add/remove
@@ -326,6 +325,10 @@ public class MLBSimulatorController {
         try {
           Teams comTeam = Teams.fromCmdName(teamName);
           model.setComTeam(comTeam);
+
+          // Add pitchers for team to filterePitchers
+          filteredPitchers = model.getComTeamPitcherLoaderLineup().stream();
+
         } catch (IllegalArgumentException e) {
           view.displayMessage(e.getMessage());
         }
@@ -333,6 +336,13 @@ public class MLBSimulatorController {
         break;
 
       case "add":
+        if (parts.length < 3) {
+          view.displayError("Please specify a pitcher and postion.");
+          return;
+        }
+        // NOTE:: Do we need error handling here?
+        String command = extractCommand(parts);
+        model.addBatterToLineup(Side.COMPUTER, command, filteredBatters);
 
       case "remove":
 
