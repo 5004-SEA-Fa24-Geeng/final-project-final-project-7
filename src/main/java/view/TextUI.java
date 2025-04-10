@@ -41,7 +41,6 @@ public class TextUI {
         "  computer add [name/number] to [pos]  - Add pitcher [name/number] to position [pos]. ex: 'computer add Carlos Rodón to 1' or 'computer add 12 to 1'");
     System.out.println(
         "  computer remove [name/number/range]  - Remove pitcher [name/number/range]. ex: '1-3', 'all', 'Carlos Rodón', '1'");
-    System.out.println("  computer clear          - Clear current pitcher lineup");
 
     System.out.println("\nOTHER COMMANDS:");
     System.out.println("  help                  - Show this help message");
