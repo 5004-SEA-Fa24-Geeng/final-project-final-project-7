@@ -1,13 +1,16 @@
 package controller;
 
-import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-// Imports will need to be replaced in production
-import controller.stubs.Model;
-import controller.stubs.Side;
+import gameEnum.PlayerData;
+import gameEnum.Side;
+import gameEnum.Teams;
+import model.Model;
+import model.player.Batter;
+import model.player.Player;
+import model.simulation.SimulationResult;
 import view.TextUI;
-import view.stubs.PlayerStub;
 
 /**
  * Controller for the MLB Simulator application
@@ -17,14 +20,18 @@ public class MLBSimulatorController {
   private TextUI view;
   private boolean running;
   private Model model;
-  // TODO: Implement progressive filtering via these
-  private Stream<Player> filteredBatters;
+  private Stream<Batter> filteredBatters;
   private Stream<Player> filteredPitchers;
+
+  // used for remove commands
+  private static final String PITCHER = "pitcher";
+  private static final String BATTER = "batter";
 
   public MLBSimulatorController() {
     this.view = new TextUI();
     this.running = true;
     this.model = new Model();
+    this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
   }
 
   /**
@@ -68,7 +75,6 @@ public class MLBSimulatorController {
         break;
 
       case "simulate":
-        // TODO: implement this
         runSimulation();
         break;
 
@@ -80,6 +86,15 @@ public class MLBSimulatorController {
       default:
         view.displayError("Unknown command. Type 'help' for available commands.");
         break;
+    }
+  }
+
+  private void runSimulation() {
+    SimulationResult simulationResult = model.startSimAndGetResult();
+    if (simulationResult != null) {
+      view.displaySimulationResult(simulationResult);
+    } else {
+      view.displayError("Simulation failed, make sure to set com team, batter lineup, and pitcher lineup");
     }
   }
 
@@ -106,9 +121,7 @@ public class MLBSimulatorController {
         }
 
         String batterName = extractBatterName(parts);
-        // FIX: Why does addBatterToLineup take a Stream? Is this for progressive filtering?
-      // NOTE: pass in current filtered stream
-        model.addBatterToLineup(Side.PLAYER, );
+        model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters);
         break;
 
       case "remove":
@@ -117,11 +130,11 @@ public class MLBSimulatorController {
           return;
         }
         String batterName = extractBatterName(parts);
-        model.removeFromLineup(Side.PLAYER, Team.DEFAULT_BATTER, batterName);
+        model.removeFromLineup(Side.PLAYER, BATTER, batterName);
         break;
 
       case "clear":
-        model.clearLineup(Side.PLAYER, Team.DEFAULT_BATTER);
+        model.clearLineup(Side.PLAYER, BATTER);
         view.displayMessage("Batter lineup cleared.");
         break;
 
@@ -140,6 +153,9 @@ public class MLBSimulatorController {
       view.displayError("Invalid filter command. Requires valid filter at minimum.");
       return;
     }
+
+    // TODO: Add filter reset command
+
     // Start by reassembling the entire filter string (everything after "player
     // filter")
     StringBuilder filterBuilder = new StringBuilder();
@@ -172,13 +188,30 @@ public class MLBSimulatorController {
       }
       String sortAttribute = sortBuilder.toString().trim();
 
+      // Try to get the sortOn attribute from PlayerData
+      PlayerData sortOn = null;
+      try {
+        sortOn = PlayerData.fromColumnName(sortAttribute);
+      } catch (IllegalArgumentException e) {
+        view.displayMessage(e.getMessage());
+        return;
+      }
       // Call the method with both filter and sort
-      List<Batter> batters = model.batterFilter(filterCriteria, sortAttribute, model.getPlayerTeamBatterLoaderLineup());
-      view.displayPlayers(batters);
+      Stream<Batter> batters = model.batterFilter(filterCriteria, sortOn,
+          filteredBatters.collect(Collectors.toSet()));
+      // Update filtered batters
+      filteredBatters = batters;
+
+      // Display the filtered batters
+      view.displayBatters(batters.toList());
     } else {
       // Call the method with just filter
-      List<Batter> batters = model.batterFilter(filterCriteria, model.getPlayerTeamBatterLoaderLineup());
-      view.displayPlayers(batters);
+      Stream<Batter> batters = model.batterFilter(filterCriteria, model.getPlayerTeamBatterLoaderLineup());
+      // Update filtered batters
+      filteredBatters = batters;
+
+      // Display the filtered batters
+      view.displayBatters(batters.toList());
     }
   }
 
@@ -195,12 +228,11 @@ public class MLBSimulatorController {
 
     switch (parts[2].toLowerCase()) {
       case "lineup":
-        // TODO: implement this method or call playerTeam direclty: solved
-        view.displayPlayers(model.getPlayerTeamBatterLineup());
+        view.displayBatters(model.getPlayerTeamBatterLineup());
         break;
 
       case "all":
-        view.displayPlayers(model.getPlayerTeamBatterLoaderLineup());
+        view.displayBatters(model.getPlayerTeamBatterLoaderLineup().stream().toList());
         break;
 
       default: // Assume a batter name was provided
@@ -210,9 +242,9 @@ public class MLBSimulatorController {
         }
         String batterName = extractBatterName(parts);
 
-        PlayerStub player = model.getBatter(Side.PLAYER, batterName);
-        if (player != null) {
-          view.displayPlayerInfo(player);
+        Batter batter = model.getBatter(Side.PLAYER, batterName);
+        if (batter != null) {
+          view.displayPlayerInfo(batter);
         } else {
           view.displayError("Batter not found: " + batterName);
         }
@@ -259,13 +291,21 @@ public class MLBSimulatorController {
         }
 
         if (parts[2].equalsIgnoreCase("all")) {
-          // TODO: We need a model or enum
-          // method to show all the teams: solved
-          view.displayAllTeams(model.getAllTeams());
-        } else {
+          view.displayAllTeams(model.getAllTeamName());
+        } else { // Assume a team name was provided
           String teamName = parts[2];
-          // NOTE: this is not needed unless we have logic to show team information
-          // consider removing
+          Teams teamEnum = null;
+          try {
+            teamEnum = Teams.fromCmdName(teamName);
+          } catch (IllegalArgumentException e) {
+            view.displayMessage(e.getMessage());
+            return;
+          }
+          // Show pitcher loader lineup for team
+          Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
+          model.setComTeam(teamEnum); // Temporarily set com team
+          view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
+          model.setComTeam(previousComTeam); // Reset com team to what it was
         }
         break;
 
@@ -274,10 +314,10 @@ public class MLBSimulatorController {
           view.displayError("Please specify a team name.");
           return;
         }
-
-        try { // NOTE: how are pitchers selected? needs to be manual
-          String teamName = Teams.fromString(parts[2]);
-          model.setComTeam(teamName);
+        String teamName = parts[2];
+        try {
+          Teams comTeam = Teams.fromCmdName(teamName);
+          model.setComTeam(comTeam);
         } catch (IllegalArgumentException e) {
           view.displayMessage(e.getMessage());
         }
@@ -289,7 +329,6 @@ public class MLBSimulatorController {
         break;
     }
   }
-
   // TODO: Add controller options to run multiple simulations
   // TODO: Add controller options for selecting pitcher lineup
 }
