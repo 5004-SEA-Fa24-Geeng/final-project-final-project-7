@@ -95,51 +95,13 @@ public class TextUI {
   }
 
   /**
-   * Displays team information
-   * 
-   * @param teamName The name of the team
-   * @param players  List of players on the team
-   * @param stats    Team statistics
-   */
-  public void displayTeamInfo(Team team) {
-    String teamName = team.getName();
-    List<Player> players = team.getPlayers();
-    String stats = team.getStats();
-
-    System.out.println("\n===== TEAM: " + teamName + " =====");
-    System.out.println("\nROSTER:");
-    if (players.isEmpty()) {
-      System.out.println("No players on roster.");
-    } else {
-      for (Player player : players) {
-        System.out.println("- " + player);
-      }
-    }
-
-    System.out.println("\nTEAM STATS:");
-    System.out.println(stats);
-  }
-
-  /**
    * Displays simulation results
    * 
-   * @param homeTeam  Home team name
-   * @param awayTeam  Away team name
-   * @param homeScore Home team score
-   * @param awayScore Away team score
-   * @param details   Game details
+   * @param details Game details
    */
   public void displaySimulationResult(SimulationResult simulationResult) {
-    // TODO: remove summary and just use toString.
-    int homeScore = simulationResult.getMarinersScore();
-    int awayScore = simulationResult.getOpponentScore();
     String details = simulationResult.getDetails();
 
-    System.out.println("\n===== SIMULATION RESULTS =====");
-    System.out.println("Mariners : " + homeScore);
-    System.out.println("Away Team : " + awayScore);
-
-    System.out.println("\nGame Details:");
     System.out.println(details);
   }
 
