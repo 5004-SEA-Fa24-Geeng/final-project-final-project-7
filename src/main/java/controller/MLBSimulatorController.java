@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,6 +33,7 @@ public class MLBSimulatorController {
     this.view = new TextUI();
     this.running = true;
     this.model = new Model();
+    this.model.setPlayerTeam();
     this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
   }
 
@@ -75,7 +78,7 @@ public class MLBSimulatorController {
         break;
 
       case "simulate":
-        runSimulation();
+        runSimulation(parts);
         break;
 
       case "exit":
@@ -89,13 +92,81 @@ public class MLBSimulatorController {
     }
   }
 
-  private void runSimulation() {
-    SimulationResult simulationResult = model.startSimAndGetResult();
-    if (simulationResult != null) {
-      view.displaySimulationResult(simulationResult);
-    } else {
-      view.displayError("Simulation failed, make sure to set com team, batter lineup, and pitcher lineup");
+  // TODO: Add controller options to run multiple simulations
+  // TODO: Add controller options to save to file.
+
+  private void runSimulation(String[] parts) {
+    Map<String, String> simulateOptions = parseSimulateOptions(parts);
+
+    // Get number of simulations and outfile. Default 1 and null if not provided
+    int numberOfSimulations;
+    String outfile = simulateOptions.get("oufile");
+
+    // Safe type casting of integer
+    try {
+      numberOfSimulations = Integer.parseInt(simulateOptions.get("number"));
+    } catch (NumberFormatException e) {
+      view.displayError("Invalid number of simulations: " + simulateOptions.get("number"));
+      return;
     }
+
+    SimulationResult simulationResult = null;
+
+    if (outfile == null) {
+      for (int i = 0; i < numberOfSimulations; i++) {
+        simulationResult = model.startSimAndGetResult();
+        if (simulationResult != null) {
+          view.displaySimulationResult(simulationResult);
+        } else {
+          view.displayError("Simulation failed, make sure to set com team, batter lineup, and pitcher lineup");
+        }
+      }
+
+    } else {
+      for (int i = 0; i < numberOfSimulations; i++) {
+        simulationResult = model.startSimAndGetResult();
+        if (simulationResult != null) {
+          view.displaySimulationResult(simulationResult);
+          outfile = outfile + "_" + String.valueOf(i + 1);
+          model.saveGameDetailsAsTXTFile(outfile);
+        } else {
+          view.displayError("Simulation failed, make sure to set com team, batter lineup, and pitcher lineup");
+        }
+      }
+    }
+
+  }
+
+  /**
+   * Parses the simulate command options
+   * Handles: simulate -n [number] -o [outfile]
+   * 
+   * @param commandParts The command split into parts
+   * @return A map containing the extracted option values
+   */
+  private Map<String, String> parseSimulateOptions(String[] commandParts) {
+    Map<String, String> options = new HashMap<>();
+
+    // Default values
+    options.put("number", "1"); // Default to 1 simulation
+    options.put("outfile", null); // Default to no outfile (print to console)
+
+    // Skip the first part ("simulate")
+    for (int i = 1; i < commandParts.length; i++) {
+      String part = commandParts[i];
+
+      if (part.equals("-n") && i + 1 < commandParts.length) {
+        // Extract number value
+        options.put("number", commandParts[i + 1]);
+        i++; // Skip the next part since we've processed it
+      } else if (part.equals("-o") && i + 1 < commandParts.length) {
+        // Extract outfile value
+        options.put("outfile", commandParts[i + 1]);
+        i++; // Skip the next part since we've processed it
+      }
+    }
+
+    return options;
   }
 
   /**
@@ -109,6 +180,7 @@ public class MLBSimulatorController {
       return;
     }
 
+    String batterName = null;
     switch (parts[1].toLowerCase()) {
       case "show":
         handlePlayerShowCommand(parts);
@@ -120,7 +192,7 @@ public class MLBSimulatorController {
           return;
         }
 
-        String batterName = extractCommand(parts);
+        batterName = extractCommand(parts);
         model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters);
         break;
 
@@ -129,7 +201,7 @@ public class MLBSimulatorController {
           view.displayError("Invalid command. Use 'player remove [name]'.");
           return;
         }
-        String batterName = extractCommand(parts);
+        batterName = extractCommand(parts);
         model.removeFromLineup(Side.PLAYER, BATTER, batterName);
         break;
 
@@ -289,6 +361,8 @@ public class MLBSimulatorController {
       return;
     }
 
+    String command = null;
+
     switch (parts[1].toLowerCase()) {
       case "show":
         if (parts.length < 3) {
@@ -341,7 +415,7 @@ public class MLBSimulatorController {
           return;
         }
         // NOTE:: Do we need error handling here?
-        String command = extractCommand(parts);
+        command = extractCommand(parts);
         model.addBatterToLineup(Side.COMPUTER, command, filteredBatters);
 
         break;
@@ -352,7 +426,7 @@ public class MLBSimulatorController {
           return;
         }
 
-        String command = extractCommand(parts);
+        command = extractCommand(parts);
         model.removeFromLineup(Side.COMPUTER, PITCHER, command);
         break;
 
@@ -361,6 +435,4 @@ public class MLBSimulatorController {
         break;
     }
   }
-  // TODO: Add controller options to run multiple simulations
-  // TODO: Add controller options to save to file.
 }
