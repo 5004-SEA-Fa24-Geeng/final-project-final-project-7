@@ -120,7 +120,7 @@ public class MLBSimulatorController {
           return;
         }
 
-        String batterName = extractBatterName(parts);
+        String batterName = extractCommand(parts);
         model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters);
         break;
 
@@ -129,7 +129,7 @@ public class MLBSimulatorController {
           view.displayError("Invalid command. Use 'player remove [name]'.");
           return;
         }
-        String batterName = extractBatterName(parts);
+        String batterName = extractCommand(parts);
         model.removeFromLineup(Side.PLAYER, BATTER, batterName);
         break;
 
@@ -245,7 +245,7 @@ public class MLBSimulatorController {
           view.displayMessage("Invalid player show command. Type 'help' for available commands");
           return;
         }
-        String batterName = extractBatterName(parts);
+        String batterName = extractCommand(parts);
 
         Batter batter = model.getBatter(Side.PLAYER, batterName);
         if (batter != null) {
@@ -257,23 +257,25 @@ public class MLBSimulatorController {
     }
   }
 
+  // TODO: generalize this to get anything after player show/add/remove and
+  // computer/show/add/remove
   /**
-   * Reconstruct the batter name from the remaining parts
-   * Assumes a first and last name with a space in between
-   * and command player show/add/remove firstname lastname
+   * Reconstruct the remainder of the command as a single string
+   * Starts at index 2, so extracts [command] from player/computer show/add/remove
+   * [command]
    * 
    * @param parts
    * @return String of batter name
    */
-  private String extractBatterName(String[] parts) {
-    StringBuilder batterName = new StringBuilder();
+  private String extractCommand(String[] parts) {
+    StringBuilder command = new StringBuilder();
     for (int i = 2; i < parts.length; i++) {
-      batterName.append(parts[i]);
+      command.append(parts[i]);
       if (i < parts.length - 1) {
-        batterName.append(" ");
+        command.append(" ");
       }
     }
-    return batterName.toString();
+    return command.toString();
 
   }
 
@@ -297,6 +299,7 @@ public class MLBSimulatorController {
 
         if (parts[2].equalsIgnoreCase("teams")) {
           view.displayAllTeams(model.getAllTeamName());
+          return;
         } else { // Assume a team name was provided
           String teamName = parts[2];
           Teams teamEnum = null;
@@ -329,11 +332,16 @@ public class MLBSimulatorController {
 
         break;
 
+      case "add":
+
+      case "remove":
+
       default:
         view.displayError("Invalid computer command. Type 'help' for available commands.");
         break;
     }
   }
   // TODO: Add controller options to run multiple simulations
-  // TODO: Add controller options for selecting pitcher lineup
+  // TODO: Add controller options to save to file.
+  // TODO: Add controller options for selecting/removing pitcher lineup
 }
