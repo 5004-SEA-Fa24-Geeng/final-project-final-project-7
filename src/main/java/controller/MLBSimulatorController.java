@@ -344,7 +344,17 @@ public class MLBSimulatorController {
         String command = extractCommand(parts);
         model.addBatterToLineup(Side.COMPUTER, command, filteredBatters);
 
+        break;
+
       case "remove":
+        if (parts.length < 3) {
+          view.displayError("Please specify a pitcher and postion.");
+          return;
+        }
+
+        String command = extractCommand(parts);
+        model.removeFromLineup(Side.COMPUTER, PITCHER, command);
+        break;
 
       default:
         view.displayError("Invalid computer command. Type 'help' for available commands.");
@@ -353,5 +363,4 @@ public class MLBSimulatorController {
   }
   // TODO: Add controller options to run multiple simulations
   // TODO: Add controller options to save to file.
-  // TODO: Add controller options for selecting/removing pitcher lineup
 }
