@@ -23,25 +23,25 @@ public class TextUI {
   public void displayHelp() {
     System.out.println("\n===== MLB SIMULATOR COMMANDS =====");
     System.out.println("PLAYER COMMANDS:");
-    System.out.println("  player show batter [name] - Show batter information"); // TODO: change this to player
-                                                                                 // show/add/remove
-                                                                                 // [name]
+    System.out.println("  player show [name] - Show batter information for [name]");
     System.out.println("  player show lineup        - Show current lineup");
     System.out.println("  player show all           - Show all available batters");
-    System.out.println("  player add batter         - Add a batter to your team");
-    System.out.println("  player remove batter      - Remove a batter to your team");
+    System.out.println("  player add [name]         - Add a batter to your team");
+    System.out.println("  player remove [name]      - Remove a batter to your team");
     System.out.println("  player clear              - Clears current batter lineup");
-    System.out.println("  player filter [attribute] [value] [sort] [attribute] - Filter and sort player roster");
+    System.out.println(
+        "  player filter [filters] sort [attribute] - Filter and sort player roster. Will show current filter if no arguments are provided. ex: player filter TotalPA >= 100, AVG >= 0.25 sort AVG");
+    System.out.println("  player filter reset       - Clear current filter");
 
     System.out.println("\nCOMPUTER COMMANDS:");
-    System.out.println("  computer show [team]    - Show opponent team information"); // TODO: Make this show pitcher
-                                                                                      // loader lineup
-    System.out.println("  computer show all       - Show all opponent team information"); // TODO: computer show all
-                                                                                          // teams/different than show
-                                                                                          // all pitchers
-    System.out.println("  computer select [team]  - Select a team to run simulation against"); // TODO: add computer add
-                                                                                               // pitcher
-    System.out.println("  computer clear          - Clear team to run simulation against"); // TODO: remove
+    System.out.println("  computer show [team]    - Show available pitchers for [team]");
+    System.out.println("  computer show teams     - Show selectable MLB teams");
+    System.out.println("  computer select [team]  - Select a team to run simulation against");
+    System.out.println(
+        "  computer add [name/number] to [pos]  - Add pitcher [name/number] to position [pos]. ex: 'computer add Carlos Rodón to 1' or 'computer add 12 to 1'");
+    System.out.println(
+        "  computer remove [name/number/range]  - Remove pitcher [name/number/range]. ex: '1-3', 'all', 'Carlos Rodón', '1'");
+    System.out.println("  computer clear          - Clear current pitcher lineup");
 
     System.out.println("\nOTHER COMMANDS:");
     System.out.println("  help                  - Show this help message");
@@ -49,7 +49,6 @@ public class TextUI {
     System.out.println("  exit                  - Exit the program");
   }
 
-  // TODO: add command-specific help messages
   /**
    * Displays individual player information
    *
