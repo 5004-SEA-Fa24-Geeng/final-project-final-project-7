@@ -100,7 +100,7 @@ public class MLBSimulatorController {
 
     // Get number of simulations and outfile. Default 1 and null if not provided
     int numberOfSimulations;
-    String outfile = simulateOptions.get("oufile");
+    String outfile = simulateOptions.get("outfile");
 
     // Safe type casting of integer
     try {
