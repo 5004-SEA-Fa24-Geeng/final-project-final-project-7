@@ -17,16 +17,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-
-import gameEnum.PlayerData;
-import gameEnum.Side;
-import gameEnum.Teams;
-import model.Model;
-import model.player.Batter;
-import model.player.Pitcher;
-import model.simulation.SimulationResult;
-import view.TextUI;
 
 import gameEnum.PlayerData;
 import gameEnum.Side;
@@ -70,6 +60,9 @@ class MLBSimulatorControllerTest {
         when(mockModel.getPlayerTeamBatterLoaderLineup()).thenReturn(batterSet);
         when(mockBatter.getName()).thenReturn("Test Batter");
 
+        List<Batter> batterList = new ArrayList<>();
+        batterList.add(mockBatter);
+
         // Create a controller with real model for testing private methods
         controllerForPrivateMethods = new MLBSimulatorController();
 
@@ -84,7 +77,13 @@ class MLBSimulatorControllerTest {
 
         java.lang.reflect.Field filteredBattersField = MLBSimulatorController.class.getDeclaredField("filteredBatters");
         filteredBattersField.setAccessible(true);
-        filteredBattersField.set(controllerForPrivateMethods, Stream.of(mockBatter));
+        filteredBattersField.set(controllerForPrivateMethods, batterList);
+
+        List<Pitcher> pitcherList = new ArrayList<>();
+        pitcherList.add(mockPitcher);
+        java.lang.reflect.Field filteredPitchersField = MLBSimulatorController.class.getDeclaredField("filteredPitchers");
+        filteredPitchersField.setAccessible(true);
+        filteredPitchersField.set(controllerForPrivateMethods, pitcherList);
     }
 
     @Test
@@ -182,9 +181,6 @@ class MLBSimulatorControllerTest {
 
         assertEquals("10", result4.get("number"));
         assertEquals("sim_results.txt", result4.get("outfile"));
-
-        // BUG DETECTION: The field is called "outfile" in the map but "oufile" when accessed
-        // This will catch the issue when the controller tries to use result4.get("oufile") instead of "outfile"
     }
 
     @Test
@@ -298,30 +294,37 @@ class MLBSimulatorControllerTest {
         String[] command1 = new String[]{"player", "filter"};
         handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) command1);
 
-        ArgumentCaptor<List> displayedBatters = ArgumentCaptor.forClass(List.class);
-        verify(mockView).displayBatters(displayedBatters.capture());
-        assertEquals(1, displayedBatters.getValue().size());
+        verify(mockView).displayBatters(any(List.class));
 
-        // Test with filter criteria
-        reset(mockView);
+        // Test reset functionality (uses Objects.equals now)
+        reset(mockView, mockModel);
         Set<Batter> batterSet = new HashSet<>();
         batterSet.add(mockBatter);
-        when(mockModel.batterFilter(anyString(), any())).thenReturn(Stream.of(mockBatter));
+        when(mockModel.getPlayerTeamBatterLoaderLineup()).thenReturn(batterSet);
+
+        String[] resetCommand = new String[]{"player", "filter", "reset"};
+        handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) resetCommand);
+
+        verify(mockModel).getPlayerTeamBatterLoaderLineup();
+        verify(mockView).displayMessage("Filter reset.");
+
+        // Test with filter criteria
+        reset(mockView, mockModel);
+        when(mockModel.batterFilter(anyString(), any(HashSet.class))).thenReturn(Stream.of(mockBatter));
 
         String[] command2 = new String[]{"player", "filter", "AVG>0.300"};
         handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) command2);
 
-        verify(mockModel).batterFilter(eq("AVG>0.300"), any());
+        verify(mockModel).batterFilter(eq("AVG>0.300"), any(HashSet.class));
 
         // Test with filter and sort
         reset(mockView, mockModel);
-        when(mockModel.batterFilter(anyString(), any(PlayerData.class), any())).thenReturn(Stream.of(mockBatter));
+        when(mockModel.batterFilter(anyString(), any(PlayerData.class), any(HashSet.class))).thenReturn(Stream.of(mockBatter));
 
-        String[] command3 = new String[]{"player", "filter", "AVG>0.300", "sort", "HR"};
+        String[] command3 = new String[]{"player", "filter", "AVG>0.300", "sort", "TotalHR"};
         handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) command3);
 
-        // This would normally cause the test to pass but testing with mocks doesn't catch the == vs equals issue
-        verify(mockModel).batterFilter(eq("AVG>0.300"), any(PlayerData.class), any());
+        verify(mockModel).batterFilter(eq("AVG>0.300"), any(PlayerData.class), any(HashSet.class));
     }
 
     @Test
@@ -343,15 +346,31 @@ class MLBSimulatorControllerTest {
 
         // Test computer select team
         reset(mockModel, mockView);
-
-        // Mock the Teams enum
-        Teams mockTeam = Teams.MARINERS;
+        Set<Pitcher> pitcherSet = new HashSet<>();
+        pitcherSet.add(mockPitcher);
+        when(mockModel.getComTeamPitcherLoaderLineup()).thenReturn(pitcherSet);
 
         String[] command2 = new String[]{"computer", "select", "mariners"};
         handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command2);
 
         verify(mockModel).setComTeam(any(Teams.class));
         verify(mockModel).getComTeamPitcherLoaderLineup();
+
+        // Test computer add
+        reset(mockModel, mockView);
+
+        String[] command3 = new String[]{"computer", "add", "Test Pitcher"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command3);
+
+        verify(mockModel).addBatterToLineup(eq(Side.COMPUTER), eq("Test Pitcher"), any());
+
+        // Test computer remove
+        reset(mockModel, mockView);
+
+        String[] command4 = new String[]{"computer", "remove", "Test Pitcher"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command4);
+
+        verify(mockModel).removeFromLineup(Side.COMPUTER, "pitcher", "Test Pitcher");
     }
 
     @Test

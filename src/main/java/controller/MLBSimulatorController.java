@@ -1,8 +1,6 @@
 package controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,8 +21,8 @@ public class MLBSimulatorController {
   private TextUI view;
   private boolean running;
   private Model model;
-  private Stream<Batter> filteredBatters;
-  private Stream<Pitcher> filteredPitchers;
+  private List<Batter> filteredBatters;
+  private List<Pitcher> filteredPitchers;
 
   // used for remove commands
   private static final String PITCHER = "pitcher";
@@ -35,7 +33,7 @@ public class MLBSimulatorController {
     this.running = true;
     this.model = new Model();
     this.model.setPlayerTeam();
-    this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
+    this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
   }
 
   /**
@@ -194,7 +192,7 @@ public class MLBSimulatorController {
         }
 
         batterName = extractCommand(parts);
-        model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters);
+        model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters.stream());
         break;
 
       case "remove":
@@ -223,13 +221,13 @@ public class MLBSimulatorController {
 
   private void handlePlayerFilterCommand(String[] parts) {
     if (parts.length < 3) { // if no args, show current filter
-      view.displayBatters(filteredBatters.toList());
+      view.displayBatters(filteredBatters);
       return;
     }
 
     // Reset the filtered batters
     if (Objects.equals(parts[2], "reset")) {
-      filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
+      filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
       view.displayMessage("Filter reset.");
       return;
     }
@@ -276,20 +274,20 @@ public class MLBSimulatorController {
       }
       // Call the method with both filter and sort
       Stream<Batter> batters = model.batterFilter(filterCriteria, sortOn,
-          filteredBatters.collect(Collectors.toSet()));
+              new HashSet<>(filteredBatters));
       // Update filtered batters
-      filteredBatters = batters;
+      filteredBatters = batters.toList();
 
       // Display the filtered batters
-      view.displayBatters(batters.toList());
+      view.displayBatters(filteredBatters);
     } else {
       // Call the method with just filter
-      Stream<Batter> batters = model.batterFilter(filterCriteria, model.getPlayerTeamBatterLoaderLineup());
+      Stream<Batter> batters = model.batterFilter(filterCriteria, new HashSet<>(filteredBatters));
       // Update filtered batters
-      filteredBatters = batters;
+      filteredBatters = batters.toList();
 
       // Display the filtered batters
-      view.displayBatters(batters.toList());
+      view.displayBatters(filteredBatters);
     }
   }
 
@@ -401,8 +399,8 @@ public class MLBSimulatorController {
           Teams comTeam = Teams.fromCmdName(teamName);
           model.setComTeam(comTeam);
 
-          // Add pitchers for team to filterePitchers
-          filteredPitchers = model.getComTeamPitcherLoaderLineup().stream();
+          // Add pitchers for team to filteredPitchers
+          filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
 
         } catch (IllegalArgumentException e) {
           view.displayMessage(e.getMessage());
@@ -417,7 +415,7 @@ public class MLBSimulatorController {
         }
         // NOTE:: Do we need error handling here?
         command = extractCommand(parts);
-        model.addBatterToLineup(Side.COMPUTER, command, filteredBatters);
+        model.addBatterToLineup(Side.COMPUTER, command, filteredBatters.stream());
 
         break;
 
