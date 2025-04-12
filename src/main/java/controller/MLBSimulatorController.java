@@ -59,7 +59,8 @@ public class MLBSimulatorController {
   private void processCommand(String command) {
     String[] parts = command.split("\\s+");
 
-    if (parts.length == 0) {
+    // Exit if no command is provided
+    if (parts.length == 1 && parts[0].isEmpty()) {
       return;
     }
 
@@ -313,10 +314,6 @@ public class MLBSimulatorController {
         break;
 
       default: // Assume a batter name was provided
-        if (parts.length < 3) {
-          view.displayMessage("Invalid player show command. Type 'help' for available commands");
-          return;
-        }
         String batterName = extractCommand(parts);
 
         Batter batter = model.getBatter(Side.PLAYER, batterName);
