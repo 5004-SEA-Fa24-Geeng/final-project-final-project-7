@@ -2,7 +2,7 @@ package controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+import static org.mockito.ArgumentMatchers.contains;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+import model.team.PlayerTeam;
+import model.team.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -102,7 +104,18 @@ class MLBSimulatorControllerTest {
         verify(mockView).displayMessage("Exiting MLB Simulator. Goodbye!");
         verify(mockView).close();
     }
+    @Test
+    void testProcessCommandEmpty() throws Exception {
+        // Setup
+        java.lang.reflect.Method processCommand = MLBSimulatorController.class.getDeclaredMethod("processCommand", String.class);
+        processCommand.setAccessible(true);
 
+        // Execute with empty string
+        processCommand.invoke(controllerForPrivateMethods, "");
+
+        // Verify no interactions with view or model
+        verifyNoMoreInteractions(mockView);
+    }
     @Test
     void testProcessCommandHelp() throws Exception {
         // Setup
@@ -147,7 +160,49 @@ class MLBSimulatorControllerTest {
         // Verify
         verify(mockView).displayError("Unknown command. Type 'help' for available commands.");
     }
+    @Test
+    void testProcessCommandPlayer() throws Exception {
+        // Setup
+        java.lang.reflect.Method processCommand = MLBSimulatorController.class.getDeclaredMethod("processCommand", String.class);
+        processCommand.setAccessible(true);
 
+        // Execute
+        processCommand.invoke(controllerForPrivateMethods, "player show lineup");
+
+        // Verify player command was processed
+        verify(mockModel).getPlayerTeamBatterLineup();
+    }
+    @Test
+    void testProcessCommandComputer() throws Exception {
+        // Setup
+        java.lang.reflect.Method processCommand = MLBSimulatorController.class.getDeclaredMethod("processCommand", String.class);
+        processCommand.setAccessible(true);
+
+        List<String> teamNames = new ArrayList<>();
+        teamNames.add("Mariners");
+        when(mockModel.getAllTeamName()).thenReturn(teamNames);
+
+        // Execute
+        processCommand.invoke(controllerForPrivateMethods, "computer show teams");
+
+        // Verify computer command was processed
+        verify(mockModel).getAllTeamName();
+    }
+
+    @Test
+    void testProcessCommandSimulate() throws Exception {
+        // Setup
+        java.lang.reflect.Method processCommand = MLBSimulatorController.class.getDeclaredMethod("processCommand", String.class);
+        processCommand.setAccessible(true);
+
+        when(mockModel.startSimAndGetResult()).thenReturn(mockSimulationResult);
+
+        // Execute
+        processCommand.invoke(controllerForPrivateMethods, "simulate");
+
+        // Verify simulate command was processed
+        verify(mockModel).startSimAndGetResult();
+    }
     @Test
     void testParseSimulateOptions() throws Exception {
         // Setup
@@ -184,6 +239,26 @@ class MLBSimulatorControllerTest {
     }
 
     @Test
+    void testParseSimulateOptionsWithIncompleteOptions() throws Exception {
+        // Setup
+        java.lang.reflect.Method parseSimulateOptions = MLBSimulatorController.class.getDeclaredMethod("parseSimulateOptions", String[].class);
+        parseSimulateOptions.setAccessible(true);
+
+        // Test with incomplete -n option (no value)
+        String[] command1 = new String[]{"simulate", "-n"};
+        Map<String, String> result1 = (Map<String, String>) parseSimulateOptions.invoke(controllerForPrivateMethods, (Object) command1);
+
+        assertEquals("1", result1.get("number"));
+        assertNull(result1.get("outfile"));
+
+        // Test with incomplete -o option (no value)
+        String[] command2 = new String[]{"simulate", "-o"};
+        Map<String, String> result2 = (Map<String, String>) parseSimulateOptions.invoke(controllerForPrivateMethods, (Object) command2);
+
+        assertEquals("1", result2.get("number"));
+        assertNull(result2.get("outfile"));
+    }
+    @Test
     void testRunSimulation() throws Exception {
         // Setup
         java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
@@ -217,7 +292,90 @@ class MLBSimulatorControllerTest {
 
         verify(mockView).displayError(anyString());
     }
+    @Test
+    void testRunSimulationWithInvalidNumber() throws Exception {
+        // Setup
+        java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
+        runSimulation.setAccessible(true);
 
+        // Test with invalid number
+        String[] command = new String[]{"simulate", "-n", "notanumber"};
+        runSimulation.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError(contains("Invalid number of simulations"));
+    }
+
+    @Test
+    void testRunSimulationWithOutfile() throws Exception {
+        // Setup
+        java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
+        runSimulation.setAccessible(true);
+
+        when(mockModel.startSimAndGetResult()).thenReturn(mockSimulationResult);
+
+        // Test with outfile
+        String[] command = new String[]{"simulate", "-o", "results.txt"};
+        runSimulation.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify simulation runs and results displayed
+        verify(mockModel).startSimAndGetResult();
+        verify(mockView).displaySimulationResult(mockSimulationResult);
+        verify(mockModel).saveGameDetailsAsTXTFile(contains("results.txt"));
+    }
+
+    @Test
+    void testRunSimulationWithMultipleSimulationsAndOutfile() throws Exception {
+        // Setup
+        java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
+        runSimulation.setAccessible(true);
+
+        when(mockModel.startSimAndGetResult()).thenReturn(mockSimulationResult);
+
+        // Test with multiple simulations and outfile
+        String[] command = new String[]{"simulate", "-n", "3", "-o", "results.txt"};
+        runSimulation.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify simulation runs 3 times and results displayed
+        verify(mockModel, times(3)).startSimAndGetResult();
+        verify(mockView, times(3)).displaySimulationResult(mockSimulationResult);
+        verify(mockModel, times(3)).saveGameDetailsAsTXTFile(anyString());
+    }
+
+    @Test
+    void testRunSimulationWithNullResultsAndOutfile() throws Exception {
+        // Setup
+        java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
+        runSimulation.setAccessible(true);
+
+        when(mockModel.startSimAndGetResult()).thenReturn(null);
+
+        // Test with outfile but null simulation result
+        String[] command = new String[]{"simulate", "-o", "results.txt"};
+        runSimulation.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError(anyString());
+        // Verify saveGameDetailsAsTXTFile is not called
+        verify(mockModel, never()).saveGameDetailsAsTXTFile(anyString());
+    }
+
+    @Test
+    void testRunSimulationWithOutfileAndMultipleFailedSimulations() throws Exception {
+        // Setup
+        java.lang.reflect.Method runSimulation = MLBSimulatorController.class.getDeclaredMethod("runSimulation", String[].class);
+        runSimulation.setAccessible(true);
+
+        when(mockModel.startSimAndGetResult()).thenReturn(null);
+
+        // Test with multiple simulations that all fail
+        String[] command = new String[]{"simulate", "-n", "3", "-o", "results.txt"};
+        runSimulation.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed multiple times
+        verify(mockView, times(3)).displayError(anyString());
+        verify(mockModel, never()).saveGameDetailsAsTXTFile(anyString());
+    }
     @Test
     void testHandlePlayerCommand() throws Exception {
         // Setup
@@ -249,7 +407,19 @@ class MLBSimulatorControllerTest {
         verify(mockModel).clearLineup(Side.PLAYER, "batter");
         verify(mockView).displayMessage("Batter lineup cleared.");
     }
+    @Test
+    void testHandlePlayerCommandWithFilter() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerCommand", String[].class);
+        handlePlayerCommand.setAccessible(true);
 
+        // Test filter command
+        String[] command = new String[]{"player", "filter", "AVG>0.300"};
+        handlePlayerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // This test is to verify the filter branch is taken
+        verify(mockModel).batterFilter(anyString(), any(HashSet.class));
+    }
     @Test
     void testHandlePlayerShowCommand() throws Exception {
         // Setup
@@ -282,6 +452,36 @@ class MLBSimulatorControllerTest {
 
         verify(mockModel).getBatter(Side.PLAYER, "Test Batter");
         verify(mockView).displayPlayerInfo(mockBatter);
+    }
+    @Test
+    void testHandlePlayerShowCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerShowCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerShowCommand", String[].class);
+        handlePlayerShowCommand.setAccessible(true);
+
+        // Test with command that's too short
+        String[] command = new String[]{"player", "show"};
+        handlePlayerShowCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid player show command. Type 'help' for available commands.");
+    }
+
+    @Test
+    void testHandlePlayerShowCommandBatterNotFound() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerShowCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerShowCommand", String[].class);
+        handlePlayerShowCommand.setAccessible(true);
+
+        // Return null for batter
+        when(mockModel.getBatter(eq(Side.PLAYER), anyString())).thenReturn(null);
+
+        // Test with batter name that doesn't exist
+        String[] command = new String[]{"player", "show", "NonExistent", "Batter"};
+        handlePlayerShowCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError(contains("Batter not found"));
     }
 
     @Test
@@ -325,6 +525,78 @@ class MLBSimulatorControllerTest {
         handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) command3);
 
         verify(mockModel).batterFilter(eq("AVG>0.300"), any(PlayerData.class), any(HashSet.class));
+    }
+    @Test
+    void testHandlePlayerFilterCommandInvalidSortAttribute() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerFilterCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerFilterCommand", String[].class);
+        handlePlayerFilterCommand.setAccessible(true);
+
+        // Mock the PlayerData.fromColumnName to throw an exception
+        doThrow(new IllegalArgumentException("Invalid sort attribute")).when(mockModel)
+                .batterFilter(anyString(), any(PlayerData.class), any(HashSet.class));
+
+        // Test with invalid sort attribute
+        String[] command = new String[]{"player", "filter", "AVG>0.300", "sort", "InvalidAttribute"};
+        handlePlayerFilterCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify message displayed
+        verify(mockView).displayMessage(anyString());
+    }
+    @Test
+    void testHandlePlayerCommandWithInvalidSubcommand() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerCommand", String[].class);
+        handlePlayerCommand.setAccessible(true);
+
+        // Test with invalid subcommand
+        String[] command = new String[]{"player", "invalid", "argument"};
+        handlePlayerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid player command. Type 'help' for available commands.");
+    }
+
+    @Test
+    void testHandlePlayerCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerCommand", String[].class);
+        handlePlayerCommand.setAccessible(true);
+
+        // Test with command that's too short
+        String[] command = new String[]{"player"};
+        handlePlayerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid player command. Type 'help' for available commands.");
+    }
+
+    @Test
+    void testHandlePlayerCommandAddTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerCommand", String[].class);
+        handlePlayerCommand.setAccessible(true);
+
+        // Test with add command that's too short
+        String[] command = new String[]{"player", "add"};
+        handlePlayerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid command. Use 'player add [name]'.");
+    }
+
+    @Test
+    void testHandlePlayerCommandRemoveTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handlePlayerCommand = MLBSimulatorController.class.getDeclaredMethod("handlePlayerCommand", String[].class);
+        handlePlayerCommand.setAccessible(true);
+
+        // Test with remove command that's too short
+        String[] command = new String[]{"player", "remove"};
+        handlePlayerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid command. Use 'player remove [name]'.");
     }
 
     @Test
@@ -374,6 +646,146 @@ class MLBSimulatorControllerTest {
     }
 
     @Test
+    void testHandleComputerCommandShowNonTeamsOption() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Create team to return
+        Team mockTeam = new PlayerTeam(Teams.MARINERS);
+        when(mockModel.getComTeam()).thenReturn(mockTeam);
+
+        Set<Pitcher> pitcherSet = new HashSet<>();
+        pitcherSet.add(mockPitcher);
+        when(mockModel.getComTeamPitcherLoaderLineup()).thenReturn(pitcherSet);
+
+        // Test with show and a team name
+        String[] command = new String[]{"computer", "show", "mariners"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify correct methods called
+        verify(mockModel, times(2)).setComTeam(any(Teams.class));
+        verify(mockModel).getComTeamPitcherLoaderLineup();
+    }
+
+    @Test
+    void testHandleComputerCommandWithInvalidSubcommand() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with invalid subcommand
+        String[] command = new String[]{"computer", "invalid", "argument"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid computer command. Type 'help' for available commands.");
+    }
+
+    @Test
+    void testHandleComputerCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with command that's too short
+        String[] command = new String[]{"computer"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Invalid computer command. Type 'help' for available commands.");
+    }
+
+    @Test
+    void testHandleComputerShowCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with show command that's too short
+        String[] command = new String[]{"computer", "show"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Please specify a team name or 'all'.");
+    }
+
+    @Test
+    void testHandleComputerSelectCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with select command that's too short
+        String[] command = new String[]{"computer", "select"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Please specify a team name.");
+    }
+
+    @Test
+    void testHandleComputerAddCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with add command that's too short
+        String[] command = new String[]{"computer", "add"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Please specify a pitcher and postion.");
+    }
+
+    @Test
+    void testHandleComputerRemoveCommandTooShort() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Test with remove command that's too short
+        String[] command = new String[]{"computer", "remove"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify error message displayed
+        verify(mockView).displayError("Please specify a pitcher and postion.");
+    }
+
+    @Test
+    void testHandleComputerSelectTeamWithException() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Mock the Teams.fromCmdName to throw an exception
+        doThrow(new IllegalArgumentException("Invalid team name")).when(mockModel).setComTeam(any(Teams.class));
+
+        // Test with invalid team name
+        String[] command = new String[]{"computer", "select", "invalidteam"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify message displayed
+        verify(mockView).displayMessage(anyString());
+    }
+
+    @Test
+    void testHandleComputerShowTeamWithException() throws Exception {
+        // Setup
+        java.lang.reflect.Method handleComputerCommand = MLBSimulatorController.class.getDeclaredMethod("handleComputerCommand", String[].class);
+        handleComputerCommand.setAccessible(true);
+
+        // Set up the model to throw exception for invalid team
+        doThrow(new IllegalArgumentException("Invalid team name")).when(mockModel).setComTeam(any(Teams.class));
+
+        // Test with invalid team name
+        String[] command = new String[]{"computer", "show", "invalidteam"};
+        handleComputerCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        // Verify message displayed
+        verify(mockView).displayMessage(anyString());
+    }
+    @Test
     void testExtractCommand() throws Exception {
         // Setup
         java.lang.reflect.Method extractCommand = MLBSimulatorController.class.getDeclaredMethod("extractCommand", String[].class);
@@ -391,4 +803,30 @@ class MLBSimulatorControllerTest {
 
         assertEquals("Test Batter", result2);
     }
+@Test
+void testExtractCommandWithEmptyCommand() throws Exception {
+    // Setup
+    java.lang.reflect.Method extractCommand = MLBSimulatorController.class.getDeclaredMethod("extractCommand", String[].class);
+    extractCommand.setAccessible(true);
+
+    // Test with command that has no arguments after index 2
+    String[] command = new String[]{"player", "show"};
+    String result = (String) extractCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+    assertEquals("", result);
 }
+
+    @Test
+    void testExtractCommandWithMultipleWords() throws Exception {
+        // Setup
+        java.lang.reflect.Method extractCommand = MLBSimulatorController.class.getDeclaredMethod("extractCommand", String[].class);
+        extractCommand.setAccessible(true);
+
+        // Test with command that has multiple words
+        String[] command = new String[]{"player", "show", "Mike", "Trout", "Jr."};
+        String result = (String) extractCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        assertEquals("Mike Trout Jr.", result);
+    }
+}
+
