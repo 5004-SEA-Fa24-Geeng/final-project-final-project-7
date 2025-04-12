@@ -359,14 +359,18 @@ public abstract class Team implements TeamInterface{
                 String name = str.toLowerCase();
                 if (position.equals(DEFAULT_BATTER)) {
                     for (Batter batter : this.batterLineup) {
-                        if (batter.getName().toLowerCase().contains(name)) {
+                        if (batter == null) {
+                            continue;
+                        } else if (batter.getName().toLowerCase().contains(name)) {
                             int index = this.batterLineup.indexOf(batter);
                             this.batterLineup.set(index, null);
                         }
                     }
                 } else if (position.equals(DEFAULT_PITCHER)) {
                     for (Pitcher pitcher : this.pitcherLineup) {
-                        if (pitcher.getName().toLowerCase().contains(name)) {
+                        if (pitcher == null) {
+                            continue;
+                        } else if (pitcher.getName().toLowerCase().contains(name)) {
                             int index = this.pitcherLineup.indexOf(pitcher);
                             this.pitcherLineup.set(index, null);
                         }
