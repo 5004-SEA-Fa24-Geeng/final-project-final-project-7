@@ -1,25 +1,5 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.contains;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
-import java.util.stream.Collectors;
-
-import model.team.PlayerTeam;
-import model.team.Team;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import gameEnum.PlayerData;
 import gameEnum.Side;
 import gameEnum.Teams;
@@ -27,7 +7,21 @@ import model.Model;
 import model.player.Batter;
 import model.player.Pitcher;
 import model.simulation.SimulationResult;
+import model.team.PlayerTeam;
+import model.team.Team;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import view.TextUI;
+
+import java.util.*;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.*;
 
 class MLBSimulatorControllerTest {
 
@@ -104,6 +98,7 @@ class MLBSimulatorControllerTest {
         verify(mockView).displayMessage("Exiting MLB Simulator. Goodbye!");
         verify(mockView).close();
     }
+
     @Test
     void testProcessCommandEmpty() throws Exception {
         // Setup
@@ -116,6 +111,7 @@ class MLBSimulatorControllerTest {
         // Verify no interactions with view or model
         verifyNoMoreInteractions(mockView);
     }
+
     @Test
     void testProcessCommandHelp() throws Exception {
         // Setup
@@ -160,6 +156,7 @@ class MLBSimulatorControllerTest {
         // Verify
         verify(mockView).displayError("Unknown command. Type 'help' for available commands.");
     }
+
     @Test
     void testProcessCommandPlayer() throws Exception {
         // Setup
@@ -172,6 +169,7 @@ class MLBSimulatorControllerTest {
         // Verify player command was processed
         verify(mockModel).getPlayerTeamBatterLineup();
     }
+
     @Test
     void testProcessCommandComputer() throws Exception {
         // Setup
@@ -203,6 +201,7 @@ class MLBSimulatorControllerTest {
         // Verify simulate command was processed
         verify(mockModel).startSimAndGetResult();
     }
+
     @Test
     void testParseSimulateOptions() throws Exception {
         // Setup
@@ -258,6 +257,7 @@ class MLBSimulatorControllerTest {
         assertEquals("1", result2.get("number"));
         assertNull(result2.get("outfile"));
     }
+
     @Test
     void testRunSimulation() throws Exception {
         // Setup
@@ -292,6 +292,7 @@ class MLBSimulatorControllerTest {
 
         verify(mockView).displayError(anyString());
     }
+
     @Test
     void testRunSimulationWithInvalidNumber() throws Exception {
         // Setup
@@ -376,6 +377,7 @@ class MLBSimulatorControllerTest {
         verify(mockView, times(3)).displayError(anyString());
         verify(mockModel, never()).saveGameDetailsAsTXTFile(anyString());
     }
+
     @Test
     void testHandlePlayerCommand() throws Exception {
         // Setup
@@ -407,6 +409,7 @@ class MLBSimulatorControllerTest {
         verify(mockModel).clearLineup(Side.PLAYER, "batter");
         verify(mockView).displayMessage("Batter lineup cleared.");
     }
+
     @Test
     void testHandlePlayerCommandWithFilter() throws Exception {
         // Setup
@@ -420,6 +423,7 @@ class MLBSimulatorControllerTest {
         // This test is to verify the filter branch is taken
         verify(mockModel).batterFilter(anyString(), any(HashSet.class));
     }
+
     @Test
     void testHandlePlayerShowCommand() throws Exception {
         // Setup
@@ -453,6 +457,7 @@ class MLBSimulatorControllerTest {
         verify(mockModel).getBatter(Side.PLAYER, "Test Batter");
         verify(mockView).displayPlayerInfo(mockBatter);
     }
+
     @Test
     void testHandlePlayerShowCommandTooShort() throws Exception {
         // Setup
@@ -526,6 +531,7 @@ class MLBSimulatorControllerTest {
 
         verify(mockModel).batterFilter(eq("AVG>0.300"), any(PlayerData.class), any(HashSet.class));
     }
+
     @Test
     void testHandlePlayerFilterCommandInvalidSortAttribute() throws Exception {
         // Setup
@@ -543,6 +549,7 @@ class MLBSimulatorControllerTest {
         // Verify message displayed
         verify(mockView).displayMessage(anyString());
     }
+
     @Test
     void testHandlePlayerCommandWithInvalidSubcommand() throws Exception {
         // Setup
@@ -785,6 +792,7 @@ class MLBSimulatorControllerTest {
         // Verify message displayed
         verify(mockView).displayMessage(anyString());
     }
+
     @Test
     void testExtractCommand() throws Exception {
         // Setup
@@ -803,18 +811,19 @@ class MLBSimulatorControllerTest {
 
         assertEquals("Test Batter", result2);
     }
-@Test
-void testExtractCommandWithEmptyCommand() throws Exception {
-    // Setup
-    java.lang.reflect.Method extractCommand = MLBSimulatorController.class.getDeclaredMethod("extractCommand", String[].class);
-    extractCommand.setAccessible(true);
 
-    // Test with command that has no arguments after index 2
-    String[] command = new String[]{"player", "show"};
-    String result = (String) extractCommand.invoke(controllerForPrivateMethods, (Object) command);
+    @Test
+    void testExtractCommandWithEmptyCommand() throws Exception {
+        // Setup
+        java.lang.reflect.Method extractCommand = MLBSimulatorController.class.getDeclaredMethod("extractCommand", String[].class);
+        extractCommand.setAccessible(true);
 
-    assertEquals("", result);
-}
+        // Test with command that has no arguments after index 2
+        String[] command = new String[]{"player", "show"};
+        String result = (String) extractCommand.invoke(controllerForPrivateMethods, (Object) command);
+
+        assertEquals("", result);
+    }
 
     @Test
     void testExtractCommandWithMultipleWords() throws Exception {
