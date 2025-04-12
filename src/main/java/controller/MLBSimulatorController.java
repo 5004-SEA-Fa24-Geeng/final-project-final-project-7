@@ -2,6 +2,7 @@ package controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -227,7 +228,7 @@ public class MLBSimulatorController {
     }
 
     // Reset the filtered batters
-    if (parts[2] == "reset") {
+    if (Objects.equals(parts[2], "reset")) {
       filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream();
       view.displayMessage("Filter reset.");
       return;
