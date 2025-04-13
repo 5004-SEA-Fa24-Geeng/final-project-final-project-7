@@ -15,7 +15,6 @@ import model.player.Player;
 import model.simulation.SimulationResult;
 import model.team.ComTeam;
 import model.team.PlayerTeam;
-import model.team.Team;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -2362,8 +2361,6 @@ public class ModelTest {
         Model testModel = new Model() {
             @Override
             public List<String> convertLineupToString(List<? extends Player> lineup) {
-                List<String> lineupList =  new ArrayList<>();
-                Model mockModel = Mockito.mock(Model.class);
                 String mockBL = "===== Dylan Moore (Batter) =====\r\n" + //
                         "Fastball Stats: PA=273, H=47, 1B=21, 2B=15, 3B=2, HR=9\r\n" + //
                         "Breaking Stats: PA=124, H=16, 1B=9, 2B=5, 3B=1, HR=1\r\n" + //
@@ -2477,10 +2474,7 @@ public class ModelTest {
                         "Swing Stats: ZoneSwing=0.779, ZoneContact=0.697, ChaseSwing=0.21, ChaseContact=0.36\r\n" + //
                         "Overall: AVG=0.222, OBP=0.29, OPS=0.687\r\n";
                 List<String> lineupStrings = mockBL.lines().collect(Collectors.toList());                        
-                Set<Batter> blSet = mockModel.getPlayerTeamBatterLoaderLineup();
-                List<Batter> blList = new ArrayList<>(blSet);
-                Mockito.when(mockModel.convertLineupToString(blList)).thenReturn(lineupStrings);
-                return lineupList;
+                return lineupStrings;
             }
         };
 
