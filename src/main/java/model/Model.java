@@ -547,7 +547,10 @@ public class Model implements ModelInterface {
      * @return List<String>
      */
     public List<String> convertLineupToString(List<? extends Player> lineup) {
-        List<String> lineupList =  new ArrayList<>();
+        List<String> lineupList = new ArrayList<>();
+        if (lineup ==  null) {
+            return null;
+        }
         for (Player player : lineup) {
             if (player == null) {
                 String nullText = "===== (null) =====\n";
@@ -604,56 +607,6 @@ public class Model implements ModelInterface {
                 System.err.println("Error writing to file: " + e.getMessage());
             }
         }
-    }
-    public static void main(String[] args) {
-
-        Model model = new Model();
-        model.setPlayerTeam();
-        model.setComTeam(Teams.DODGERS);
-        model.getComTeamBatterLineup();
-        model.getComTeamBatterLoaderLineup();
-
-        Set<Pitcher> pitchers = model.getComTeamPitcherLoaderLineup();
-        // Stream<Pitcher> pStream1 = model.filterMultiForPitcher("Pitches >= 1000, BallsRate < 0.36", pitchers.stream());
-        // Stream<Pitcher> pStream2 = model.pitcherFilter("Pitches >= 1000, BallsRate < 0.36", PlayerData.CURVE, false, pitchers);
-        Stream<Pitcher> pStream1 = model.filterSingleForPitcher("Pitches >= 1000", pitchers.stream());
-        Stream<Pitcher> pStream2 = model.filterSingleForPitcher("Pitches >= 1000", pitchers.stream());
-        Stream<Pitcher> pStream3 = model.filterSingleForPitcher("Pitches >= 1000", pitchers.stream());
-        // List<Pitcher> pList = pStream2.toList();
-        model.addPitcherToLineup(Side.COMPUTER, "Tyler Glasnow to 1", pStream1);
-        model.addPitcherToLineup(Side.COMPUTER, "Alex Vesia to 2", pStream2);
-        model.addPitcherToLineup(Side.COMPUTER, "Bobby Miller to 3", pStream3);
-        // model.removeFromLineup(Side.COMPUTER, "pitcher", "Tyler Glasnow");
-        List<Pitcher> pitcherlp = model.getComTeamPitcherLineup();
-        model.saveLineupAsTXTFile(Side.COMPUTER, "./testP.txt", pitcherlp);
-
-        Set<Batter> batters = model.getPlayerTeamBatterLoaderLineup();
-        // Stream<Batter> bStream1 = model.filterMultiForBatter("OPS >= 0.6, TotalPA < 200", batters.stream());
-        // Stream<Batter> bStream2 = model.batterFilter("OPS >= 0.6, TotalPA < 200", PlayerData.Z_SWING, false, batters);
-        Stream<Batter> bStream1 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream2 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream3 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream4 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream5 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream6 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream7 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream8 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        Stream<Batter> bStream9 = model.filterSingleForBatter("OPS >= 0.6", batters.stream());
-        // List<Batter> bList = bStream2.toList();
-        model.addBatterToLineup(Side.PLAYER, "Victor Robles to 1", bStream1);
-        model.addBatterToLineup(Side.PLAYER, "Samad Taylor to 2", bStream2);
-        model.addBatterToLineup(Side.PLAYER, "Luke Raley to 3", bStream3);
-        model.addBatterToLineup(Side.PLAYER, "Dylan Moore to 4", bStream4);
-        model.addBatterToLineup(Side.PLAYER, "Cade Marlowe to 5", bStream5);
-        model.addBatterToLineup(Side.PLAYER, "Cal Raleigh to 6", bStream6);
-        model.addBatterToLineup(Side.PLAYER, "Austin Shenton to 7", bStream7);
-        model.addBatterToLineup(Side.PLAYER, "Julio Rodriguez to 8", bStream8);
-        model.addBatterToLineup(Side.PLAYER, "Randy Arozarena to 9", bStream9);
-        // model.removeFromLineup(Side.PLAYER, "batter", "Julio Rodriguez");
-        List<Batter> blp = model.getPlayerTeamBatterLineup();
-        model.saveLineupAsTXTFile(Side.PLAYER, "./testb.txt", blp);
-        model.startSimAndGetResult();
-        model.saveGameDetailsAsTXTFile("./testResult.txt");
     }
 
 }
