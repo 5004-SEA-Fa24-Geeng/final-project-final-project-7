@@ -275,7 +275,10 @@ public class MLBSimulatorController {
             // Try to get the sortOn attribute from PlayerData
             PlayerData sortOn = null;
             try {
-                sortOn = PlayerData.fromColumnName(sortAttribute);
+                // use fromString instead of fromColumnName
+                // cause sortOn needs to be case insensitive
+                // ex: "totalh" == "TotalH"
+                sortOn = PlayerData.fromString(sortAttribute);
             } catch (IllegalArgumentException e) {
                 view.displayMessage(e.getMessage());
                 return;
