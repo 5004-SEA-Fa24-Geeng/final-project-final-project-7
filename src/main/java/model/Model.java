@@ -571,12 +571,14 @@ public class Model implements ModelInterface {
      */
     public void saveLineupAsTXTFile(Side side, String filename, List<? extends Player> lineup) {
         if (!filename.contains(".txt")) {
-            throw new IllegalArgumentException("Save as txt file only.");
+            System.err.println("Save as txt file only.");
+            return;
         }
         try {
             List<String> lineupStringList = convertLineupToString(lineup);
             if (lineupStringList == null) {
-                throw new IllegalArgumentException("Lineup cannot be null.");
+                System.err.println("Lineup cannot be null.");
+                return;                
             }
             Files.write(Path.of(filename), lineupStringList);
         } catch (IOException e) {
@@ -590,7 +592,8 @@ public class Model implements ModelInterface {
      */
     public void saveGameDetailsAsTXTFile(String filename) {
         if (!filename.contains(".txt")) {
-            throw new IllegalArgumentException("Save as txt file only.");
+            System.err.println("Save as txt file only.");
+            return;
         }
 
         if (this.gameResult != null) {
