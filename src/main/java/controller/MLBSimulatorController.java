@@ -33,7 +33,7 @@ public class MLBSimulatorController {
         this.model = new Model();
         this.model.setPlayerTeam();
         this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
-        this.filteredPitchers = null;
+        this.filteredPitchers = null; // cannot be instantiated before a team is selected.
     }
 
     /**
@@ -386,10 +386,15 @@ public class MLBSimulatorController {
                         return;
                     }
                     // Show pitcher loader lineup for team
-                    // Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
-                    model.setComTeam(teamEnum); // Temporarily set com team
-                    view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
-                    // model.setComTeam(previousComTeam); // Reset com team to what it was
+                    if (model.getComTeam() == null) { // if user hasn't selected a team
+                        model.setComTeam(teamEnum);
+                        view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
+                    } else { // if user has selected a team, set back to original loader lineup after showing what they requested
+                        Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
+                        model.setComTeam(teamEnum); // Temporarily set com team
+                        view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
+                        model.setComTeam(previousComTeam); // Reset com team to what it was
+                    }
                 }
                 break;
 
