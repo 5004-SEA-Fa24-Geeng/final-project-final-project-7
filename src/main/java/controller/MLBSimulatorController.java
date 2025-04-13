@@ -33,6 +33,7 @@ public class MLBSimulatorController {
         this.model = new Model();
         this.model.setPlayerTeam();
         this.filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
+        this.filteredPitchers = null;
     }
 
     /**
@@ -385,10 +386,10 @@ public class MLBSimulatorController {
                         return;
                     }
                     // Show pitcher loader lineup for team
-                    Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
+                    // Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
                     model.setComTeam(teamEnum); // Temporarily set com team
                     view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
-                    model.setComTeam(previousComTeam); // Reset com team to what it was
+                    // model.setComTeam(previousComTeam); // Reset com team to what it was
                 }
                 break;
 
@@ -417,8 +418,13 @@ public class MLBSimulatorController {
                     return;
                 }
                 // NOTE:: Do we need error handling here?
+                if (model.getComTeam() == null) {
+                    view.displayError("Please select a team first.");
+                    return;
+                }
                 command = extractCommand(parts);
-                model.addBatterToLineup(Side.COMPUTER, command, filteredBatters.stream());
+                this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
                 break;
 
