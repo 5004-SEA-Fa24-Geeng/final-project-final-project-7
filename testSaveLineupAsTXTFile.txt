@@ -1,0 +1,112 @@
+===== Dylan Moore (Batter) =====
+Fastball Stats: PA=273, H=47, 1B=21, 2B=15, 3B=2, HR=9
+Breaking Stats: PA=124, H=16, 1B=9, 2B=5, 3B=1, HR=1
+Offspeed Stats: PA=42, H=11, 1B=7, 2B=3, 3B=1, HR=0
+Total Stats: PA=439, H=74, 1B=37, 2B=23, 3B=4, HR=10
+Swing Stats: ZoneSwing=0.653, ZoneContact=0.804, ChaseSwing=0.177, ChaseContact=0.532
+Overall: AVG=0.333, OBP=0.429, OPS=0.762
+===== Julio Rodriguez (Batter) =====
+Fastball Stats: PA=324, H=94, 1B=71, 2B=10, 3B=0, HR=13
+Breaking Stats: PA=202, H=47, 1B=37, 2B=5, 3B=0, HR=5
+Offspeed Stats: PA=86, H=14, 1B=10, 2B=2, 3B=0, HR=2
+Total Stats: PA=612, H=155, 1B=118, 2B=17, 3B=0, HR=20
+Swing Stats: ZoneSwing=0.746, ZoneContact=0.787, ChaseSwing=0.374, ChaseContact=0.532
+Overall: AVG=0.273, OBP=0.325, OPS=0.734
+===== Austin Shenton (Batter) =====
+Fastball Stats: PA=30, H=7, 1B=3, 2B=3, 3B=0, HR=1
+Breaking Stats: PA=14, H=1, 1B=0, 2B=1, 3B=0, HR=0
+Offspeed Stats: PA=6, H=1, 1B=0, 2B=1, 3B=0, HR=0
+Total Stats: PA=50, H=9, 1B=3, 2B=5, 3B=0, HR=1
+Swing Stats: ZoneSwing=0.596, ZoneContact=0.694, ChaseSwing=0.204, ChaseContact=0.5
+Overall: AVG=0.214, OBP=0.34, OPS=0.745
+===== Cal Raleigh (Batter) =====
+Fastball Stats: PA=328, H=64, 1B=38, 2B=8, 3B=0, HR=18
+Breaking Stats: PA=140, H=26, 1B=14, 2B=3, 3B=0, HR=9
+Offspeed Stats: PA=156, H=30, 1B=18, 2B=5, 3B=0, HR=7
+Total Stats: PA=624, H=120, 1B=70, 2B=16, 3B=0, HR=34
+Swing Stats: ZoneSwing=0.744, ZoneContact=0.765, ChaseSwing=0.327, ChaseContact=0.531
+Overall: AVG=0.22, OBP=0.312, OPS=0.748
+===== Mitch Garver (Batter) =====
+Fastball Stats: PA=228, H=36, 1B=15, 2B=9, 3B=0, HR=12
+Breaking Stats: PA=151, H=15, 1B=8, 2B=5, 3B=0, HR=2
+Offspeed Stats: PA=51, H=12, 1B=8, 2B=3, 3B=0, HR=1
+Total Stats: PA=430, H=63, 1B=31, 2B=17, 3B=0, HR=15
+Swing Stats: ZoneSwing=0.576, ZoneContact=0.786, ChaseSwing=0.2, ChaseContact=0.426
+Overall: AVG=0.172, OBP=0.286, OPS=0.627
+===== Tyler Locklear (Batter) =====
+Fastball Stats: PA=18, H=1, 1B=1, 2B=0, 3B=0, HR=0
+Breaking Stats: PA=23, H=4, 1B=2, 2B=1, 3B=0, HR=1
+Offspeed Stats: PA=8, H=2, 1B=1, 2B=0, 3B=0, HR=1
+Total Stats: PA=49, H=7, 1B=4, 2B=1, 3B=0, HR=2
+Swing Stats: ZoneSwing=0.688, ZoneContact=0.788, ChaseSwing=0.34, ChaseContact=0.324
+Overall: AVG=0.156, OBP=0.224, OPS=0.535
+===== Randy Arozarena (Batter) =====
+Fastball Stats: PA=375, H=67, 1B=43, 2B=14, 3B=0, HR=10
+Breaking Stats: PA=196, H=40, 1B=18, 2B=14, 3B=0, HR=8
+Offspeed Stats: PA=77, H=13, 1B=6, 2B=5, 3B=0, HR=2
+Total Stats: PA=648, H=120, 1B=67, 2B=33, 3B=0, HR=20
+Swing Stats: ZoneSwing=0.627, ZoneContact=0.759, ChaseSwing=0.268, ChaseContact=0.573
+Overall: AVG=0.219, OBP=0.332, OPS=0.72
+===== J.P. Crawford (Batter) =====
+Fastball Stats: PA=277, H=50, 1B=34, 2B=9, 3B=1, HR=6
+Breaking Stats: PA=124, H=23, 1B=13, 2B=6, 3B=1, HR=3
+Offspeed Stats: PA=50, H=6, 1B=5, 2B=1, 3B=0, HR=0
+Total Stats: PA=451, H=79, 1B=52, 2B=16, 3B=2, HR=9
+Swing Stats: ZoneSwing=0.62, ZoneContact=0.837, ChaseSwing=0.182, ChaseContact=0.63
+Overall: AVG=0.202, OBP=0.304, OPS=0.625
+===== Luke Raley (Batter) =====
+Fastball Stats: PA=214, H=56, 1B=28, 2B=12, 3B=1, HR=15
+Breaking Stats: PA=159, H=27, 1B=15, 2B=5, 3B=1, HR=6
+Offspeed Stats: PA=82, H=15, 1B=12, 2B=2, 3B=0, HR=1
+Total Stats: PA=455, H=98, 1B=55, 2B=19, 3B=2, HR=22
+Swing Stats: ZoneSwing=0.752, ZoneContact=0.762, ChaseSwing=0.279, ChaseContact=0.347
+Overall: AVG=0.243, OBP=0.32, OPS=0.783
+===== Victor Robles (Batter) =====
+Fastball Stats: PA=165, H=49, 1B=32, 2B=13, 3B=0, HR=4
+Breaking Stats: PA=96, H=23, 1B=17, 2B=6, 3B=0, HR=0
+Offspeed Stats: PA=34, H=6, 1B=5, 2B=1, 3B=0, HR=0
+Total Stats: PA=295, H=78, 1B=54, 2B=20, 3B=0, HR=4
+Swing Stats: ZoneSwing=0.727, ZoneContact=0.809, ChaseSwing=0.3, ChaseContact=0.533
+Overall: AVG=0.307, OBP=0.381, OPS=0.814
+===== Samad Taylor (Batter) =====
+Fastball Stats: PA=3, H=1, 1B=1, 2B=0, 3B=0, HR=0
+Breaking Stats: PA=2, H=1, 1B=1, 2B=0, 3B=0, HR=0
+Offspeed Stats: PA=13, H=2, 1B=2, 2B=0, 3B=0, HR=0
+Total Stats: PA=18, H=4, 1B=4, 2B=0, 3B=0, HR=0
+Swing Stats: ZoneSwing=0.693, ZoneContact=0.726, ChaseSwing=0.304, ChaseContact=0.531
+Overall: AVG=0.4, OBP=0.4, OPS=0.8
+===== Leo Rivas (Batter) =====
+Fastball Stats: PA=51, H=10, 1B=9, 2B=0, 3B=1, HR=0
+Breaking Stats: PA=25, H=6, 1B=5, 2B=1, 3B=0, HR=0
+Offspeed Stats: PA=10, H=1, 1B=1, 2B=0, 3B=0, HR=0
+Total Stats: PA=86, H=17, 1B=15, 2B=1, 3B=1, HR=0
+Swing Stats: ZoneSwing=0.566, ZoneContact=0.811, ChaseSwing=0.149, ChaseContact=0.423
+Overall: AVG=0.233, OBP=0.333, OPS=0.607
+===== Mitch Haniger (Batter) =====
+Fastball Stats: PA=246, H=48, 1B=29, 2B=9, 3B=0, HR=10
+Breaking Stats: PA=134, H=25, 1B=22, 2B=2, 3B=0, HR=1
+Offspeed Stats: PA=43, H=6, 1B=4, 2B=1, 3B=0, HR=1
+Total Stats: PA=423, H=79, 1B=55, 2B=12, 3B=0, HR=12
+Swing Stats: ZoneSwing=0.634, ZoneContact=0.766, ChaseSwing=0.241, ChaseContact=0.435
+Overall: AVG=0.208, OBP=0.286, OPS=0.62
+===== Dominic Canzone (Batter) =====
+Fastball Stats: PA=62, H=11, 1B=6, 2B=3, 3B=0, HR=2
+Breaking Stats: PA=75, H=16, 1B=9, 2B=3, 3B=0, HR=4
+Offspeed Stats: PA=49, H=6, 1B=3, 2B=1, 3B=0, HR=2
+Total Stats: PA=186, H=33, 1B=18, 2B=7, 3B=0, HR=8
+Swing Stats: ZoneSwing=0.689, ZoneContact=0.759, ChaseSwing=0.37, ChaseContact=0.481
+Overall: AVG=0.196, OBP=0.271, OPS=0.652
+===== Cade Marlowe (Batter) =====
+Fastball Stats: PA=4, H=2, 1B=2, 2B=0, 3B=0, HR=0
+Breaking Stats: PA=28, H=5, 1B=5, 2B=0, 3B=0, HR=0
+Offspeed Stats: PA=20, H=2, 1B=1, 2B=0, 3B=1, HR=0
+Total Stats: PA=52, H=9, 1B=8, 2B=0, 3B=1, HR=0
+Swing Stats: ZoneSwing=0.8, ZoneContact=0.833, ChaseSwing=0.316, ChaseContact=0.5
+Overall: AVG=0.25, OBP=0.33, OPS=0.75
+===== Ryan Bliss (Batter) =====
+Fastball Stats: PA=36, H=6, 1B=4, 2B=0, 3B=1, HR=1
+Breaking Stats: PA=23, H=7, 1B=3, 2B=3, 3B=0, HR=1
+Offspeed Stats: PA=12, H=1, 1B=1, 2B=0, 3B=0, HR=0
+Total Stats: PA=71, H=14, 1B=8, 2B=3, 3B=1, HR=2
+Swing Stats: ZoneSwing=0.779, ZoneContact=0.697, ChaseSwing=0.21, ChaseContact=0.36
+Overall: AVG=0.222, OBP=0.29, OPS=0.687

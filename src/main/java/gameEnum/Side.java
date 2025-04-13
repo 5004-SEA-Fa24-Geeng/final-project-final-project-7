@@ -30,8 +30,8 @@ public enum Side {
      * @param cmdName the name that we ask users to put in the terminal.
      * @return the enum that matches the team name.
      */
-    public static Teams fromCmdName(String cmdName) {
-        for (Teams col : Teams.values()) {
+    public static Side fromCmdName(String cmdName) {
+        for (Side col : Side.values()) {
             if (col.getCmdName().equals(cmdName)) {
                 return col;
             }
@@ -48,8 +48,8 @@ public enum Side {
      * @param name the name of the enum.
      * @return the enum that matches the name.
      */
-    public static Teams fromString(String name) {
-        for (Teams col : Teams.values()) {
+    public static Side fromString(String name) {
+        for (Side col : Side.values()) {
             if (col.name().equalsIgnoreCase(name) || col.getCmdName().equalsIgnoreCase(name)) {
                 return col;
             }

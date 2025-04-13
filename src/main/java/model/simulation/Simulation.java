@@ -114,7 +114,7 @@ public class Simulation {
 
         // Check if pitching lineup is complete
         if (comTeam.getPitcherLineup().contains(null)) {
-            throw new IllegalStateException("Player team must have a complete pitching lineup of 3 pitchers");
+            throw new IllegalStateException("Computer team must have a complete pitching lineup of 3 pitchers");
         }
     }
 
