@@ -66,6 +66,11 @@ public class TextUI {
    */
   public void displayBatters(List<Batter> players) {
     for (int i = 0; i < players.size(); i++) {
+      // show null in lineup
+      if (players.get(i) == null) {
+        System.out.println((i + 1) + ". Null");
+        continue;
+      }
       System.out.println((i + 1) + ". " + players.get(i).getName());
     }
   }
@@ -78,6 +83,11 @@ public class TextUI {
    */
   public void displayPitchers(List<Pitcher> players) {
     for (int i = 0; i < players.size(); i++) {
+      // show null in lineup
+      if (players.get(i) == null) {
+        System.out.println((i + 1) + ". Null");
+        continue;
+      }      
       System.out.println((i + 1) + ". " + players.get(i).getName());
     }
   }
