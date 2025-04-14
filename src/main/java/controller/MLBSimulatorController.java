@@ -445,17 +445,30 @@ public class MLBSimulatorController {
         if (playerSide) {
             // NOTE: additional error handling occurs in model
             Stream<Batter> batters = model.batterFilter(filterString, new HashSet<>(filteredBatters));
+
             // Update filtered batters
             filteredBatters = batters.toList();
+
+            // Reset filter if it resulted in empty list
+            if (isEmpty(filteredBatters)) {
+                filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
+                return;
+            }
 
             // Display the filtered batters
             view.displayBatters(filteredBatters);
         } else {
             // NOTE: additional error handling occurs in model
             Stream<Pitcher> pitchers = model.pitcherFilter(filterString, new HashSet<>(filteredPitchers));
+
             // Update filtered pitchers
             filteredPitchers = pitchers.toList();
 
+            // Reset filter if it resulted in empty list
+            if (isEmpty(filteredPitchers)) {
+                filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                return;
+            }
             // Display the filtered pitchers
             view.displayPitchers(filteredPitchers);
         }
@@ -477,6 +490,12 @@ public class MLBSimulatorController {
             // Update filtered batters
             filteredBatters = batters.toList();
 
+            // Reset filter if it resulted in empty list
+            if (isEmpty(filteredBatters)) {
+                filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
+                return;
+            }
+
             // Display the filtered batters
             view.displayBatters(filteredBatters);
         } else {
@@ -487,7 +506,13 @@ public class MLBSimulatorController {
             // Update filtered pitchers
             filteredPitchers = pitchers.toList();
 
-            // Display the filtered batters
+            // Reset filter if it resulted in empty list
+            if (isEmpty(filteredPitchers)) {
+                filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                return;
+            }
+
+            // Display the filtered pitchers
             view.displayPitchers(filteredPitchers);
         }
     }
@@ -499,10 +524,27 @@ public class MLBSimulatorController {
      */
     private void displayCurrentFilter(boolean playerSide) {
         if (playerSide) {
+            if (isEmpty(filteredBatters)) return;
             view.displayBatters(filteredBatters);
         } else {
+            if (isEmpty(filteredPitchers)) return;
             view.displayPitchers(filteredPitchers);
         }
+    }
+
+    /**
+     * Checks if a list is empty and displays an appropriate message if it is
+     *
+     * @param <T>  the type of elements in the list
+     * @param list the list to check
+     * @return true if the list is empty, false otherwise
+     */
+    private <T> boolean isEmpty(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            view.displayMessage("No items to display.");
+            return true;
+        }
+        return false;
     }
 
     /**
