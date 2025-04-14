@@ -194,6 +194,7 @@ public class MLBSimulatorController {
                     return;
                 }
 
+                // TODO: rename batterName because the actual string will be [name] to [number]
                 batterName = extractCommand(parts);
                 model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters.stream());
                 break;
@@ -354,7 +355,7 @@ public class MLBSimulatorController {
 
             case "add":
                 if (parts.length < 3) {
-                    view.displayError("Please specify a pitcher and postion.");
+                    view.displayError("Please specify a pitcher and position.");
                     return;
                 }
                 // NOTE:: Do we need error handling here?
@@ -363,9 +364,6 @@ public class MLBSimulatorController {
                     return;
                 }
                 command = extractCommand(parts);
-                // NOTE: Do we want to be resetting filteredPitchers when we add a pitcher here?
-                // Should this be the behavior for player add as well?
-                // this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
                 model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
                 break;
