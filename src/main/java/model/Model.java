@@ -65,6 +65,9 @@ public class Model implements ModelInterface {
     public List<String> getAllTeamName() {
         List<String> enumStringList = new ArrayList<>();
         for (Teams team: Teams.values()) {
+            if (team == Teams.MARINERS) {
+                continue;
+            }
             enumStringList.add(team.getCmdName());
         }
         return enumStringList;
