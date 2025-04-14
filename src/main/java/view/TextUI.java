@@ -37,6 +37,7 @@ public class TextUI {
     System.out.println("\nCOMPUTER COMMANDS:");
     System.out.println("  computer show [team]    - Show available pitchers for [team]");
     System.out.println("  computer show [name]    - Show pitcher information for [name]");
+    System.out.println("  computer show lineup    - Show current lineup for computer");
     System.out.println("  computer show teams     - Show selectable MLB teams");
     System.out.println("  computer select [team]  - Select a team to run simulation against");
     System.out.println(

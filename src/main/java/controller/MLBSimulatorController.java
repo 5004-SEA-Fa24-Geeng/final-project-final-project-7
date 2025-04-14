@@ -304,6 +304,8 @@ public class MLBSimulatorController {
                 if (parts[2].equalsIgnoreCase("teams")) {
                     view.displayAllTeams(model.getAllTeamName());
                     return;
+                } else if (parts[2].equalsIgnoreCase("lineup")) { // command: computer show lineup
+                    view.displayPitchers(model.getComTeamPitcherLineup());
                 } else if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
                     String pitcherName = extractCommand(parts);
 
