@@ -232,7 +232,6 @@ public class MLBSimulatorController {
      * @param parts The command parts
      */
     private void handlePlayerShowCommand(String[] parts) {
-        // TODO: extract the below check to method
         if (parts.length < 3) {
             view.displayError("Invalid player show command. Type 'help' for available commands.");
             return;
