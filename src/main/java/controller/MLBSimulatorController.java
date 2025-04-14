@@ -303,7 +303,7 @@ public class MLBSimulatorController {
                 } else if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
                     String pitcherName = extractCommand(parts);
 
-                    Pitcher pitcher = model.getPitcher(Side.PLAYER, pitcherName);
+                    Pitcher pitcher = model.getPitcher(Side.COMPUTER, pitcherName);
                     if (pitcher != null) {
                         view.displayPlayerInfo(pitcher);
                     } else {
@@ -365,7 +365,7 @@ public class MLBSimulatorController {
                 command = extractCommand(parts);
                 // NOTE: Do we want to be resetting filteredPitchers when we add a pitcher here?
                 // Should this be the behavior for player add as well?
-                this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                // this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
                 model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
                 break;
