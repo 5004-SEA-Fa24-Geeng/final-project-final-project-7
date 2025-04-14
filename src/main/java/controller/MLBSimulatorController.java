@@ -430,7 +430,7 @@ public class MLBSimulatorController {
         FilterCriteria criteria = parseFilterCriteria(parts);
 
         if (criteria.hasSort() && criteria.sortAttribute != null) {
-            applyFilterAndSort(playerSide, criteria.filterString, criteria.sortAttribute);
+            applyFilterAndSort(playerSide, criteria.filterString, criteria.sortAttribute, criteria.sortAsc);
         } else {
             applyFilterOnly(playerSide, criteria.filterString);
         }
@@ -469,10 +469,10 @@ public class MLBSimulatorController {
      * @param filterString  the filter string that gets passed to the model
      * @param sortAttribute the player attribute to sort on
      */
-    private void applyFilterAndSort(boolean playerSide, String filterString, PlayerData sortAttribute) {
+    private void applyFilterAndSort(boolean playerSide, String filterString, PlayerData sortAttribute, boolean sortAsc) {
         if (playerSide) {
             // NOTE: additional error handling occurs in model
-            Stream<Batter> batters = model.batterFilter(filterString, sortAttribute,
+            Stream<Batter> batters = model.batterFilter(filterString, sortAttribute, sortAsc,
                     new HashSet<>(filteredBatters));
 
             // Update filtered batters
@@ -482,7 +482,7 @@ public class MLBSimulatorController {
             view.displayBatters(filteredBatters);
         } else {
             // NOTE: additional error handling occurs in model
-            Stream<Pitcher> pitchers = model.pitcherFilter(filterString, sortAttribute,
+            Stream<Pitcher> pitchers = model.pitcherFilter(filterString, sortAttribute, sortAsc,
                     new HashSet<>(filteredPitchers));
 
             // Update filtered pitchers
@@ -555,10 +555,17 @@ public class MLBSimulatorController {
         // Check if we have sort criteria
         if (foundSort && sortIndex < parts.length - 1) {
             result.hasSort = true;
+            result.sortAsc = true; // Default to sort ascending
 
             // Collect the sort attribute - everything after "sort"
             StringBuilder sortBuilder = new StringBuilder();
             for (int j = sortIndex + 1; j < parts.length; j++) {
+                if (parts[j].equalsIgnoreCase("desc")) {
+                    result.sortAsc = false;
+                    continue;
+                } else if (parts[j].equalsIgnoreCase("asc")) {
+                    continue;
+                }
                 sortBuilder.append(parts[j]).append(" ");
             }
             String sortAttribute = sortBuilder.toString().trim();
