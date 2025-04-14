@@ -370,16 +370,27 @@ public class MLBSimulatorController {
         String command = null;
 
         switch (parts[1].toLowerCase()) {
+            // TODO: extract show into separate method
             case "show":
                 if (parts.length < 3) {
-                    view.displayError("Please specify a team name or 'all'.");
+                    view.displayError("Please specify a team name, pitcher name or 'all'.");
                     return;
                 }
 
                 if (parts[2].equalsIgnoreCase("teams")) {
                     view.displayAllTeams(model.getAllTeamName());
                     return;
-                } else { // Assume a team name was provided
+                } else if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
+                    String pitcherName = extractCommand(parts);
+
+                    Pitcher pitcher = model.getPitcher(Side.PLAYER, pitcherName);
+                    if (pitcher != null) {
+                        view.displayPlayerInfo(pitcher);
+                    } else {
+                        view.displayError("Pitcher not found: " + pitcherName);
+                    }
+                    break;
+                } else { // Otherwise we assume a team name was provided
                     String teamName = parts[2];
                     Teams teamEnum = null;
                     try {
@@ -432,6 +443,7 @@ public class MLBSimulatorController {
                 }
                 command = extractCommand(parts);
                 // NOTE: Do we want to be resetting filteredPitchers when we add a pitcher here?
+                // Should this be the behavior for player add as well?
                 this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
                 model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
@@ -446,6 +458,7 @@ public class MLBSimulatorController {
                 command = extractCommand(parts);
                 model.removeFromLineup(Side.COMPUTER, PITCHER, command);
                 break;
+            // TODO: add filter command
 
             default:
                 view.displayError("Invalid computer command. Type 'help' for available commands.");
