@@ -431,6 +431,7 @@ public class MLBSimulatorController {
                     return;
                 }
                 command = extractCommand(parts);
+                // NOTE: Do we want to be resetting filteredPitchers when we add a pitcher here?
                 this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
                 model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
