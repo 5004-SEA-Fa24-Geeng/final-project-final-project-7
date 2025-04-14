@@ -467,6 +467,9 @@ public class Model implements ModelInterface {
      * @param filteredBatters filteredBatters from batterFilter()
      */
     public void addBatterToLineup(Side side, String filterString, Stream<Batter> filteredBatters) {
+        if (!filterString.contains(" to ")) {
+            throw new IllegalArgumentException("Needs to assign a position number.");
+        }     
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addBatterToTeam(filterString, filteredBatters);
         } else if (side.equals(Side.COMPUTER)) {
@@ -481,6 +484,9 @@ public class Model implements ModelInterface {
      * @param filteredPitchers filteredPitchers from pitcherFilter()
      */
     public void addPitcherToLineup(Side side, String filterString, Stream<Pitcher> filteredPitchers) {
+        if (!filterString.contains(" to ")) {
+            throw new IllegalArgumentException("Needs to assign a position number.");
+        }
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addPitcherToTeam(filterString, filteredPitchers);
         } else if (side.equals(Side.COMPUTER)) {
