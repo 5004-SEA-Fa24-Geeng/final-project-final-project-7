@@ -332,7 +332,7 @@ public class MLBSimulatorController {
                     }
                 }
                 break;
-
+            // NOTE: print a message for this
             case "select":
                 if (parts.length < 3) {
                     view.displayError("Please specify a team name.");
