@@ -380,6 +380,10 @@ public class MLBSimulatorController {
                 break;
 
             case "filter":
+                if (model.getComTeam() == null) {
+                    view.displayError("Please select a team first.");
+                    return;
+                }
                 handleFilterCommand(parts, Side.COMPUTER);
 
             default:
