@@ -56,7 +56,7 @@ public class TextUI {
     /**
      * Displays individual player information
      *
-     * @param player
+     * @param player the player to show
      */
     public void displayPlayerInfo(Player player) {
         System.out.println(player.toString());
@@ -66,7 +66,7 @@ public class TextUI {
      * Displays list of player names. Can be
      * used for current lineup or all available players.
      *
-     * @param players
+     * @param players the list
      */
     public void displayBatters(List<Batter> players) {
         for (int i = 0; i < players.size(); i++) {
@@ -83,7 +83,7 @@ public class TextUI {
      * Displays list of player names. Can be
      * used for current lineup or all available players.
      *
-     * @param players
+     * @param players the list of players to display
      */
     public void displayPitchers(List<Pitcher> players) {
         for (int i = 0; i < players.size(); i++) {
