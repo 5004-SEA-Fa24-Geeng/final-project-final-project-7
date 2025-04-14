@@ -213,92 +213,12 @@ public class MLBSimulatorController {
                 break;
 
             case "filter":
-                handlePlayerFilterCommand(parts);
+                handleFilterCommand(parts, Side.PLAYER);
                 break;
 
             default:
                 view.displayError("Invalid player command. Type 'help' for available commands.");
                 break;
-        }
-    }
-
-    /**
-     * Handles player filter commands
-     *
-     * @param parts the command string array
-     */
-    private void handlePlayerFilterCommand(String[] parts) {
-        if (parts.length < 3) { // if no args, show current filter
-            view.displayBatters(filteredBatters);
-            return;
-        }
-
-        // Reset the filtered batters
-        if (Objects.equals(parts[2], "reset")) {
-            filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
-            view.displayMessage("Filter reset.");
-            return;
-        }
-
-        // Start by reassembling the entire filter string (everything after "player
-        // filter")
-        StringBuilder filterBuilder = new StringBuilder();
-        int i = 2; // Skip "player" and "filter"
-
-        // Flags to track when we hit the sort keyword
-        boolean foundSort = false;
-        int sortIndex = -1;
-
-        // Collect all parts until the end or until we hit "sort"
-        while (i < parts.length) {
-            if (parts[i].equalsIgnoreCase("sort")) {
-                foundSort = true;
-                sortIndex = i;
-                break;
-            }
-            filterBuilder.append(parts[i]).append(" ");
-            i++;
-        }
-
-        // Trim the trailing space
-        String filterCriteria = filterBuilder.toString().trim();
-
-        // Check if we have sort criteria
-        if (foundSort && sortIndex < parts.length - 1) {
-            // Collect the sort attribute - everything after "sort"
-            StringBuilder sortBuilder = new StringBuilder();
-            for (int j = sortIndex + 1; j < parts.length; j++) {
-                sortBuilder.append(parts[j]).append(" ");
-            }
-            String sortAttribute = sortBuilder.toString().trim();
-
-            // Try to get the sortOn attribute from PlayerData
-            PlayerData sortOn = null;
-            try {
-                // use fromString instead of fromColumnName
-                // cause sortOn needs to be case insensitive
-                // ex: "totalh" == "TotalH"
-                sortOn = PlayerData.fromString(sortAttribute);
-            } catch (IllegalArgumentException e) {
-                view.displayMessage(e.getMessage());
-                return;
-            }
-            // Call the method with both filter and sort
-            Stream<Batter> batters = model.batterFilter(filterCriteria, sortOn,
-                    new HashSet<>(filteredBatters));
-            // Update filtered batters
-            filteredBatters = batters.toList();
-
-            // Display the filtered batters
-            view.displayBatters(filteredBatters);
-        } else {
-            // Call the method with just filter
-            Stream<Batter> batters = model.batterFilter(filterCriteria, new HashSet<>(filteredBatters));
-            // Update filtered batters
-            filteredBatters = batters.toList();
-
-            // Display the filtered batters
-            view.displayBatters(filteredBatters);
         }
     }
 
@@ -370,16 +290,27 @@ public class MLBSimulatorController {
         String command = null;
 
         switch (parts[1].toLowerCase()) {
+            // TODO: extract show into separate method
             case "show":
                 if (parts.length < 3) {
-                    view.displayError("Please specify a team name or 'all'.");
+                    view.displayError("Please specify a team name, pitcher name or 'all'.");
                     return;
                 }
 
                 if (parts[2].equalsIgnoreCase("teams")) {
                     view.displayAllTeams(model.getAllTeamName());
                     return;
-                } else { // Assume a team name was provided
+                } else if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
+                    String pitcherName = extractCommand(parts);
+
+                    Pitcher pitcher = model.getPitcher(Side.PLAYER, pitcherName);
+                    if (pitcher != null) {
+                        view.displayPlayerInfo(pitcher);
+                    } else {
+                        view.displayError("Pitcher not found: " + pitcherName);
+                    }
+                    break;
+                } else { // Otherwise we assume a team name was provided
                     String teamName = parts[2];
                     Teams teamEnum = null;
                     try {
@@ -431,6 +362,8 @@ public class MLBSimulatorController {
                     return;
                 }
                 command = extractCommand(parts);
+                // NOTE: Do we want to be resetting filteredPitchers when we add a pitcher here?
+                // Should this be the behavior for player add as well?
                 this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
                 model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
 
@@ -446,9 +379,185 @@ public class MLBSimulatorController {
                 model.removeFromLineup(Side.COMPUTER, PITCHER, command);
                 break;
 
+            case "filter":
+                handleFilterCommand(parts, Side.COMPUTER);
+
             default:
                 view.displayError("Invalid computer command. Type 'help' for available commands.");
                 break;
         }
+    }
+
+    /**
+     * Handles filter commands for both player and computer
+     *
+     * @param parts the command string array
+     */
+    private void handleFilterCommand(String[] parts, Side side) {
+        // Set local player type flag
+        boolean playerSide = side == Side.PLAYER;
+
+        // If no args, show current filter
+        if (parts.length < 3) {
+            displayCurrentFilter(playerSide);
+            return;
+        }
+
+        // Reset the filtered players if reset command
+        if (Objects.equals(parts[2], "reset")) {
+            resetFilter(playerSide);
+            return;
+        }
+
+        // Parse filter and sort criteria
+        FilterCriteria criteria = parseFilterCriteria(parts);
+
+        if (criteria.hasSort() && criteria.sortAttribute != null) {
+            applyFilterAndSort(playerSide, criteria.filterString, criteria.sortAttribute);
+        } else {
+            applyFilterOnly(playerSide, criteria.filterString);
+        }
+    }
+
+    /**
+     * Applies filter to batters or pitchers
+     *
+     * @param playerSide   indicates batters or pitchers
+     * @param filterString the filter string being passed to the model
+     */
+    private void applyFilterOnly(boolean playerSide, String filterString) {
+        if (playerSide) {
+            // NOTE: additional error handling occurs in model
+            Stream<Batter> batters = model.batterFilter(filterString, new HashSet<>(filteredBatters));
+            // Update filtered batters
+            filteredBatters = batters.toList();
+
+            // Display the filtered batters
+            view.displayBatters(filteredBatters);
+        } else {
+            // NOTE: additional error handling occurs in model
+            Stream<Pitcher> pitchers = model.pitcherFilter(filterString, new HashSet<>(filteredPitchers));
+            // Update filtered pitchers
+            filteredPitchers = pitchers.toList();
+
+            // Display the filtered pitchers
+            view.displayPitchers(filteredPitchers);
+        }
+    }
+
+    /**
+     * Filters and sorts batters or pitchers
+     *
+     * @param playerSide    indicates batters or pitchers
+     * @param filterString  the filter string that gets passed to the model
+     * @param sortAttribute the player attribute to sort on
+     */
+    private void applyFilterAndSort(boolean playerSide, String filterString, PlayerData sortAttribute) {
+        if (playerSide) {
+            // NOTE: additional error handling occurs in model
+            Stream<Batter> batters = model.batterFilter(filterString, sortAttribute,
+                    new HashSet<>(filteredBatters));
+
+            // Update filtered batters
+            filteredBatters = batters.toList();
+
+            // Display the filtered batters
+            view.displayBatters(filteredBatters);
+        } else {
+            // NOTE: additional error handling occurs in model
+            Stream<Pitcher> pitchers = model.pitcherFilter(filterString, sortAttribute,
+                    new HashSet<>(filteredPitchers));
+
+            // Update filtered pitchers
+            filteredPitchers = pitchers.toList();
+
+            // Display the filtered batters
+            view.displayPitchers(filteredPitchers);
+        }
+    }
+
+    /**
+     * Displays currently filtered pitchers or batters
+     *
+     * @param playerSide indicates batters or pitchers
+     */
+    private void displayCurrentFilter(boolean playerSide) {
+        if (playerSide) {
+            view.displayBatters(filteredBatters);
+        } else {
+            view.displayPitchers(filteredPitchers);
+        }
+    }
+
+    /**
+     * Resets the filtered batters or pitchers to the full roster
+     *
+     * @param playerSide indicates batters or pitchers
+     */
+    private void resetFilter(boolean playerSide) {
+        if (playerSide) {
+            filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
+        } else {
+            filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+        }
+        view.displayMessage("Filter reset.");
+    }
+
+    /**
+     * Parses filter strings
+     *
+     * @param parts the command parts
+     * @return filter and sort criteria in FilterCriteria object
+     */
+    private FilterCriteria parseFilterCriteria(String[] parts) {
+        FilterCriteria result = new FilterCriteria();
+
+        // Start by reassembling the entire filter string (everything after "player/computer
+        // filter")
+        StringBuilder filterBuilder = new StringBuilder();
+        int i = 2; // Skip "player" and "filter"
+
+        // Flags to track when we hit the sort keyword
+        boolean foundSort = false;
+        int sortIndex = -1;
+
+        // Collect all parts until the end or until we hit "sort"
+        while (i < parts.length) {
+            if (parts[i].equalsIgnoreCase("sort")) {
+                foundSort = true;
+                sortIndex = i;
+                break;
+            }
+            filterBuilder.append(parts[i]).append(" ");
+            i++;
+        }
+
+        // Trim the trailing space
+        String filterCriteria = filterBuilder.toString().trim();
+
+        // Check if we have sort criteria
+        if (foundSort && sortIndex < parts.length - 1) {
+            result.hasSort = true;
+
+            // Collect the sort attribute - everything after "sort"
+            StringBuilder sortBuilder = new StringBuilder();
+            for (int j = sortIndex + 1; j < parts.length; j++) {
+                sortBuilder.append(parts[j]).append(" ");
+            }
+            String sortAttribute = sortBuilder.toString().trim();
+
+            // Try to get the sortOn attribute from PlayerData
+            PlayerData sortOn = null;
+            try {
+                // use fromString instead of fromColumnName
+                // cause sortOn needs to be case insensitive
+                // ex: "totalh" == "TotalH"
+                sortOn = PlayerData.fromString(sortAttribute);
+            } catch (IllegalArgumentException e) {
+                view.displayMessage(e.getMessage());
+                result.hasSort = false; // Reset this since we couldn't parse the sort attribute
+            }
+        }
+        return result;
     }
 }
