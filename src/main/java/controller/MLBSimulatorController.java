@@ -182,7 +182,7 @@ public class MLBSimulatorController {
             return;
         }
 
-        String batterName = null;
+        String command = null;
         switch (parts[1].toLowerCase()) {
             case "show":
                 handlePlayerShowCommand(parts);
@@ -190,13 +190,16 @@ public class MLBSimulatorController {
 
             case "add":
                 if (parts.length < 3) {
-                    view.displayError("Invalid command. Use 'player add [name]'.");
+                    view.displayError("Invalid command. Use 'player add [name/number] to [number]'.");
                     return;
                 }
 
-                // TODO: rename batterName because the actual string will be [name] to [number]
-                batterName = extractCommand(parts);
-                model.addBatterToLineup(Side.PLAYER, batterName, this.filteredBatters.stream());
+                command = extractCommand(parts);
+                try {
+                    model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
+                } catch (IllegalArgumentException e) {
+                    view.displayError(e.getMessage());
+                }
                 break;
 
             case "remove":
@@ -204,8 +207,8 @@ public class MLBSimulatorController {
                     view.displayError("Invalid command. Use 'player remove [name]'.");
                     return;
                 }
-                batterName = extractCommand(parts);
-                model.removeFromLineup(Side.PLAYER, BATTER, batterName);
+                command = extractCommand(parts);
+                model.removeFromLineup(Side.PLAYER, BATTER, command);
                 break;
 
             case "clear":
@@ -358,13 +361,17 @@ public class MLBSimulatorController {
                     view.displayError("Please specify a pitcher and position.");
                     return;
                 }
-                // NOTE:: Do we need error handling here?
                 if (model.getComTeam() == null) {
                     view.displayError("Please select a team first.");
                     return;
                 }
                 command = extractCommand(parts);
-                model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+
+                try {
+                    model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+                } catch (IllegalArgumentException e) {
+                    view.displayMessage(e.getMessage());
+                }
 
                 break;
 
@@ -384,6 +391,7 @@ public class MLBSimulatorController {
                     return;
                 }
                 handleFilterCommand(parts, Side.COMPUTER);
+                break;
 
             default:
                 view.displayError("Invalid computer command. Type 'help' for available commands.");
