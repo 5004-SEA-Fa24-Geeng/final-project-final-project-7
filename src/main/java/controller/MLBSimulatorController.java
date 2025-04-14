@@ -322,7 +322,8 @@ public class MLBSimulatorController {
                     // Show pitcher loader lineup for team
                     if (model.getComTeam() == null) { // if user hasn't selected a team
                         model.setComTeam(teamEnum);
-                        view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
+                        this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                        view.displayPitchers(this.filteredPitchers);
                     } else { // if user has selected a team, set back to original loader lineup after showing what they requested
                         Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
                         model.setComTeam(teamEnum); // Temporarily set com team
