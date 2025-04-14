@@ -537,8 +537,8 @@ public class MLBSimulatorController {
             i++;
         }
 
-        // Trim the trailing space
-        String filterCriteria = filterBuilder.toString().trim();
+        // Trim the trailing space and set in result
+        result.filterString = filterBuilder.toString().trim();
 
         // Check if we have sort criteria
         if (foundSort && sortIndex < parts.length - 1) {
@@ -552,12 +552,11 @@ public class MLBSimulatorController {
             String sortAttribute = sortBuilder.toString().trim();
 
             // Try to get the sortOn attribute from PlayerData
-            PlayerData sortOn = null;
             try {
                 // use fromString instead of fromColumnName
                 // cause sortOn needs to be case insensitive
                 // ex: "totalh" == "TotalH"
-                sortOn = PlayerData.fromString(sortAttribute);
+                result.sortAttribute = PlayerData.fromString(sortAttribute);
             } catch (IllegalArgumentException e) {
                 view.displayMessage(e.getMessage());
                 result.hasSort = false; // Reset this since we couldn't parse the sort attribute
