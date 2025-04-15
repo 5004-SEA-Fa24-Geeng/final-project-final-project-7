@@ -229,16 +229,11 @@ public class Model implements ModelInterface {
     public Stream<Batter> batterFilter(String filter, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
-            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Batter> filteredStream = Stream.empty();
-            return filteredStream;
-        }
+        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
+        return filteredStream;
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
@@ -251,16 +246,11 @@ public class Model implements ModelInterface {
     public Stream<Batter> batterFilter(String filter, PlayerData sortOn, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Batter> filteredStream = Stream.empty();
-            return filteredStream;
-        }        
+        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
+        return filteredStream;     
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -275,16 +265,11 @@ public class Model implements ModelInterface {
                                         boolean ascending , Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Batter> filteredStream = Stream.empty();
-            return filteredStream;
-        }         
+        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
+        return filteredStream;     
     }
     /**
      * Use the filter string and loader linup to get the filtered results.
@@ -296,16 +281,11 @@ public class Model implements ModelInterface {
     public Stream<Pitcher> pitcherFilter(String filter, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
-            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Pitcher> filteredStream = Stream.empty();
-            return filteredStream;
-        }     
+        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
+        return filteredStream; 
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
@@ -318,16 +298,11 @@ public class Model implements ModelInterface {
     public Stream<Pitcher> pitcherFilter(String filter, PlayerData sortOn, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Pitcher> filteredStream = Stream.empty();
-            return filteredStream;
-        }           
+        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
+        return filteredStream;         
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -342,16 +317,11 @@ public class Model implements ModelInterface {
                                             boolean ascending, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        try {
-            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), ascending));
-            return filteredStream;
-        } catch (Exception e) {
-            Stream<Pitcher> filteredStream = Stream.empty();
-            return filteredStream;
-        }                  
+        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+        ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), ascending));
+        return filteredStream;             
     }
     /**
      * processes string with one filter.
@@ -361,28 +331,29 @@ public class Model implements ModelInterface {
      */
     private Stream<Batter> filterSingleForBatter(String filterString, Stream<Batter> filteredBatters) {
         Operations operator = Operations.getOperatorFromStr(filterString);
+        Stream<Batter> emptyStream = Stream.empty();
         if (operator == null) {
-            return filteredBatters;
+            return emptyStream;
         }
         // remove spaces
         filterString = filterString.replaceAll(" ", "");
 
         String[] parts = filterString.split(operator.getOperator());
         if (parts.length != 2) {
-            return filteredBatters;
+            return emptyStream;
         }
         PlayerData column;
         try {
             column = PlayerData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
-            return filteredBatters;
+            return emptyStream;
         }
 
         String value;
         try {
             value = parts[1].trim();
         } catch (IllegalArgumentException e) {
-            return filteredBatters;
+            return emptyStream;
         }
         
         filteredBatters = filteredBatters.filter(batter -> this.filter
@@ -405,22 +376,23 @@ public class Model implements ModelInterface {
         // for every part in the filter
         // part breaks into smallPart to get the column, operator, value we need
         for (String part : parts) {
+            Stream<Batter> emptyStream = Stream.empty();
             Operations operator = Operations.getOperatorFromStr(part);
             String[] smallParts = part.split(operator.getOperator());
             if (smallParts.length != 2) {
-                return filteredBatters;
+                return emptyStream;
             }
             PlayerData column;
             try {
                 column = PlayerData.fromString(smallParts[0]);
             } catch (IllegalArgumentException e) {
-                return filteredBatters;
+                return emptyStream;
             }
             String value;
             try {
                 value = smallParts[1].trim();
             } catch (IllegalArgumentException e) {
-                return filteredBatters;
+                return emptyStream;
             }
             filteredBatters = filteredBatters.filter(batter -> this.filter
                                                 .batterFilter(batter, column, operator, value));
@@ -434,29 +406,30 @@ public class Model implements ModelInterface {
      * @return Stream<Pitcher> a stream of pitchers that is filtered
      */
     private Stream<Pitcher> filterSingleForPitcher(String filterString, Stream<Pitcher> filteredPitchers) {
+        Stream<Pitcher> emptyStream = Stream.empty();        
         Operations operator = Operations.getOperatorFromStr(filterString);
         if (operator == null) {
-            return filteredPitchers;
+            return emptyStream;
         }
         // remove spaces
         filterString = filterString.replaceAll(" ", "");
 
         String[] parts = filterString.split(operator.getOperator());
         if (parts.length != 2) {
-            return filteredPitchers;
+            return emptyStream;
         }
         PlayerData column;
         try {
             column = PlayerData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
-            return filteredPitchers;
+            return emptyStream;
         }
 
         String value;
         try {
             value = parts[1].trim();
         } catch (IllegalArgumentException e) {
-            return filteredPitchers;
+            return emptyStream;
         }
         
         filteredPitchers = filteredPitchers.filter(pitcher -> this.filter
@@ -479,22 +452,23 @@ public class Model implements ModelInterface {
         // for every part in the filter
         // part breaks into smallPart to get the column, operator, value we need
         for (String part : parts) {
+            Stream<Pitcher> emptyStream = Stream.empty();                  
             Operations operator = Operations.getOperatorFromStr(part);
             String[] smallParts = part.split(operator.getOperator());
             if (smallParts.length != 2) {
-                return filteredPitchers;
+                return emptyStream;
             }
             PlayerData column;
             try {
                 column = PlayerData.fromString(smallParts[0]);
             } catch (IllegalArgumentException e) {
-                return filteredPitchers;
+                return emptyStream;
             }
             String value;
             try {
                 value = smallParts[1].trim();
             } catch (IllegalArgumentException e) {
-                return filteredPitchers;
+                return emptyStream;
             }
             filteredPitchers = filteredPitchers.filter(pitcher -> this.filter
                                                 .pitcherFilter(pitcher, column, operator, value));
