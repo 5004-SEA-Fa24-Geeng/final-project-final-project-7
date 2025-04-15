@@ -113,7 +113,8 @@ public class MLBSimulatorController {
         }
 
         SimulationResult simulationResult = null;
-
+        // TODO: number of simulations doesn't work, it's 1 higher than it should be
+        // TODO: simulation file naming is incorrect, its appending to the end filename.txt_01
         if (outfile == null) {
             for (int i = 0; i < numberOfSimulations; i++) {
                 simulationResult = model.startSimAndGetResult();
