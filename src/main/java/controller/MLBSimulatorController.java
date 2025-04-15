@@ -242,6 +242,10 @@ public class MLBSimulatorController {
                 view.displayBatters(model.getPlayerTeamBatterLineup());
                 break;
 
+            case "attributes":
+                view.displayListOfStrings(PlayerData.getAllColumnName());
+                break;
+
             case "all":
                 view.displayBatters(model.getPlayerTeamBatterLoaderLineup().stream().toList());
                 break;
@@ -303,6 +307,8 @@ public class MLBSimulatorController {
                 if (parts[2].equalsIgnoreCase("teams")) {
                     view.displayAllTeams(model.getAllTeamName());
                     return;
+                } else if (parts[2].equalsIgnoreCase("attributes")) {
+                    view.displayListOfStrings(PlayerData.getAllColumnName());
                 } else if (parts[2].equalsIgnoreCase("lineup")) { // command: computer show lineup
                     if (model.getComTeam() == null) {
                         view.displayError("Please select a team first.");
