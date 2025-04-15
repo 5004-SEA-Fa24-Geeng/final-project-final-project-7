@@ -73,6 +73,18 @@ public class Model implements ModelInterface {
         return enumStringList;
     }
     /**
+     * Turns PlayerData enums into String List and get that list.
+     * CMD: player/computer show attributes
+     * @return List<String>
+     */    
+    public List<String> getAllColumnName() {
+        List<String> enumStringList = new ArrayList<>();
+        for (PlayerData col: PlayerData.values()) {
+            enumStringList.add(col.getColumnName());
+        }
+        return enumStringList;
+    }    
+    /**
      * player's BatterLineup getter.
      * CMD: player show lineup
      * @return List<Batter>
@@ -217,11 +229,16 @@ public class Model implements ModelInterface {
     public Stream<Batter> batterFilter(String filter, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
-        return filteredStream;
+        try {
+            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
+            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Batter> filteredStream = Stream.empty();
+            return filteredStream;
+        }
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
@@ -234,11 +251,16 @@ public class Model implements ModelInterface {
     public Stream<Batter> batterFilter(String filter, PlayerData sortOn, Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
-        return filteredStream;
+        try {
+            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Batter> filteredStream = Stream.empty();
+            return filteredStream;
+        }        
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -253,11 +275,16 @@ public class Model implements ModelInterface {
                                         boolean ascending , Set<Batter> batterLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
-        return filteredStream;
+        try {
+            Stream<Batter> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Batter> filteredStream = Stream.empty();
+            return filteredStream;
+        }         
     }
     /**
      * Use the filter string and loader linup to get the filtered results.
@@ -269,11 +296,16 @@ public class Model implements ModelInterface {
     public Stream<Pitcher> pitcherFilter(String filter, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
-        return filteredStream;
+        try {
+            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
+            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Pitcher> filteredStream = Stream.empty();
+            return filteredStream;
+        }     
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
@@ -286,11 +318,16 @@ public class Model implements ModelInterface {
     public Stream<Pitcher> pitcherFilter(String filter, PlayerData sortOn, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
-        return filteredStream;
+        try {
+            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Pitcher> filteredStream = Stream.empty();
+            return filteredStream;
+        }           
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -305,11 +342,16 @@ public class Model implements ModelInterface {
                                             boolean ascending, Set<Pitcher> pitcherLoaderLineup) {
         // true: single filter
         // false: multi filter
-        Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
-        filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), ascending));
-        return filteredStream;
+        try {
+            Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
+            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+            filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), ascending));
+            return filteredStream;
+        } catch (Exception e) {
+            Stream<Pitcher> filteredStream = Stream.empty();
+            return filteredStream;
+        }                  
     }
     /**
      * processes string with one filter.
