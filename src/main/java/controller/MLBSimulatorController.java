@@ -497,6 +497,7 @@ public class MLBSimulatorController {
             filteredBatters = batters.toList();
 
             // Reset filter if it resulted in empty list
+            // TODO: extract this Reset Filter to method
             if (isEmpty(filteredBatters)) {
                 filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
                 return;
