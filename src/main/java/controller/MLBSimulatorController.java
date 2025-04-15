@@ -194,6 +194,7 @@ public class MLBSimulatorController {
                     return;
                 }
                 // TODO: check list index for add command to make sure it's not out of bounds
+                // TODO: print success message
                 command = extractCommand(parts);
                 try {
                     model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
@@ -379,6 +380,7 @@ public class MLBSimulatorController {
                 command = extractCommand(parts);
 
                 // TODO: check list index for add command to make sure it's not out of bounds
+                // TODO: print success message
                 try {
                     model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
                 } catch (IllegalArgumentException e) {
