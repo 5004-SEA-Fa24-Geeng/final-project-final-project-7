@@ -193,7 +193,7 @@ public class MLBSimulatorController {
                     view.displayError("Invalid command. Use 'player add [name/number] to [number]'.");
                     return;
                 }
-
+                // TODO: check list index for add command to make sure it's not out of bounds
                 command = extractCommand(parts);
                 try {
                     model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
@@ -378,6 +378,7 @@ public class MLBSimulatorController {
                 }
                 command = extractCommand(parts);
 
+                // TODO: check list index for add command to make sure it's not out of bounds
                 try {
                     model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
                 } catch (IllegalArgumentException e) {
