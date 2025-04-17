@@ -410,24 +410,86 @@ public class MLBSimulatorController {
         if (cmdInfo.isValid) {
             // Only add pitcher if command is validated
             if (playerSide) {
-                Batter batter = filteredBatters.get(cmdInfo.playerIndex);
-                try {
-                    model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
-                    view.displayMessage("Added " + batter.getName() + " to position " + cmdInfo.position);
-                } catch (IllegalArgumentException e) {
-                    view.displayError(e.getMessage());
+                Batter batter = getBatterFromCommand(cmdInfo);
+                if (batter != null) {
+                    try {
+                        model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
+                        view.displayMessage("Added " + batter.getName() + " to position " + cmdInfo.position);
+                    } catch (IllegalArgumentException e) {
+                        view.displayError(e.getMessage());
+                    }
                 }
             } else {
-                Pitcher pitcher = filteredPitchers.get(cmdInfo.playerIndex);
-                try {
-                    model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
-                    // view.displayMessage("Added " + pitcher.getName() + " to position " + cmdInfo.position);
-                    // NOTE: There is no way of validating success from addPitcherToLineup so we will skip success
-                    // message
-                } catch (IllegalArgumentException e) {
-                    view.displayError(e.getMessage());
+                Pitcher pitcher = getPitcherFromCommand(cmdInfo);
+                if (pitcher != null) {
+                    try {
+                        model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+                        // view.displayMessage("Added " + pitcher.getName() + " to position " + cmdInfo.position);
+                        // NOTE: There is no way of validating success from addPitcherToLineup so we will skip success
+                        // message
+                    } catch (IllegalArgumentException e) {
+                        view.displayError(e.getMessage());
+                    }
                 }
             }
+        }
+    }
+
+    /**
+     * Gets a batter by either index or name depending on the command info
+     *
+     * @param cmdInfo The parsed command information
+     * @return The batter if found, null otherwise
+     */
+    private Batter getBatterFromCommand(AddCommandInfo cmdInfo) {
+        if (cmdInfo.isIndex) {
+            // Get by index
+            return filteredBatters.get(cmdInfo.playerIndex);
+        } else {
+            // Get by name
+            for (Batter batter : filteredBatters) {
+                if (batter.getName().equalsIgnoreCase(cmdInfo.playerName)) {
+                    return batter;
+                }
+            }
+            // If not found, try to find a partial match
+            for (Batter batter : filteredBatters) {
+                if (batter.getName().toLowerCase().contains(cmdInfo.playerName.toLowerCase())) {
+                    return batter;
+                }
+            }
+            // Not found
+            view.displayError("Batter not found: " + cmdInfo.playerName);
+            return null;
+        }
+    }
+
+    /**
+     * Gets a pitcher by either index or name depending on the command info
+     *
+     * @param cmdInfo The parsed command information
+     * @return The pitcher if found, null otherwise
+     */
+    private Pitcher getPitcherFromCommand(AddCommandInfo cmdInfo) {
+        if (cmdInfo.isIndex) {
+            // Get by index
+            return filteredPitchers.get(cmdInfo.playerIndex);
+        } else {
+            // Get by name
+            for (Pitcher pitcher : filteredPitchers) {
+                if (pitcher.getName().equalsIgnoreCase(cmdInfo.playerName)) {
+                    return pitcher;
+                }
+            }
+            // If not found, try to find a partial match
+            for (Pitcher pitcher : filteredPitchers) {
+                if (pitcher.getName().toLowerCase().contains(cmdInfo.playerName.toLowerCase())) {
+                    return pitcher;
+                }
+            }
+            // Not found
+            view.displayError("Pitcher not found: " + cmdInfo.playerName);
+            return null;
         }
     }
 
@@ -445,57 +507,9 @@ public class MLBSimulatorController {
         String command = null;
 
         switch (parts[1].toLowerCase()) {
-            // TODO: extract show into separate method
             case "show":
-                if (parts.length < 3) {
-                    view.displayError("Incorrect computer command. Type 'help' for available commands.");
-                    return;
-                }
-
-                if (parts[2].equalsIgnoreCase("teams")) {
-                    view.displayAllTeams(model.getAllTeamName());
-                    return;
-                } else if (parts[2].equalsIgnoreCase("attributes")) {
-                    view.displayListOfStrings(model.getAllColumnName());
-                } else if (parts[2].equalsIgnoreCase("lineup")) { // command: computer show lineup
-                    if (model.getComTeam() == null) {
-                        view.displayError("Please select a team first.");
-                        return;
-                    }
-                    view.displayPitchers(model.getComTeamPitcherLineup());
-                } else if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
-                    String pitcherName = extractCommand(parts);
-
-                    Pitcher pitcher = model.getPitcher(Side.COMPUTER, pitcherName);
-                    if (pitcher != null) {
-                        view.displayPlayerInfo(pitcher);
-                    } else {
-                        view.displayError("Pitcher not found: " + pitcherName);
-                    }
-                    break;
-                } else { // Otherwise we assume a team name was provided
-                    String teamName = parts[2];
-                    Teams teamEnum = null;
-                    try {
-                        teamEnum = Teams.fromCmdName(teamName);
-                    } catch (IllegalArgumentException e) {
-                        view.displayMessage(e.getMessage());
-                        return;
-                    }
-                    // Show pitcher loader lineup for team
-                    if (model.getComTeam() == null) { // if user hasn't selected a team
-                        model.setComTeam(teamEnum);
-                        this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
-                        view.displayPitchers(this.filteredPitchers);
-                    } else { // if user has selected a team, set back to original loader lineup after showing what they requested
-                        Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
-                        model.setComTeam(teamEnum); // Temporarily set com team
-                        view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
-                        model.setComTeam(previousComTeam); // Reset com team to what it was
-                    }
-                }
+                handleComputerShowCommand(parts);
                 break;
-            // NOTE: print a message for this
             case "select":
                 if (parts.length < 3) {
                     view.displayError("Please specify a team name.");
@@ -514,9 +528,7 @@ public class MLBSimulatorController {
                 } catch (IllegalArgumentException e) {
                     view.displayMessage(e.getMessage());
                 }
-
                 break;
-
             case "add":
                 if (parts.length < 3) {
                     view.displayError("Please specify a pitcher and position.");
@@ -558,6 +570,60 @@ public class MLBSimulatorController {
             default:
                 view.displayError("Invalid computer command. Type 'help' for available commands.");
                 break;
+        }
+    }
+
+    private void handleComputerShowCommand(String[] parts) {
+        if (parts.length < 3) {
+            view.displayError("Incorrect computer command. Type 'help' for available commands.");
+            return;
+        }
+
+        switch (parts[2].toLowerCase()) {
+            case "teams":
+                view.displayAllTeams(model.getAllTeamName());
+                return;
+            case "attributes":
+                view.displayListOfStrings(model.getAllColumnName());
+                return;
+            case "lineup":
+                if (model.getComTeam() == null) {
+                    view.displayError("Please select a team first.");
+                    return;
+                }
+                view.displayPitchers(model.getComTeamPitcherLineup());
+                return;
+        }
+
+        if (parts.length > 3) { // If length is greater than three we assume pitcher name was provided
+            String pitcherName = extractCommand(parts);
+
+            Pitcher pitcher = model.getPitcher(Side.COMPUTER, pitcherName);
+            if (pitcher != null) {
+                view.displayPlayerInfo(pitcher);
+            } else {
+                view.displayError("Pitcher not found: " + pitcherName);
+            }
+        } else { // Otherwise we assume a team name was provided
+            String teamName = parts[2];
+            Teams teamEnum = null;
+            try {
+                teamEnum = Teams.fromCmdName(teamName);
+            } catch (IllegalArgumentException e) {
+                view.displayMessage(e.getMessage());
+                return;
+            }
+            // Show pitcher loader lineup for team
+            if (model.getComTeam() == null) { // if user hasn't selected a team
+                model.setComTeam(teamEnum);
+                this.filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
+                view.displayPitchers(this.filteredPitchers);
+            } else { // if user has selected a team, set back to original loader lineup after showing what they requested
+                Teams previousComTeam = Teams.fromCmdName(model.getComTeam().getTeamName());
+                model.setComTeam(teamEnum); // Temporarily set com team
+                view.displayPitchers(model.getComTeamPitcherLoaderLineup().stream().toList());
+                model.setComTeam(previousComTeam); // Reset com team to what it was
+            }
         }
     }
 
