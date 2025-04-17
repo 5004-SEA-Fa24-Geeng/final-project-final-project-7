@@ -142,8 +142,6 @@ public class MLBSimulatorController {
         }
 
         SimulationResult simulationResult = null;
-        // TODO: number of simulations doesn't work, it's 1 higher than it should be
-        // TODO: simulation file naming is incorrect, its appending to the end filename.txt_01. Need to scrub .txt from outfile string and add later
         if (outfile == null) {
             for (int i = 0; i < numberOfSimulations; i++) {
                 simulationResult = model.startSimAndGetResult();
@@ -159,14 +157,30 @@ public class MLBSimulatorController {
                 simulationResult = model.startSimAndGetResult();
                 if (simulationResult != null) {
                     view.displaySimulationResult(simulationResult);
-                    outfile = outfile + "_" + (i + 1);
-                    model.saveGameDetailsAsTXTFile(outfile);
+                    String formattedFilename = formatOutputFilename(outfile, i + 1);
+                    model.saveGameDetailsAsTXTFile(formattedFilename);
                 } else {
                     view.displayError("Simulation failed, make sure to set com team, batter lineup, and pitcher lineup");
                 }
             }
         }
 
+    }
+
+    /**
+     * Formats the output filename by removing any existing file extension,
+     * appending a sequence number, and then adding the .txt extension
+     *
+     * @param filename       The original filename provided by the user
+     * @param sequenceNumber The simulation sequence number to append
+     * @return The properly formatted filename (e.g., "filename_1.txt")
+     */
+    private String formatOutputFilename(String filename, int sequenceNumber) {
+        // Remove any existing file extension (like .txt, .csv, etc.)
+        String baseFilename = filename.replaceAll("\\.[^.]*$", "");
+
+        // Append the sequence number and the .txt extension
+        return baseFilename + "_" + sequenceNumber + ".txt";
     }
 
     /**
