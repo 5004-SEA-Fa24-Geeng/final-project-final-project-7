@@ -237,15 +237,14 @@ public class MLBSimulatorController {
                     view.displayError("Invalid command. Use 'player add [name/number] to [number]'.");
                     return;
                 }
-                // TODO: check list index for add command to make sure it's not out of bounds
                 command = extractCommand(parts);
-                try {
-                    model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
 
-                    view.displayMessage("Batter added: " + command);
-                } catch (IllegalArgumentException e) {
-                    view.displayError(e.getMessage());
-                }
+                // Validate and extract add command
+                AddCommandInfo cmdInfo = validateAddToCommand(command, true);
+
+                // Add player
+                addPlayer(cmdInfo, true, command);
+
                 break;
 
             case "remove":
@@ -330,6 +329,109 @@ public class MLBSimulatorController {
     }
 
     /**
+     * Validates a command that follows either "[name] to [number]" or "[number] to [number]" patterns
+     *
+     * @param command    The command string to validate
+     * @param playerSide True if checking batter list, false if checking pitcher list
+     * @return An object containing parsed command information
+     */
+    private AddCommandInfo validateAddToCommand(String command, boolean playerSide) {
+        AddCommandInfo result = new AddCommandInfo();
+
+        // Check if command follows "X to Y" pattern
+        if (!command.toLowerCase().contains(" to ")) {
+            // This is not a pattern with "to" in it
+            result.isValid = false;
+            return result;
+        }
+
+        String[] parts = command.toLowerCase().split(" to ", 2);
+        String identifier = parts[0].trim();
+        String positionStr = parts[1].trim();
+
+        // Try to parse position - must be a number
+        try {
+            int position = Integer.parseInt(positionStr);
+
+            // Validate position range (assuming positions are 1-based)
+            if (position < 1 || position > 9) { // Adjust max if needed
+                view.displayError("Position out of range. Please enter a number between 1 and 9.");
+                result.isValid = false;
+                return result;
+            }
+
+            result.position = position;
+        } catch (NumberFormatException e) {
+            view.displayError("Invalid position: " + positionStr + ". Please enter a number.");
+            result.isValid = false;
+            return result;
+        }
+
+        // Try to parse the identifier as a number
+        try {
+            int playerIndex = Integer.parseInt(identifier);
+
+            // It's a number, so validate the index
+            int adjustedIndex = playerIndex - 1; // Convert from 1-based to 0-based
+
+            // Validate the player index is within range
+            List<?> currentList = playerSide ? filteredBatters : filteredPitchers;
+            if (currentList == null) {
+                view.displayError(playerSide ?
+                        "No batters available." :
+                        "No pitchers available. Please select a team first.");
+                result.isValid = false;
+                return result;
+            }
+
+            if (adjustedIndex < 0 || adjustedIndex >= currentList.size()) {
+                view.displayError("Player index out of range. Please enter a number between 1 and " +
+                        currentList.size() + ".");
+                result.isValid = false;
+                return result;
+            }
+
+            // Store parsed info
+            result.isIndex = true;
+            result.playerIndex = adjustedIndex;
+            result.isValid = true;
+
+        } catch (NumberFormatException e) {
+            // Not a number, assume it's a name
+            result.isIndex = false;
+            result.playerName = identifier;
+            result.isValid = true;
+        }
+
+        return result;
+    }
+
+    private void addPlayer(AddCommandInfo cmdInfo, boolean playerSide, String command) {
+        if (cmdInfo.isValid) {
+            // Only add pitcher if command is validated
+            if (playerSide) {
+                Batter batter = filteredBatters.get(cmdInfo.playerIndex);
+                try {
+                    model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
+                    view.displayMessage("Added " + batter.getName() + " to position " + cmdInfo.position);
+                } catch (IllegalArgumentException e) {
+                    view.displayError(e.getMessage());
+                }
+            } else {
+                Pitcher pitcher = filteredPitchers.get(cmdInfo.playerIndex);
+                try {
+                    model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+                    // view.displayMessage("Added " + pitcher.getName() + " to position " + cmdInfo.position);
+                    // NOTE: There is no way of validating success from addPitcherToLineup so we will skip success
+                    // message
+                } catch (IllegalArgumentException e) {
+                    view.displayError(e.getMessage());
+                }
+            }
+        }
+    }
+
+    /**
      * Handles computer-related commands
      *
      * @param parts The command parts
@@ -346,7 +448,7 @@ public class MLBSimulatorController {
             // TODO: extract show into separate method
             case "show":
                 if (parts.length < 3) {
-                    view.displayError("Please specify a team name, pitcher name or 'all'.");
+                    view.displayError("Incorrect computer command. Type 'help' for available commands.");
                     return;
                 }
 
@@ -426,14 +528,12 @@ public class MLBSimulatorController {
                 }
                 command = extractCommand(parts);
 
-                // TODO: check list index for add command to make sure it's not out of bounds
-                try {
-                    model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+                // Validate and extract add command
+                AddCommandInfo cmdInfo = validateAddToCommand(command, false);
 
-                    view.displayMessage("Pitcher added: " + command);
-                } catch (IllegalArgumentException e) {
-                    view.displayMessage(e.getMessage());
-                }
+                // Add player
+                addPlayer(cmdInfo, false, command);
+
 
                 break;
 
