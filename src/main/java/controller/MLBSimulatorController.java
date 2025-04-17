@@ -114,8 +114,8 @@ public class MLBSimulatorController {
         // - Alphanumeric characters (a-z, A-Z, 0-9)
         // - Whitespace characters
         // - Operators (<, >, =, !, ~)
-        // - Other allowed special characters (., ,)
-        String allowedPattern = "^[a-zA-Z0-9\\s<>=!~.,]*$";
+        // - Other allowed special characters (., ,, -)
+        String allowedPattern = "^[a-zA-Z0-9\\s<>=!~.,-]*$";
 
         // Return true if the command contains characters NOT in the allowed pattern
         return !command.matches(allowedPattern);
@@ -224,10 +224,11 @@ public class MLBSimulatorController {
                     return;
                 }
                 // TODO: check list index for add command to make sure it's not out of bounds
-                // TODO: print success message
                 command = extractCommand(parts);
                 try {
                     model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
+
+                    view.displayMessage("Batter added to lineup.");
                 } catch (IllegalArgumentException e) {
                     view.displayError(e.getMessage());
                 }
@@ -389,6 +390,8 @@ public class MLBSimulatorController {
                     Teams comTeam = Teams.fromCmdName(teamName);
                     model.setComTeam(comTeam);
 
+                    view.displayMessage("Selected team: " + comTeam);
+
                     // Add pitchers for team to filteredPitchers
                     filteredPitchers = model.getComTeamPitcherLoaderLineup().stream().toList();
 
@@ -410,9 +413,10 @@ public class MLBSimulatorController {
                 command = extractCommand(parts);
 
                 // TODO: check list index for add command to make sure it's not out of bounds
-                // TODO: print success message
                 try {
                     model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
+
+                    view.displayMessage("Pitcher added: " + command);
                 } catch (IllegalArgumentException e) {
                     view.displayMessage(e.getMessage());
                 }
