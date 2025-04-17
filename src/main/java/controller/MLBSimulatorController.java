@@ -228,7 +228,7 @@ public class MLBSimulatorController {
                 try {
                     model.addBatterToLineup(Side.PLAYER, command, this.filteredBatters.stream());
 
-                    view.displayMessage("Batter added to lineup.");
+                    view.displayMessage("Batter added: " + command);
                 } catch (IllegalArgumentException e) {
                     view.displayError(e.getMessage());
                 }
