@@ -68,8 +68,8 @@ public class MLBSimulatorController {
         // Check for illegal characters in command
         for (String part : parts) {
             if (containsIllegalCharacters(part)) {
-               view.displayMessage("Illegal character in command: " + part);
-               return;
+                view.displayMessage("Illegal character in command: " + part);
+                return;
             }
         }
 
@@ -634,8 +634,13 @@ public class MLBSimulatorController {
             i++;
         }
 
-        // Trim the trailing space and set in result
-        result.filterString = filterBuilder.toString().trim();
+        // Trim the trailing space
+        String rawFilterString = filterBuilder.toString().trim();
+
+        // Normalize whitespace around operators and assign to result
+        result.filterString = rawFilterString
+                .replaceAll("\\s*([<>=!~])\\s*", "$1") // Remove spaces around operators
+                .replaceAll("\\s*,\\s*", ","); // Remove spaces around commas
 
         // Check if we have sort criteria
         if (foundSort && sortIndex < parts.length - 1) {
