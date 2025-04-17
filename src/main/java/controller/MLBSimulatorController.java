@@ -59,9 +59,18 @@ public class MLBSimulatorController {
     private void processCommand(String command) {
         String[] parts = command.split("\\s+");
 
+
         // Exit if no command is provided
         if (parts.length == 1 && parts[0].isEmpty()) {
             return;
+        }
+
+        // Check for illegal characters in command
+        for (String part : parts) {
+            if (containsIllegalCharacters(part)) {
+               view.displayMessage("Illegal character in command: " + part);
+               return;
+            }
         }
 
         switch (parts[0].toLowerCase()) {
@@ -93,6 +102,26 @@ public class MLBSimulatorController {
     }
 
     /**
+     * Checks if the command string contains any illegal characters.
+     * Allowed characters include alphanumeric characters, whitespace,
+     * and specific operators (<, >, =, !, ~, ., ,)
+     *
+     * @param command The command string to validate
+     * @return true if illegal characters are found, false otherwise
+     */
+    private boolean containsIllegalCharacters(String command) {
+        // Define the pattern of allowed characters:
+        // - Alphanumeric characters (a-z, A-Z, 0-9)
+        // - Whitespace characters
+        // - Operators (<, >, =, !, ~)
+        // - Other allowed special characters (., ,)
+        String allowedPattern = "^[a-zA-Z0-9\\s<>=!~.,]*$";
+
+        // Return true if the command contains characters NOT in the allowed pattern
+        return !command.matches(allowedPattern);
+    }
+
+    /**
      * Handles simulation command
      *
      * @param parts the command string
@@ -114,7 +143,7 @@ public class MLBSimulatorController {
 
         SimulationResult simulationResult = null;
         // TODO: number of simulations doesn't work, it's 1 higher than it should be
-        // TODO: simulation file naming is incorrect, its appending to the end filename.txt_01
+        // TODO: simulation file naming is incorrect, its appending to the end filename.txt_01. Need to scrub .txt from outfile string and add later
         if (outfile == null) {
             for (int i = 0; i < numberOfSimulations; i++) {
                 simulationResult = model.startSimAndGetResult();
