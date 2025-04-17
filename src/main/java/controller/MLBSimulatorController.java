@@ -17,11 +17,11 @@ import java.util.stream.Stream;
  * Handles user commands and coordinates between view and model
  */
 public class MLBSimulatorController {
-    private final TextUI view;
-    private boolean running;
-    private final Model model;
-    private List<Batter> filteredBatters;
-    private List<Pitcher> filteredPitchers;
+    private final TextUI view; // The view for the application
+    private boolean running; // The running flag for the controller
+    private final Model model; // The model instance
+    private List<Batter> filteredBatters; // The current list of filtered batters
+    private List<Pitcher> filteredPitchers; // The current list of filtered pitchers
 
     // used for computer remove commands
     private static final String PITCHER = "pitcher";
@@ -406,6 +406,13 @@ public class MLBSimulatorController {
         return result;
     }
 
+    /**
+     * Conditionally adds players to the team with validation
+     *
+     * @param cmdInfo    the validated command object
+     * @param playerSide flag to control player or computer team
+     * @param command    the add command
+     */
     private void addPlayer(AddCommandInfo cmdInfo, boolean playerSide, String command) {
         if (cmdInfo.isValid) {
             // Only add pitcher if command is validated
@@ -573,6 +580,11 @@ public class MLBSimulatorController {
         }
     }
 
+    /**
+     * Handles computer show command
+     *
+     * @param parts the command array
+     */
     private void handleComputerShowCommand(String[] parts) {
         if (parts.length < 3) {
             view.displayError("Incorrect computer command. Type 'help' for available commands.");
@@ -714,7 +726,6 @@ public class MLBSimulatorController {
             filteredBatters = batters.toList();
 
             // Reset filter if it resulted in empty list
-            // TODO: extract this Reset Filter to method
             if (isEmpty(filteredBatters)) {
                 filteredBatters = model.getPlayerTeamBatterLoaderLineup().stream().toList();
                 return;

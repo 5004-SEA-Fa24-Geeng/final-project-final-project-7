@@ -124,7 +124,7 @@ public class TextUI {
     /**
      * Displays simulation results
      *
-     * @param details Game details
+     * @param simulationResult Game details
      */
     public void displaySimulationResult(SimulationResult simulationResult) {
         String details = simulationResult.getDetails();
@@ -143,17 +143,6 @@ public class TextUI {
      */
     public String getCommand() {
         System.out.print("\nEnter command: ");
-        return scanner.nextLine().trim();
-    }
-
-    /**
-     * Gets user input as a string
-     *
-     * @param prompt The prompt to display to the user
-     * @return User's input as a string
-     */
-    public String getInput(String prompt) {
-        System.out.print(prompt + " ");
         return scanner.nextLine().trim();
     }
 
