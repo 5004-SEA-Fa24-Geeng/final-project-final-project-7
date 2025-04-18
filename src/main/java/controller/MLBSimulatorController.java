@@ -57,11 +57,19 @@ public class MLBSimulatorController {
      * @param command The command prefix to process
      */
     private void processCommand(String command) {
+        // Trim the command first
+        command = command.trim();
+
+        // Exit immediately if the command is empty after trimming
+        if (command.isEmpty()) {
+            return;
+        }
+
         String[] parts = command.split("\\s+");
 
 
         // Exit if no command is provided
-        if (parts.length == 1 && parts[0].isEmpty()) {
+        if (parts.length == 0) {
             return;
         }
 
