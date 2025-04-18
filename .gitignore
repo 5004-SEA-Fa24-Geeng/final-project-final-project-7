@@ -1,8 +1,11 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files
 *.log
+
+# Code coverage reports
+htmlReport
 
 # BlueJ files
 *.ctxt

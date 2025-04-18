@@ -4,272 +4,275 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import view.stubs.PlayerStub;
-import view.stubs.SimulationResultStub;
-import view.stubs.TeamStub;
+import model.player.*;
+import model.simulation.*;
+import model.team.*;
 
-public class TestTextUI {
+class TextUITest {
 
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-  private final PrintStream originalOut = System.out;
-  private final java.io.InputStream originalIn = System.in;
+    private TextUI textUI;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+    private final InputStream originalIn = System.in;
 
-  private TextUI textUI;
-
-  // Manual mocks instead of Mockito
-  private PlayerStub playerStub1;
-  private PlayerStub playerStub2;
-  private TeamStub teamStub;
-  private SimulationResultStub simulationResultStub;
-
-  @BeforeEach
-  public void setUp() {
-    // Redirect System.out to capture output
-    System.setOut(new PrintStream(outContent));
-
-    // Set up manual mocks
-    playerStub1 = new MockPlayer("Mike Trout", "Mike Trout | AVG: .312 | HR: 42 | RBI: 104");
-    playerStub2 = new MockPlayer("Julio Rodriguez", "Julio Rodriguez | AVG: .289 | HR: 32 | RBI: 91");
-
-    List<PlayerStub> players = Arrays.asList(playerStub1, playerStub2);
-    teamStub = new MockTeam("Mariners", players, "Wins: 92\nLosses: 70\nTeam AVG: .258\nTeam ERA: 3.75");
-
-    simulationResultStub = new MockSimulationResult(5, 3, "Game highlights...");
-
-    // Initialize TextUI
-    textUI = new TextUI();
-  }
-
-  @AfterEach
-  public void tearDown() {
-    System.setOut(originalOut);
-    System.setIn(originalIn);
-  }
-
-  @Test
-  public void testDisplayHelp() {
-    // Act
-    textUI.displayHelp();
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("MLB SIMULATOR COMMANDS"));
-    assertTrue(output.contains("player show batter"));
-    assertTrue(output.contains("simulate"));
-    assertTrue(output.contains("exit"));
-  }
-
-  @Test
-  public void testDisplayPlayerInfo() {
-    // Act
-    textUI.displayPlayerInfo(playerStub1);
-
-    // Assert
-    assertEquals("Mike Trout | AVG: .312 | HR: 42 | RBI: 104" + System.lineSeparator(),
-        outContent.toString());
-  }
-
-  @Test
-  public void testDisplayPlayers() {
-    // Arrange
-    List<PlayerStub> players = Arrays.asList(playerStub1, playerStub2);
-
-    // Act
-    textUI.displayPlayers(players);
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("1. Mike Trout"));
-    assertTrue(output.contains("2. Julio Rodriguez"));
-  }
-
-  @Test
-  public void testDisplayAllTeams() {
-    // Arrange
-    List<TeamStub> teams = new ArrayList<>();
-    teams.add(new MockTeam("Mariners", new ArrayList<>(), ""));
-    teams.add(new MockTeam("Yankees", new ArrayList<>(), ""));
-
-    // Act
-    textUI.displayAllTeams(teams);
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("MLB TEAMS"));
-    assertTrue(output.contains("1. Mariners"));
-    assertTrue(output.contains("2. Yankees"));
-  }
-
-  @Test
-  public void testDisplayTeamInfo() {
-    // Act
-    textUI.displayTeamInfo(teamStub);
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("TEAM: Mariners"));
-    assertTrue(output.contains("Mike Trout"));
-    assertTrue(output.contains("Julio Rodriguez"));
-    assertTrue(output.contains("Wins: 92"));
-  }
-
-  @Test
-  public void testDisplayTeamInfoEmptyRoster() {
-    // Arrange
-    TeamStub emptyTeam = new MockTeam("Empty Team", new ArrayList<>(), "No stats available");
-
-    // Act
-    textUI.displayTeamInfo(emptyTeam);
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("TEAM: Empty Team"));
-    assertTrue(output.contains("No players on roster."));
-  }
-
-  @Test
-  public void testDisplaySimulationResult() {
-    // Act
-    textUI.displaySimulationResult(simulationResultStub);
-
-    // Assert
-    String output = outContent.toString();
-    assertTrue(output.contains("===== SIMULATION RESULTS ====="));
-    assertTrue(output.contains("Mariners : 5"));
-    assertTrue(output.contains("Away Team : 3"));
-    assertTrue(output.contains("Game Details:"));
-    assertTrue(output.contains("Game highlights..."));
-  }
-
-  @Test
-  public void testGetCommand() {
-    // Arrange
-    String testInput = "help\n";
-    System.setIn(new ByteArrayInputStream(testInput.getBytes()));
-    TextUI localTextUI = new TextUI(); // Need a new instance with the new System.in
-
-    // Act
-    String result = localTextUI.getCommand();
-
-    // Assert
-    assertEquals("help", result);
-  }
-
-  @Test
-  public void testGetInput() {
-    // Arrange
-    String testInput = "Yankees\n";
-    System.setIn(new ByteArrayInputStream(testInput.getBytes()));
-    TextUI localTextUI = new TextUI(); // Need a new instance with the new System.in
-
-    // Act
-    String result = localTextUI.getInput("Enter team name:");
-
-    // Assert
-    assertEquals("Yankees", result);
-    assertTrue(outContent.toString().contains("Enter team name:"));
-  }
-
-  @Test
-  public void testDisplayMessage() {
-    // Act
-    textUI.displayMessage("Test message");
-
-    // Assert
-    assertEquals("Test message" + System.lineSeparator(), outContent.toString());
-  }
-
-  @Test
-  public void testDisplayError() {
-    // Act
-    textUI.displayError("Invalid command");
-
-    // Assert
-    assertEquals("ERROR: Invalid command" + System.lineSeparator(), outContent.toString());
-  }
-
-  // Simple mock implementations
-
-  private static class MockPlayer implements PlayerStub {
-    private String name;
-    private String stringRepresentation;
-
-    public MockPlayer(String name, String stringRepresentation) {
-      this.name = name;
-      this.stringRepresentation = stringRepresentation;
+    @BeforeEach
+    void setUp() {
+        // Redirect System.out to capture output
+        System.setOut(new PrintStream(outContent));
+        // Create new TextUI for each test
+        textUI = new TextUI();
     }
 
-    @Override
-    public String getName() {
-      return name;
+    @AfterEach
+    void tearDown() {
+        // Restore original System.out and System.in
+        System.setOut(originalOut);
+        System.setIn(originalIn);
+        // Close TextUI
+        textUI.close();
     }
 
-    @Override
-    public String toString() {
-      return stringRepresentation;
-    }
-  }
+    @Test
+    void testDisplayHelp() {
+        // Call the method
+        textUI.displayHelp();
 
-  private static class MockTeam implements TeamStub {
-    private String name;
-    private List<PlayerStub> players;
-    private String stats;
-
-    public MockTeam(String name, List<PlayerStub> players, String stats) {
-      this.name = name;
-      this.players = players;
-      this.stats = stats;
-    }
-
-    @Override
-    public String getName() {
-      return name;
+        // Verify output contains expected headings and commands
+        String output = outContent.toString();
+        assertTrue(output.contains("===== MLB SIMULATOR COMMANDS ====="));
+        assertTrue(output.contains("PLAYER COMMANDS:"));
+        assertTrue(output.contains("COMPUTER COMMANDS:"));
+        assertTrue(output.contains("OTHER COMMANDS:"));
+        assertTrue(output.contains("player show"));
+        assertTrue(output.contains("computer select"));
+        assertTrue(output.contains("simulate -n"));
+        assertTrue(output.contains("exit"));
     }
 
-    @Override
-    public List<PlayerStub> getPlayers() {
-      return players;
+    @Test
+    void testDisplayListOfStrings() {
+        // Create a list of strings to display
+        List<String> strings = Arrays.asList("First", "Second", "Third");
+
+        // Call the method
+        textUI.displayListOfStrings(strings);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue(output.contains("1. First"));
+        assertTrue(output.contains("2. Second"));
+        assertTrue(output.contains("3. Third"));
     }
 
-    @Override
-    public String getStats() {
-      return stats;
-    }
-  }
+    @Test
+    void testDisplayListOfStringsEmpty() {
+        // Create an empty list
+        List<String> strings = Collections.emptyList();
 
-  private static class MockSimulationResult implements SimulationResultStub {
-    private int marinersScore;
-    private int opponentScore;
-    private String details;
+        // Call the method
+        textUI.displayListOfStrings(strings);
 
-    public MockSimulationResult(int marinersScore, int opponentScore, String details) {
-      this.marinersScore = marinersScore;
-      this.opponentScore = opponentScore;
-      this.details = details;
+        // Verify output (should be empty)
+        assertEquals("", outContent.toString());
     }
 
-    @Override
-    public int getMarinersScore() {
-      return marinersScore;
+    @Test
+    void testDisplayPlayerInfo() {
+        // Create a mock player using Mockito
+        Player player = Mockito.mock(Player.class);
+        Mockito.when(player.toString()).thenReturn("Test Player Stats");
+
+        // Call the method
+        textUI.displayPlayerInfo(player);
+
+        // Verify output
+        String output = outContent.toString();
+        assertEquals("Test Player Stats" + System.lineSeparator(), output);
     }
 
-    @Override
-    public int getOpponentScore() {
-      return opponentScore;
+    @Test
+    void testDisplayBatters() {
+        // Create a list with mocked batters
+        List<Batter> batters = new ArrayList<>();
+
+        Batter batter1 = Mockito.mock(Batter.class);
+        Mockito.when(batter1.getName()).thenReturn("Batter 1");
+
+        Batter batter2 = Mockito.mock(Batter.class);
+        Mockito.when(batter2.getName()).thenReturn("Batter 2");
+
+        batters.add(batter1);
+        batters.add(batter2);
+        batters.add(null); // Add a null batter to test handling
+
+        // Call the method
+        textUI.displayBatters(batters);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue(output.contains("1. Batter 1"));
+        assertTrue(output.contains("2. Batter 2"));
+        assertTrue(output.contains("3. Null"));
     }
 
-    @Override
-    public String getDetails() {
-      return details;
+    @Test
+    void testDisplayBattersEmpty() {
+        // Create an empty list
+        List<Batter> batters = Collections.emptyList();
+
+        // Call the method
+        textUI.displayBatters(batters);
+
+        // Verify output (should be empty)
+        assertEquals("", outContent.toString());
     }
-  }
+
+    @Test
+    void testDisplayPitchers() {
+        // Create a list with mocked pitchers
+        List<Pitcher> pitchers = new ArrayList<>();
+
+        Pitcher pitcher1 = Mockito.mock(Pitcher.class);
+        Mockito.when(pitcher1.getName()).thenReturn("Pitcher 1");
+
+        Pitcher pitcher2 = Mockito.mock(Pitcher.class);
+        Mockito.when(pitcher2.getName()).thenReturn("Pitcher 2");
+
+        pitchers.add(pitcher1);
+        pitchers.add(pitcher2);
+        pitchers.add(null); // Add a null pitcher to test handling
+
+        // Call the method
+        textUI.displayPitchers(pitchers);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue(output.contains("1. Pitcher 1"));
+        assertTrue(output.contains("2. Pitcher 2"));
+        assertTrue(output.contains("3. Null"));
+    }
+
+    @Test
+    void testDisplayPitchersEmpty() {
+        // Create an empty list
+        List<Pitcher> pitchers = Collections.emptyList();
+
+        // Call the method
+        textUI.displayPitchers(pitchers);
+
+        // Verify output (should be empty)
+        assertEquals("", outContent.toString());
+    }
+
+    @Test
+    void testDisplayAllTeams() {
+        // Create a list of team names
+        List<String> teams = Arrays.asList("Yankees", "Red Sox", "Dodgers");
+
+        // Call the method
+        textUI.displayAllTeams(teams);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue(output.contains("===== MLB TEAMS ====="));
+        assertTrue(output.contains("1. Yankees"));
+        assertTrue(output.contains("2. Red Sox"));
+        assertTrue(output.contains("3. Dodgers"));
+    }
+
+    @Test
+    void testDisplayAllTeamsEmpty() {
+        // Create an empty list
+        List<String> teams = Collections.emptyList();
+
+        // Call the method
+        textUI.displayAllTeams(teams);
+
+        // Verify output (should show header but no teams)
+        String output = outContent.toString();
+        assertTrue(output.contains("===== MLB TEAMS ====="));
+    }
+
+    @Test
+    void testDisplaySimulationResult() {
+        // Create a mock simulation result
+        SimulationResult result = Mockito.mock(SimulationResult.class);
+        Mockito.when(result.toString()).thenReturn("Game Overview");
+        Mockito.when(result.getDetails()).thenReturn("Game Details");
+        Mockito.when(result.getTotalStatistics()).thenReturn("Game Statistics");
+
+        // Call the method
+        textUI.displaySimulationResult(result);
+
+        // Verify output
+        String output = outContent.toString();
+        assertTrue(output.contains("Game Overview"));
+        assertTrue(output.contains("Game Details"));
+        assertTrue(output.contains("Game Statistics"));
+    }
+
+    @Test
+    void testGetCommand() {
+        // Set up input stream with a command
+        String input = "help\n";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+
+        // Create a new TextUI with the new input stream
+        TextUI localTextUI = new TextUI();
+
+        // Get command
+        String result = localTextUI.getCommand();
+
+        // Verify output and result
+        String output = outContent.toString();
+        assertTrue(output.contains("Enter command:"));
+        assertEquals("help", result);
+
+        // Clean up
+        localTextUI.close();
+    }
+
+    @Test
+    void testDisplayMessage() {
+        // Call the method
+        textUI.displayMessage("Test message");
+
+        // Verify output
+        String output = outContent.toString();
+        assertEquals("Test message" + System.lineSeparator(), output);
+    }
+
+    @Test
+    void testDisplayError() {
+        // Call the method
+        textUI.displayError("Test error");
+
+        // Verify output
+        String output = outContent.toString();
+        assertEquals("ERROR: Test error" + System.lineSeparator(), output);
+    }
+
+    @Test
+    void testClose() {
+        // This method doesn't produce output, but we can test it doesn't throw exceptions
+        textUI.close();
+
+        // Also test double-close doesn't cause issues
+        textUI.close();
+
+        // No assertions needed if no exceptions
+    }
 }

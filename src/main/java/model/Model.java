@@ -65,10 +65,25 @@ public class Model implements ModelInterface {
     public List<String> getAllTeamName() {
         List<String> enumStringList = new ArrayList<>();
         for (Teams team: Teams.values()) {
+            if (team == Teams.MARINERS) {
+                continue;
+            }
             enumStringList.add(team.getCmdName());
         }
         return enumStringList;
     }
+    /**
+     * Turns PlayerData enums into String List and get that list.
+     * CMD: player/computer show attributes
+     * @return List<String>
+     */    
+    public List<String> getAllColumnName() {
+        List<String> enumStringList = new ArrayList<>();
+        for (PlayerData col: PlayerData.values()) {
+            enumStringList.add(col.getColumnName());
+        }
+        return enumStringList;
+    }    
     /**
      * player's BatterLineup getter.
      * CMD: player show lineup
@@ -215,8 +230,8 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        ? filterSingleForBatter(filter,batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(DEFAULT_SORT_ON_NAME, true));
         return filteredStream;
     }
@@ -232,10 +247,10 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), true));
-        return filteredStream;
+        return filteredStream;     
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -251,10 +266,10 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Batter> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
-                            : filterMultiForBatter(filter, batterLoaderLineup.stream());
+        ? filterSingleForBatter(filter, batterLoaderLineup.stream()) 
+        : filterMultiForBatter(filter, batterLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getBatterSortType(sortOn.getColumnName(), ascending));
-        return filteredStream;
+        return filteredStream;     
     }
     /**
      * Use the filter string and loader linup to get the filtered results.
@@ -267,10 +282,10 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        ? filterSingleForPitcher(filter,pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getPitcherSortType(DEFAULT_SORT_ON_NAME, true));
-        return filteredStream;
+        return filteredStream; 
     }
     /**
      * Use the filter string, column from PlayerData and loader linup to get the filtered results.
@@ -284,10 +299,10 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), true));
-        return filteredStream;
+        return filteredStream;         
     }
     /**
      * Use the filter string, column from PlayerData, boolean and loader linup to get the filtered results.
@@ -303,10 +318,10 @@ public class Model implements ModelInterface {
         // true: single filter
         // false: multi filter
         Stream<Pitcher> filteredStream = (checkFilterNum(filter)) 
-                            ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
-                            : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
+        ? filterSingleForPitcher(filter, pitcherLoaderLineup.stream()) 
+        : filterMultiForPitcher(filter, pitcherLoaderLineup.stream());
         filteredStream = filteredStream.sorted(sorter.getPitcherSortType(sortOn.getColumnName(), ascending));
-        return filteredStream;
+        return filteredStream;             
     }
     /**
      * processes string with one filter.
@@ -316,28 +331,29 @@ public class Model implements ModelInterface {
      */
     private Stream<Batter> filterSingleForBatter(String filterString, Stream<Batter> filteredBatters) {
         Operations operator = Operations.getOperatorFromStr(filterString);
+        Stream<Batter> emptyStream = Stream.empty();
         if (operator == null) {
-            return filteredBatters;
+            return emptyStream;
         }
         // remove spaces
         filterString = filterString.replaceAll(" ", "");
 
         String[] parts = filterString.split(operator.getOperator());
         if (parts.length != 2) {
-            return filteredBatters;
+            return emptyStream;
         }
         PlayerData column;
         try {
             column = PlayerData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
-            return filteredBatters;
+            return emptyStream;
         }
 
         String value;
         try {
             value = parts[1].trim();
         } catch (IllegalArgumentException e) {
-            return filteredBatters;
+            return emptyStream;
         }
         
         filteredBatters = filteredBatters.filter(batter -> this.filter
@@ -360,22 +376,23 @@ public class Model implements ModelInterface {
         // for every part in the filter
         // part breaks into smallPart to get the column, operator, value we need
         for (String part : parts) {
+            Stream<Batter> emptyStream = Stream.empty();
             Operations operator = Operations.getOperatorFromStr(part);
             String[] smallParts = part.split(operator.getOperator());
             if (smallParts.length != 2) {
-                return filteredBatters;
+                return emptyStream;
             }
             PlayerData column;
             try {
                 column = PlayerData.fromString(smallParts[0]);
             } catch (IllegalArgumentException e) {
-                return filteredBatters;
+                return emptyStream;
             }
             String value;
             try {
                 value = smallParts[1].trim();
             } catch (IllegalArgumentException e) {
-                return filteredBatters;
+                return emptyStream;
             }
             filteredBatters = filteredBatters.filter(batter -> this.filter
                                                 .batterFilter(batter, column, operator, value));
@@ -389,29 +406,30 @@ public class Model implements ModelInterface {
      * @return Stream<Pitcher> a stream of pitchers that is filtered
      */
     private Stream<Pitcher> filterSingleForPitcher(String filterString, Stream<Pitcher> filteredPitchers) {
+        Stream<Pitcher> emptyStream = Stream.empty();        
         Operations operator = Operations.getOperatorFromStr(filterString);
         if (operator == null) {
-            return filteredPitchers;
+            return emptyStream;
         }
         // remove spaces
         filterString = filterString.replaceAll(" ", "");
 
         String[] parts = filterString.split(operator.getOperator());
         if (parts.length != 2) {
-            return filteredPitchers;
+            return emptyStream;
         }
         PlayerData column;
         try {
             column = PlayerData.fromString(parts[0]);
         } catch (IllegalArgumentException e) {
-            return filteredPitchers;
+            return emptyStream;
         }
 
         String value;
         try {
             value = parts[1].trim();
         } catch (IllegalArgumentException e) {
-            return filteredPitchers;
+            return emptyStream;
         }
         
         filteredPitchers = filteredPitchers.filter(pitcher -> this.filter
@@ -434,22 +452,23 @@ public class Model implements ModelInterface {
         // for every part in the filter
         // part breaks into smallPart to get the column, operator, value we need
         for (String part : parts) {
+            Stream<Pitcher> emptyStream = Stream.empty();                  
             Operations operator = Operations.getOperatorFromStr(part);
             String[] smallParts = part.split(operator.getOperator());
             if (smallParts.length != 2) {
-                return filteredPitchers;
+                return emptyStream;
             }
             PlayerData column;
             try {
                 column = PlayerData.fromString(smallParts[0]);
             } catch (IllegalArgumentException e) {
-                return filteredPitchers;
+                return emptyStream;
             }
             String value;
             try {
                 value = smallParts[1].trim();
             } catch (IllegalArgumentException e) {
-                return filteredPitchers;
+                return emptyStream;
             }
             filteredPitchers = filteredPitchers.filter(pitcher -> this.filter
                                                 .pitcherFilter(pitcher, column, operator, value));
@@ -464,6 +483,9 @@ public class Model implements ModelInterface {
      * @param filteredBatters filteredBatters from batterFilter()
      */
     public void addBatterToLineup(Side side, String filterString, Stream<Batter> filteredBatters) {
+        if (!filterString.contains(" to ")) {
+            throw new IllegalArgumentException("Needs to assign a position number.");
+        }     
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addBatterToTeam(filterString, filteredBatters);
         } else if (side.equals(Side.COMPUTER)) {
@@ -478,6 +500,9 @@ public class Model implements ModelInterface {
      * @param filteredPitchers filteredPitchers from pitcherFilter()
      */
     public void addPitcherToLineup(Side side, String filterString, Stream<Pitcher> filteredPitchers) {
+        if (!filterString.contains(" to ")) {
+            throw new IllegalArgumentException("Needs to assign a position number.");
+        }
         if (side.equals(Side.PLAYER)) {
             this.playerTeam.addPitcherToTeam(filterString, filteredPitchers);
         } else if (side.equals(Side.COMPUTER)) {
@@ -547,10 +572,10 @@ public class Model implements ModelInterface {
      * @return List<String>
      */
     public List<String> convertLineupToString(List<? extends Player> lineup) {
-        List<String> lineupList =  new ArrayList<>();
+        List<String> lineupList = new ArrayList<>();
         if (lineup ==  null) {
             return null;
-        }        
+        }
         for (Player player : lineup) {
             if (player == null) {
                 String nullText = "===== (null) =====\n";
@@ -571,12 +596,14 @@ public class Model implements ModelInterface {
      */
     public void saveLineupAsTXTFile(Side side, String filename, List<? extends Player> lineup) {
         if (!filename.contains(".txt")) {
-            throw new IllegalArgumentException("Save as txt file only.");
+            System.err.println("Save as txt file only.");
+            return;
         }
         try {
             List<String> lineupStringList = convertLineupToString(lineup);
             if (lineupStringList == null) {
-                throw new IllegalArgumentException("Lineup cannot be null.");
+                System.err.println("Lineup cannot be null.");
+                return;                
             }
             Files.write(Path.of(filename), lineupStringList);
         } catch (IOException e) {
@@ -590,7 +617,8 @@ public class Model implements ModelInterface {
      */
     public void saveGameDetailsAsTXTFile(String filename) {
         if (!filename.contains(".txt")) {
-            throw new IllegalArgumentException("Save as txt file only.");
+            System.err.println("Save as txt file only.");
+            return;
         }
 
         if (this.gameResult != null) {
@@ -608,4 +636,5 @@ public class Model implements ModelInterface {
             }
         }
     }
+
 }
