@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * Controller for the MLB Simulator application
  * Handles user commands and coordinates between view and model
  */
-public class MLBSimulatorController {
+public class MLBSimulatorController implements MLBSimulatorControllerInterface {
     private final TextUI view; // The view for the application
     private boolean running; // The running flag for the controller
     private final Model model; // The model instance
@@ -48,6 +48,16 @@ public class MLBSimulatorController {
             processCommand(command);
         }
 
+        view.close();
+    }
+
+    /**
+     * Stops the controller loop
+     */
+    @Override
+    public void stop() {
+        running = false;
+        view.displayMessage("Exiting MLB Simulator. Goodbye!");
         view.close();
     }
 
