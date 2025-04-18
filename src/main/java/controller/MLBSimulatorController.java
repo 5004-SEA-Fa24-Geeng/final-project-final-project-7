@@ -463,6 +463,9 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
                 }
             }
         }
+        else {
+            view.displayError("Invalid player command. Type 'help' for available commands.");
+        }
     }
 
     /**
