@@ -41,6 +41,7 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
     public MLBSimulatorController() {
         this(new TextUI());
     }
+
     /**
      * Starts the application and begins handling user commands
      */
@@ -454,16 +455,13 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
                 if (pitcher != null) {
                     try {
                         model.addPitcherToLineup(Side.COMPUTER, command, this.filteredPitchers.stream());
-                        // view.displayMessage("Added " + pitcher.getName() + " to position " + cmdInfo.position);
-                        // NOTE: There is no way of validating success from addPitcherToLineup so we will skip success
-                        // message
+                        view.displayMessage("Added " + pitcher.getName() + " to position " + cmdInfo.position);
                     } catch (IllegalArgumentException e) {
                         view.displayError(e.getMessage());
                     }
                 }
             }
-        }
-        else {
+        } else {
             view.displayError("Invalid player command. Type 'help' for available commands.");
         }
     }
@@ -498,32 +496,52 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
     }
 
     /**
-     * Gets a pitcher by either index or name depending on the command info
+     * Gets a pitcher by either index or name depending on the command info,
+     * validating that the pitcher's rotation position matches the requested position
      *
      * @param cmdInfo The parsed command information
-     * @return The pitcher if found, null otherwise
+     * @return The pitcher if found with matching position, null otherwise
      */
     private Pitcher getPitcherFromCommand(AddCommandInfo cmdInfo) {
+        Pitcher pitcher = null;
+
         if (cmdInfo.isIndex) {
             // Get by index
-            return filteredPitchers.get(cmdInfo.playerIndex);
+            pitcher = filteredPitchers.get(cmdInfo.playerIndex);
         } else {
             // Get by name
-            for (Pitcher pitcher : filteredPitchers) {
-                if (pitcher.getName().equalsIgnoreCase(cmdInfo.playerName)) {
-                    return pitcher;
+            for (Pitcher p : filteredPitchers) {
+                if (p.getName().equalsIgnoreCase(cmdInfo.playerName)) {
+                    pitcher = p;
+                    break;
                 }
             }
+
             // If not found, try to find a partial match
-            for (Pitcher pitcher : filteredPitchers) {
-                if (pitcher.getName().toLowerCase().contains(cmdInfo.playerName.toLowerCase())) {
-                    return pitcher;
+            if (pitcher == null) {
+                for (Pitcher p : filteredPitchers) {
+                    if (p.getName().toLowerCase().contains(cmdInfo.playerName.toLowerCase())) {
+                        pitcher = p;
+                        break;
+                    }
                 }
             }
+        }
+
+        // If pitcher is found, validate position
+        if (pitcher != null) {
+            if (pitcher.getRotation() != cmdInfo.position) {
+                view.displayError("Pitcher " + pitcher.getName() + " is in rotation position " +
+                        pitcher.getRotation() + " but you requested position " + cmdInfo.position +
+                        ". Please select a pitcher with the correct rotation position.");
+                return null;
+            }
+        } else {
             // Not found
             view.displayError("Pitcher not found: " + cmdInfo.playerName);
-            return null;
         }
+
+        return pitcher;
     }
 
     /**
