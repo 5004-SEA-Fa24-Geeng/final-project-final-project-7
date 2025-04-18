@@ -10,9 +10,9 @@ public class PlayerSorter implements Sorter{
 
     /**
      * Use sortOn to decide which sort class to use, and asc to decide which order.
-     * @param sortOn collection.csv column name
+     * @param sortOn batter csv column name
      * @param asc true = asc, false = desc
-     * @return Comparator<BoardGame>
+     * @return Comparator<Batter>
      */
     public Comparator<Batter> getBatterSortType(String sortOn, boolean asc) {
         switch (sortOn) {
@@ -88,9 +88,9 @@ public class PlayerSorter implements Sorter{
 
     /**
      * Use sortOn to decide which sort class to use, and asc to decide which order.
-     * @param sortOn collection.csv column name
+     * @param sortOn pitcher csv column name
      * @param asc true = asc, false = desc
-     * @return Comparator<BoardGame>
+     * @return Comparator<Pitcher>
      */
     public Comparator<Pitcher> getPitcherSortType(String sortOn, boolean asc) {
         switch (sortOn) {
