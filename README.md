@@ -19,7 +19,8 @@ This readme should contain the following information:
 
 ## Documentation
 
-- [UML Diagram](./DesignDocuments/InitialDesign.md)
+- [Initial Design](./DesignDocuments/InitialDesign.md)
+- [Final Design](./DesignDocuments/FinalDesign.uml)
 
 ## Instructions
 
