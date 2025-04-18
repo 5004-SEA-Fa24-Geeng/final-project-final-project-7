@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/derek/code/school/cs5004/final-project-final-project-7/src</OriginalElement>
+  <nodes>
+    <node x="-243.5" y="5735.0">model.sorter.PlayerSorter.SortByOPSDesc</node>
+    <node x="13930.5" y="5615.0">model.sorter.PlayerSorter.SortByCutter</node>
+    <node x="2853.5" y="4094.0">gameEnum.Side</node>
+    <node x="13796.5" y="5735.0">model.sorter.PlayerSorter.SortByTotalHR</node>
+    <node x="13656.5" y="5615.0">model.sorter.PlayerSorter.SortByOffspeedHR</node>
+    <node x="2182.0" y="3374.0">model.player.Batter</node>
+    <node x="13516.5" y="5735.0">model.sorter.PlayerSorter.SortByTotalPA</node>
+    <node x="6328.0" y="5287.5">controller.AddCommandInfo</node>
+    <node x="13370.5" y="5615.0">model.sorter.PlayerSorter.SortBySliderDesc</node>
+    <node x="6209.0" y="5403.0">gameEnum.Strikes</node>
+    <node x="13225.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeedHRDesc</node>
+    <node x="13058.0" y="5615.0">model.sorter.PlayerSorter.SortByChaseContactDesc</node>
+    <node x="12908.5" y="5735.0">model.sorter.PlayerSorter.SortByBreaking2BDesc</node>
+    <node x="586.0" y="-825.0">model.team.TeamInterface</node>
+    <node x="12776.5" y="5615.0">model.sorter.PlayerSorter.SortByFastball3B</node>
+    <node x="2259.5" y="1895.5">model.player.PlayerInterface</node>
+    <node x="12636.5" y="5735.0">model.sorter.PlayerSorter.SortByOPS</node>
+    <node x="5998.0" y="5263.0">gameEnum.Hits</node>
+    <node x="1640.0" y="2711.0">model.loader.PlayerLoader</node>
+    <node x="12485.0" y="5615.0">model.sorter.PlayerSorter.SortByChaseSwingDesc</node>
+    <node x="5776.0" y="5403.0">gameEnum.Balls</node>
+    <node x="12350.5" y="5735.0">model.sorter.PlayerSorter.SortByCurveball</node>
+    <node x="313.0" y="-280.5">model.filter.Filter</node>
+    <node x="2081.0" y="2759.0">model.player.PitcherTest</node>
+    <node x="12210.5" y="5615.0">model.sorter.PlayerSorter.SortBySFinger</node>
+    <node x="12076.5" y="5735.0">model.sorter.PlayerSorter.SortByZoneSwing</node>
+    <node x="11936.5" y="5615.0">model.sorter.PlayerSorter.SortByBreakingPA</node>
+    <node x="11796.5" y="5735.0">model.sorter.PlayerSorter.SortByTotalH</node>
+    <node x="584.5" y="154.0">model.team.Team</node>
+    <node x="11650.5" y="5615.0">model.sorter.PlayerSorter.SortByCutterDesc</node>
+    <node x="1906.5" y="4082.0">gameEnum.Teams</node>
+    <node x="11509.5" y="5735.0">model.sorter.PlayerSorter.SortByZoneSwingDesc</node>
+    <node x="11376.5" y="5615.0">model.sorter.PlayerSorter.SortByFastballHDesc</node>
+    <node x="11226.5" y="5735.0">model.sorter.PlayerSorter.SortByBatterNameDesc</node>
+    <node x="11083.0" y="5615.0">model.sorter.PlayerSorter.SortByPitcherNameDesc</node>
+    <node x="10950.5" y="5735.0">model.sorter.PlayerSorter.SortByStrikesDesc</node>
+    <node x="10812.5" y="5615.0">model.sorter.PlayerSorter.SortByFastball2BDesc</node>
+    <node x="10670.5" y="5735.0">model.sorter.PlayerSorter.SortBySinker</node>
+    <node x="10530.5" y="5615.0">model.sorter.PlayerSorter.SortByScrew</node>
+    <node x="10390.5" y="5735.0">model.sorter.PlayerSorter.SortByFourSeam</node>
+    <node x="10250.5" y="5615.0">model.sorter.PlayerSorter.SortByPitches</node>
+    <node x="10116.5" y="5735.0">model.sorter.PlayerSorter.SortByChaseContact</node>
+    <node x="9970.5" y="5615.0">model.sorter.PlayerSorter.SortByRotation</node>
+    <node x="9836.5" y="5735.0">model.sorter.PlayerSorter.SortByTotalPADesc</node>
+    <node x="9696.5" y="5615.0">model.sorter.PlayerSorter.SortByBatterName</node>
+    <node x="9556.5" y="5735.0">model.sorter.PlayerSorter.SortByBreakingH</node>
+    <node x="832.0" y="2115.5">controller.MLBSimulatorControllerInterface</node>
+    <node x="9416.5" y="5615.0">model.sorter.PlayerSorter.SortByFastball1B</node>
+    <node x="9268.0" y="5735.0">model.sorter.PlayerSorter.SortByBreakingPADesc</node>
+    <node x="9130.5" y="5615.0">model.sorter.PlayerSorter.SortByChangeup</node>
+    <node x="8988.5" y="5735.0">model.sorter.PlayerSorter.SortByStrikesRateDesc</node>
+    <node x="8856.5" y="5615.0">model.sorter.PlayerSorter.SortByZoneContact</node>
+    <node x="675.5" y="1907.5">model.team.PlayerTeam</node>
+    <node x="8710.0" y="5735.0">model.sorter.PlayerSorter.SortByBreaking1BDesc</node>
+    <node x="8570.5" y="5615.0">model.sorter.PlayerSorter.SortBySweeperDesc</node>
+    <node x="8430.5" y="5735.0">model.sorter.PlayerSorter.SortByTwoSeamDesc</node>
+    <node x="770.5" y="2519.0">controller.MLBSimulatorController</node>
+    <node x="313.0" y="1147.0">model.filter.PlayerFilter</node>
+    <node x="1485.5" y="3963.0">view.TextUITest</node>
+    <node x="8292.0" y="5615.0">model.sorter.PlayerSorter.SortByFastball3BDesc</node>
+    <node x="8148.0" y="5735.0">model.sorter.PlayerSorter.SortByOffspeed1BDesc</node>
+    <node x="8010.5" y="5615.0">model.sorter.PlayerSorter.SortByScrewDesc</node>
+    <node x="7870.5" y="5735.0">model.sorter.PlayerSorter.SortBySlurve</node>
+    <node x="7736.5" y="5615.0">model.sorter.PlayerSorter.SortByBreaking1B</node>
+    <node x="7596.5" y="5735.0">model.sorter.PlayerSorter.SortByBreakingHR</node>
+    <node x="7450.5" y="5615.0">model.sorter.PlayerSorter.SortByStrikesRate</node>
+    <node x="7316.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeed2B</node>
+    <node x="7170.5" y="5615.0">model.sorter.PlayerSorter.SortBySinkerDesc</node>
+    <node x="7030.5" y="5735.0">model.sorter.PlayerSorter.SortByFourSeamDesc</node>
+    <node x="6896.5" y="5615.0">model.sorter.PlayerSorter.SortByFastballH</node>
+    <node x="6750.5" y="5735.0">model.sorter.PlayerSorter.SortByBallsRate</node>
+    <node x="5556.0" y="5263.0">gameEnum.Outs</node>
+    <node x="6610.5" y="5615.0">model.sorter.PlayerSorter.SortByPitcherName</node>
+    <node x="115.5" y="-813.0">view.UIInterface</node>
+    <node x="6470.5" y="5735.0">model.sorter.PlayerSorter.SortByChangeupDesc</node>
+    <node x="1294.5" y="2734.0">model.Operations</node>
+    <node x="1640.0" y="2091.5">model.loader.Loader</node>
+    <node x="6336.5" y="5615.0">model.sorter.PlayerSorter.SortByTotal3B</node>
+    <node x="6196.5" y="5735.0">model.sorter.PlayerSorter.SortByAVGDesc</node>
+    <node x="6056.5" y="5615.0">model.sorter.PlayerSorter.SortByBreaking3B</node>
+    <node x="5906.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeed3BDesc</node>
+    <node x="5766.0" y="5615.0">model.sorter.PlayerSorter.SortByOffspeedPADesc</node>
+    <node x="115.5" y="274.5">view.TextUI</node>
+    <node x="5636.5" y="5735.0">model.sorter.PlayerSorter.SortByFastballHR</node>
+    <node x="5492.0" y="5615.0">model.sorter.PlayerSorter.SortByFastballPADesc</node>
+    <node x="5356.5" y="5735.0">model.sorter.PlayerSorter.SortByTotal2B</node>
+    <node x="1036.0" y="3650.0">model.simulation.SimulationResult</node>
+    <node x="5216.5" y="5615.0">model.sorter.PlayerSorter.SortByOffspeed3B</node>
+    <node x="-244.5" y="762.0">model.Model</node>
+    <node x="5070.5" y="5735.0">model.sorter.PlayerSorter.SortByBallsRateDesc</node>
+    <node x="4931.0" y="5615.0">model.sorter.PlayerSorter.SortByOffspeedHDesc</node>
+    <node x="4790.5" y="5735.0">model.sorter.PlayerSorter.SortByCurveballDesc</node>
+    <node x="4650.5" y="5615.0">model.sorter.PlayerSorter.SortBySweeper</node>
+    <node x="5441.0" y="5415.0">MLBSimulator</node>
+    <node x="4516.5" y="5735.0">model.sorter.PlayerSorter.SortByTotal2BDesc</node>
+    <node x="4370.5" y="5615.0">model.sorter.PlayerSorter.SortBySlurveDesc</node>
+    <node x="4230.5" y="5735.0">model.sorter.PlayerSorter.SortByRotationDesc</node>
+    <node x="4090.5" y="5615.0">model.sorter.PlayerSorter.SortByForkDesc</node>
+    <node x="3956.5" y="5735.0">model.sorter.PlayerSorter.SortByTotal1BDesc</node>
+    <node x="3816.5" y="5615.0">model.sorter.PlayerSorter.SortByBreaking2B</node>
+    <node x="3676.5" y="5735.0">model.sorter.PlayerSorter.SortByFastball2B</node>
+    <node x="86.0" y="2422.0">model.inning.RegularInning</node>
+    <node x="3536.5" y="5615.0">model.sorter.PlayerSorter.SortByOffspeed1B</node>
+    <node x="3390.5" y="5735.0">model.sorter.PlayerSorter.SortByPitchesDesc</node>
+    <node x="2275.0" y="2090.5">model.player.Player</node>
+    <node x="3250.5" y="5615.0">model.sorter.PlayerSorter.SortByStrikes</node>
+    <node x="800.5" y="1807.5">model.team.ComTeam</node>
+    <node x="147.5" y="2115.5">model.inning.Inning</node>
+    <node x="3106.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeed2BDesc</node>
+    <node x="2976.5" y="5615.0">model.sorter.PlayerSorter.SortByAVG</node>
+    <node x="2833.5" y="5735.0">model.sorter.PlayerSorter.SortByFastball1BDesc</node>
+    <node x="2688.5" y="5615.0">model.sorter.PlayerSorter.SortByBreaking3BDesc</node>
+    <node x="2550.5" y="5735.0">model.sorter.PlayerSorter.SortByFork</node>
+    <node x="2407.5" y="5615.0">model.sorter.PlayerSorter.SortByBreakingHRDesc</node>
+    <node x="4978.5" y="5075.5">model.sorter.Sorter</node>
+    <node x="604.5" y="4094.0">gameEnum.PlayerData</node>
+    <node x="4978.5" y="5403.0">model.sorter.PlayerSorter</node>
+    <node x="1142.5" y="5735.0">model.sorter.PlayerSorter.SortByZoneContactDesc</node>
+    <node x="1290.5" y="5615.0">model.sorter.PlayerSorter.SortByKnuckleDesc</node>
+    <node x="1716.5" y="5735.0">model.sorter.PlayerSorter.SortByTotal1B</node>
+    <node x="-194.0" y="-473.0">model.ModelInterface</node>
+    <node x="-108.5" y="5615.0">model.sorter.PlayerSorter.SortByFastballHRDesc</node>
+    <node x="2276.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeedPA</node>
+    <node x="316.5" y="5735.0">model.sorter.PlayerSorter.SortByOBP</node>
+    <node x="2136.5" y="5615.0">model.sorter.PlayerSorter.SortByTotalHDesc</node>
+    <node x="442.0" y="2746.5">model.simulation.Simulation</node>
+    <node x="876.5" y="5735.0">model.sorter.PlayerSorter.SortByTotal3BDesc</node>
+    <node x="2554.0" y="2326.0">model.player.Pitcher</node>
+    <node x="1990.5" y="5735.0">model.sorter.PlayerSorter.SortByKnuckle</node>
+    <node x="1576.5" y="5615.0">model.sorter.PlayerSorter.SortByOBPDesc</node>
+    <node x="36.5" y="5735.0">model.sorter.PlayerSorter.SortByFastballPA</node>
+    <node x="1436.5" y="5735.0">model.sorter.PlayerSorter.SortByOffspeedH</node>
+    <node x="1850.5" y="5615.0">model.sorter.PlayerSorter.SortByTwoSeam</node>
+    <node x="596.5" y="5735.0">model.sorter.PlayerSorter.SortByChaseSwing</node>
+    <node x="730.5" y="5615.0">model.sorter.PlayerSorter.SortBySFingerDesc</node>
+    <node x="1016.5" y="5615.0">model.sorter.PlayerSorter.SortByTotalHRDesc</node>
+    <node x="5344.0" y="5275.0">controller.FilterCriteria</node>
+    <node x="450.5" y="5615.0">model.sorter.PlayerSorter.SortBySlider</node>
+    <node x="173.0" y="5615.0">model.sorter.PlayerSorter.SortByBreakingHDesc</node>
+    <node x="279.0" y="4107.0">model.player.BatterTest</node>
+    <node x="-249.0" y="3519.0">controller.MLBSimulatorControllerTest</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.loader.PlayerLoader" target="model.loader.Loader" relationship="REALIZATION">
+      <point x="0.0" y="-128.0" />
+      <point x="0.0" y="67.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalHR" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13904.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByRotationDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4344.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedHRDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13344.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballPA" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="144.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBallsRate" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6864.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="controller.MLBSimulatorController" target="controller.MLBSimulatorControllerInterface" relationship="REALIZATION">
+      <point x="0.0" y="-320.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByStrikesRate" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7564.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByCutterDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11764.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByAVG" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3084.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedHR" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13764.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFourSeam" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10504.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySweeperDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8684.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingHDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="284.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.Model" target="model.ModelInterface" relationship="REALIZATION">
+      <point x="0.0" y="-477.0" />
+      <point x="0.0" y="272.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking3B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6164.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.player.Pitcher" target="model.player.Player" relationship="GENERALIZATION">
+      <point x="0.0" y="-513.0" />
+      <point x="2744.0" y="2299.0" />
+      <point x="2344.0" y="2299.0" />
+      <point x="0.0" y="68.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByPitcherName" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6724.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballHR" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5744.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.player.Batter" target="model.player.Player" relationship="GENERALIZATION">
+      <point x="0.0" y="-825.0" />
+      <point x="0.0" y="68.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFourSeamDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7144.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballH" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7004.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySliderDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13484.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOBP" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="424.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball1BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2944.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed1B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3644.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballHRDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal1B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1824.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.team.PlayerTeam" target="model.team.Team" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="0.0" y="285.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChaseContactDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13184.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking2B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3924.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByZoneContactDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1264.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball1B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9524.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball2BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10924.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChaseContact" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10224.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.player.Player" target="model.player.PlayerInterface" relationship="REALIZATION">
+      <point x="0.0" y="-68.5" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed1BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8264.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingHRDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2524.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByRotation" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10084.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking3BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2804.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal1BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4064.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByZoneSwingDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11624.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.team.Team" target="model.team.TeamInterface" relationship="REALIZATION">
+      <point x="0.0" y="-285.0" />
+      <point x="0.0" y="164.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBallsRateDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingPADesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9384.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking1B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7844.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOPSDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="-136.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball2B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3784.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySFinger" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12324.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByZoneSwing" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12184.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByZoneContact" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8964.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.filter.PlayerFilter" target="model.filter.Filter" relationship="REALIZATION">
+      <point x="0.0" y="-92.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOPS" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12744.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByPitcherNameDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11204.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedPA" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2384.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingH" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9664.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalPA" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13624.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySinker" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10784.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalHDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2244.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedHDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5044.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBatterNameDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11344.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball3B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12884.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByAVGDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6304.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalH" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11904.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTwoSeamDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8544.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking1BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8824.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByCurveballDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4904.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByPitches" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10364.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByCurveball" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12464.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByPitchesDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3504.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed3BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6024.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySweeper" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4764.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingPA" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12044.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreaking2BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="13024.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySlurveDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4484.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalPADesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9944.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter" target="model.sorter.Sorter" relationship="REALIZATION">
+      <point x="0.0" y="-56.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballHDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11484.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySinkerDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7284.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByStrikesDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="11064.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySlurve" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7984.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedH" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1544.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal3BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="984.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBreakingHR" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7704.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByCutter" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="14044.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastballPADesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5604.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByForkDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4204.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFork" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2664.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySFingerDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="844.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortBySlider" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="564.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTwoSeam" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1964.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByFastball3BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8404.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.team.ComTeam" target="model.team.Team" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="884.0" y="1779.0" />
+      <point x="764.0" y="1779.0" />
+      <point x="0.0" y="285.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByStrikes" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3364.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChangeup" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9244.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByScrewDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="8124.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByStrikesRateDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9104.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeedPADesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5884.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.inning.RegularInning" target="model.inning.Inning" relationship="REALIZATION">
+      <point x="0.0" y="-417.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOBPDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1684.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed2BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="3224.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed2B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="7424.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByKnuckle" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="2104.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByKnuckleDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1404.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal2B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5464.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal2BDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="4624.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="view.TextUI" target="view.UIInterface" relationship="REALIZATION">
+      <point x="0.0" y="-164.5" />
+      <point x="0.0" y="152.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotalHRDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="1124.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByTotal3B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6444.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChaseSwingDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="12604.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChangeupDesc" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="6584.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByBatterName" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="9804.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByScrew" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="10644.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByChaseSwing" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="704.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="model.sorter.PlayerSorter.SortByOffspeed3B" target="model.sorter.PlayerSorter" relationship="INNER_CLASS">
+      <point x="0.0" y="-44.0" />
+      <point x="5324.0" y="5579.0" />
+      <point x="5184.0" y="5579.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8082803524098732" showDependencies="false" x="919.0637692633501" y="415.17726327030783" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
