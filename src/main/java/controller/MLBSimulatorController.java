@@ -8,6 +8,7 @@ import model.player.Batter;
 import model.player.Pitcher;
 import model.simulation.SimulationResult;
 import view.TextUI;
+import view.UIInterface;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
  * Handles user commands and coordinates between view and model
  */
 public class MLBSimulatorController implements MLBSimulatorControllerInterface {
-    private final TextUI view; // The view for the application
+    private final UIInterface view; // The view for the application
     private boolean running; // The running flag for the controller
     private final Model model; // The model instance
     private List<Batter> filteredBatters; // The current list of filtered batters
@@ -27,7 +28,7 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
     private static final String PITCHER = "pitcher";
     private static final String BATTER = "batter";
 
-    public MLBSimulatorController() {
+    public MLBSimulatorController(UIInterface view) {
         this.view = new TextUI();
         this.running = true;
         this.model = new Model();
@@ -36,6 +37,10 @@ public class MLBSimulatorController implements MLBSimulatorControllerInterface {
         this.filteredPitchers = null; // cannot be instantiated before a team is selected.
     }
 
+    // No-arg constructor that defaults to TextUI
+    public MLBSimulatorController() {
+        this(new TextUI());
+    }
     /**
      * Starts the application and begins handling user commands
      */

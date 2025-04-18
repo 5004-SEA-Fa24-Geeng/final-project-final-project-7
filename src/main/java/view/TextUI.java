@@ -11,7 +11,7 @@ import model.team.*;
  * Text-based user interface for the MLB Simulator application
  * Uses a command-based approach for interacting with the system
  */
-public class TextUI {
+public class TextUI implements UIInterface {
     private Scanner scanner;
 
     public TextUI() {
