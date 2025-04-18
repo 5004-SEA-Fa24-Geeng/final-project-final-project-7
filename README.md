@@ -20,7 +20,8 @@ This readme should contain the following information:
 ## Documentation
 
 - [Initial Design](./DesignDocuments/InitialDesign.md)
-- [Final Design](./DesignDocuments/FinalDesign.uml)
+- [Final Design PNG](./DesignDocuments/FinalDesign.png)
+- [Final Design UML](./DesignDocuments/FinalDesign.uml)
 
 ## Instructions
 
