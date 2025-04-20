@@ -1,9 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/IE0ITl4j)
 
-# Final Project for CS 5004 - (APPLICATION NAME/Update)
-
-(remove this and add your sections/elements)
-This readme should contain the following information:
+# Final Project for CS 5004 - MLBSimulator
 
 ## Group members
 
@@ -13,9 +10,9 @@ This readme should contain the following information:
 
 ## MLB Simulator
 
-- This application simulates baseball games by allowing the user to select a batting lineup for the Seattle Mariners to compete against other MLB teams.
+- This application simulates baseball games by allowing the user to select a batting lineup for the Seattle Mariners to
+  compete against other MLB teams.
 - The simulation is based on the statistical profiles of the players involved, creating realistic game outcomes.
-
 
 ## Documentation
 
@@ -25,10 +22,14 @@ This readme should contain the following information:
 
 ## Instructions
 
-To run the application, simply execute the MLBSimulator file. You'll be presented with a command-line interface where you can enter various commands to build your team and run simulations. You need to pick 9 batters and 3 pitchers to play the simulation. 
-To start building lineup for player team, you can explore the available batters using filtering options. Filter players can base on key statistics like AVG, OPS and other metrics. Next, add your preferred batters to create a lineup.
+To run the application, simply execute the MLBSimulator file. You'll be presented with a command-line interface where
+you can enter various commands to build your team and run simulations. You need to pick 9 batters and 3 pitchers to play
+the simulation.
+To start building lineup for player team, you can explore the available batters using filtering options. Filter players
+can base on key statistics like AVG, OPS and other metrics. Next, add your preferred batters to create a lineup.
 
-For the computer team, you can browse all the opponent teams, and select one team to see available pitchers. Now, you can choose three pitchers from the selected team to face your lineup!
+For the computer team, you can browse all the opponent teams, and select one team to see available pitchers. Now, you
+can choose three pitchers from the selected team to face your lineup!
 
 ### Example Workflow
 
@@ -44,8 +45,8 @@ For the computer team, you can browse all the opponent teams, and select one tea
 10. Run a simulation with command line: `simulate`
 11. Run multiple simulations to a file with command line: `simulate -n 5-o results.txt`
 
-
 ### Player Team Commands
+
 The following commands allow you to manage your batter lineup:
 
 `player show [name]` - Display detail information for a specific batter
@@ -60,7 +61,8 @@ The following commands allow you to manage your batter lineup:
 
 `player clear` - Reset your batter lineup
 
-`player filter [filters] sort [attribute]` - Filter and sort the player roster based on specific criteria. Example: player filter TotalPA >= 100 sort AVG >= 0.25
+`player filter [filters] sort [attribute]` - Filter and sort the player roster based on specific criteria. Example:
+player filter TotalPA >= 100 sort AVG >= 0.25
 
 `player remove [name]` - Remove a batter from your team
 
@@ -80,11 +82,14 @@ The following commands allow you to manage your batter lineup:
 
 `computer select [team]` - Choose a team to select the computer team
 
-`computer add [name/number] to [pos]` - Add a pitcher to a specific position in the rotation. Example: computer add Carlos Rodon to 1 or computer add 12 to 1
+`computer add [name/number] to [pos]` - Add a pitcher to a specific position in the rotation. Example: computer add
+Carlos Rodon to 1 or computer add 12 to 1
 
-`computer filter [filters] sort [attribute]` - Filter and sort player roster. Example: computer filter rotation == 1 sort strikes
+`computer filter [filters] sort [attribute]` - Filter and sort player roster. Example: computer filter rotation == 1
+sort strikes
 
-`computer remove [name/number/range]` - Remove pitchers from the rotation. Example: computer remove Carlos Rodón, 1-3, all
+`computer remove [name/number/range]` - Remove pitchers from the rotation. Example: computer remove Carlos Rodón, 1-3,
+all
 
 `computer filter reset` - Clear current filter
 
@@ -92,7 +97,8 @@ The following commands allow you to manage your batter lineup:
 
 `help` - Display the help message with all available commands
 
-`simulate -n [number] -o [outfile]` - Run [number] game simulations and write to file [outfile]. If no options are provided, 1 simulation will be run and printed to console.
+`simulate -n [number] -o [outfile]` - Run [number] game simulations and write to file [outfile]. If no options are
+provided, 1 simulation will be run and printed to console.
 
 `-n [number]`: Specify the number of simulations to run (default: 1)
 
@@ -101,6 +107,7 @@ The following commands allow you to manage your batter lineup:
 `exit` - Exit the application
 
 ### Player filter Information Metrics
+
 Fastball Statistics
 
 - fastballPA: Plate appearances against fastball pitches
