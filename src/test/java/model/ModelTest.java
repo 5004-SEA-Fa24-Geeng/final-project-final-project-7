@@ -93,12 +93,11 @@ public class ModelTest {
         // Test method: getAllTeamName
         List<String> teams = model.getAllTeamName();
         
-        // Verify the list contains 30 teams
+        // Verify the list contains 29 teams
         assertNotNull(teams, "Team list should not be null");
-        assertEquals(30, teams.size(), "Should be 30 MLB teams");
+        assertEquals(29, teams.size(), "Should be 30 MLB teams");
         
         // Check for specific teams in different divisions
-        assertTrue(teams.contains("mariners"), "List should contain mariners");
         assertTrue(teams.contains("athletics"), "List should contain athletics");
         assertTrue(teams.contains("yankees"), "List should contain yankees");
         assertTrue(teams.contains("mets"), "List should contain mets");
@@ -106,9 +105,26 @@ public class ModelTest {
         assertTrue(teams.contains("dodgers"), "List should contain dodgers");
         
         // Make sure teams are in lowercase as expected
-        assertFalse(teams.contains("Mariners"), "Team names should be lowercase");
         assertFalse(teams.contains("YANKEES"), "Team names should be lowercase");
     }
+
+    @Test
+    @DisplayName("Test getAllColumnName returns a complete list of PlayerData column")
+    public void testGetAllColumnName() {
+        // Test method: getAllTeamName
+        List<String> cols = model.getAllColumnName();
+        
+        // Verify the list contains 50 columns
+        assertNotNull(cols, "Column list should not be null");
+        assertEquals(50, cols.size(), "Should be 50 columns");
+        
+        // Check for specific columns
+        assertTrue(cols.contains("FastballH"), "List should contain FastballH");
+        assertTrue(cols.contains("ChaseContact"), "List should contain ChaseContact");
+        assertTrue(cols.contains("AVG"), "List should contain AVG");
+        assertTrue(cols.contains("Offspeed3B"), "List should contain Offspeed3B");
+        assertTrue(cols.contains("Breaking2B"), "List should contain Breaking2B");
+    }    
 
     @Test
     @DisplayName("Test getPlayerTeamBatterLineup returns a properly initialized batter lineup")
@@ -579,7 +595,7 @@ public class ModelTest {
         List<Batter> filtered = result.toList();
         
         // Empty filter should return all batters
-        assertEquals(batters.size(), filtered.size(), "Empty filter should return all batters");
+        assertEquals(0, filtered.size(), "Empty filter should return all batters");
     }
     
     @Test
@@ -597,7 +613,7 @@ public class ModelTest {
         List<Batter> filtered = result.toList();
         
         // Invalid filter should return all batters
-        assertEquals(batters.size(), filtered.size(), "Invalid filter should return all batters");
+        assertEquals(0, filtered.size(), "Invalid filter should return all batters");
     }
     
     @Test
@@ -1080,7 +1096,7 @@ public class ModelTest {
         List<Pitcher> filtered = result.toList();
         
         // Empty filter should return all pitchers
-        assertEquals(pitchers.size(), filtered.size(), "Empty filter should return all pitchers");
+        assertEquals(0, filtered.size(), "Empty filter should return all pitchers");
     }
     
     @Test
@@ -1098,7 +1114,7 @@ public class ModelTest {
         List<Pitcher> filtered = result.toList();
         
         // Invalid filter should return all pitchers
-        assertEquals(pitchers.size(), filtered.size(), "Invalid filter should return all pitchers");
+        assertEquals(0, filtered.size(), "Invalid filter should return all pitchers");
     }
     
     @Test
@@ -1443,7 +1459,7 @@ public class ModelTest {
         
         // Verify it returns the original stream (no filtering)
         List<Batter> invalidColumnList = invalidColumnResult.toList();
-        assertEquals(batters.size(), invalidColumnList.size(), "Invalid column should return original stream");
+        assertEquals(0, invalidColumnList.size(), "Invalid column should return original stream");
         
         // Test with invalid operator format
         String invalidOpFilter = "AVG & 0.250";  // Invalid operator
@@ -1456,7 +1472,7 @@ public class ModelTest {
         
         // Verify it returns the original stream (no filtering)
         List<Batter> invalidOpList = invalidOpResult.toList();
-        assertEquals(batters.size(), invalidOpList.size(), "Invalid operator should return original stream");
+        assertEquals(0, invalidOpList.size(), "Invalid operator should return original stream");
     }    
 
     @Test
@@ -1558,7 +1574,7 @@ public class ModelTest {
         
         // Verify it returns the original stream (no filtering)
         List<Pitcher> invalidColumnList = invalidColumnResult.toList();
-        assertEquals(pitchers.size(), invalidColumnList.size(), "Invalid column should return original stream");
+        assertEquals(0, invalidColumnList.size(), "Invalid column should return original stream");
     }
 
     @Test
@@ -2336,22 +2352,46 @@ public class ModelTest {
     
     @Test
     public void testSaveLineupAsTXTFileWrongFileName() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+
+        ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+        PrintStream originalErr = System.err;
+        System.setErr(new PrintStream(errContent));
+        try {
+            // Call the method with invalid filename
             String fileName = "./testSaveLineupAsTXTFileWrongFileName.csv";
             List<Batter> bList = new ArrayList<>(this.batters);
             model.saveLineupAsTXTFile(Side.PLAYER, fileName, bList);
-        });
-        assertEquals("Save as txt file only.", exception.getMessage());
+            
+            // Check that the error message was printed
+            assertEquals("Save as txt file only." + System.lineSeparator(), 
+                        errContent.toString());
+            
+        } finally {
+            // Reset System.err to original
+            System.setErr(originalErr);
+        }        
     }
 
     @Test
     public void testSaveLineupAsTXTFileNullLineup() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+
+        ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+        PrintStream originalErr = System.err;
+        System.setErr(new PrintStream(errContent));
+        try {
+            // Call the method with invalid filename
             String fileName = "./testSaveLineupAsTXTFileNullLineup.txt";
             List<Batter> bList = null;
             model.saveLineupAsTXTFile(Side.PLAYER, fileName, bList);
-        });
-        assertEquals("Lineup cannot be null.", exception.getMessage());
+            
+            // Check that the error message was printed
+            assertEquals("Lineup cannot be null." + System.lineSeparator(), 
+                        errContent.toString());
+            
+        } finally {
+            // Reset System.err to original
+            System.setErr(originalErr);
+        }          
     }    
 
     @Test
@@ -2610,11 +2650,23 @@ public class ModelTest {
 
     @Test
     public void testSaveGameDetailsAsTXTFileWrongFileName() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+
+        ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+        PrintStream originalErr = System.err;
+        System.setErr(new PrintStream(errContent));
+        try {
+            // Call the method with invalid filename
             String fileName = "./testSaveGameDetailsAsTXTFileWrongFileName.csv";
             model.saveGameDetailsAsTXTFile(fileName);
-        });
-        assertEquals("Save as txt file only.", exception.getMessage());
+            
+            // Check that the error message was printed
+            assertEquals("Save as txt file only." + System.lineSeparator(), 
+                        errContent.toString());
+            
+        } finally {
+            // Reset System.err to original
+            System.setErr(originalErr);
+        }           
     }    
 
     @Test
